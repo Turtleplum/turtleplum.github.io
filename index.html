@@ -200,27 +200,67 @@
       font-size: 22vw; color: var(--bg2); bottom: -2vw; left: -1vw;
       line-height: 1; pointer-events: none; user-select: none;
     }
-    .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; margin-top: 4rem; position: relative; z-index: 1; }
-    .about-bio p { font-family: var(--serif); font-size: clamp(1rem, 2.5vw, 1.15rem); line-height: 1.9; color: #ADA89E; margin-bottom: 1.4rem; }
-    .about-bio p strong { color: var(--ink); font-weight: 600; }
-    .about-bio p em { color: var(--accent2); font-style: italic; }
-    .tag-cloud { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2.5rem; }
-    .tag {
-      font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
-      padding: .4rem .9rem; border: 1px solid var(--line); color: var(--muted);
-      transition: all .2s; min-height: 36px; display: flex; align-items: center;
+    /* About intro */
+    .about-intro { font-family: var(--serif); font-size: clamp(1rem, 2.5vw, 1.15rem); line-height: 1.9; color: #ADA89E; margin-top: 2.5rem; margin-bottom: 3rem; position: relative; z-index: 1; max-width: 780px; }
+    .about-intro strong { color: var(--ink); font-weight: 600; }
+    .about-intro em { color: var(--accent2); font-style: italic; }
+
+    /* Two-panel grid */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 0; position: relative; z-index: 1; }
+    .about-panel {
+      border: 1px solid var(--line); padding: 2.5rem;
+      position: relative; overflow: hidden;
+      transition: border-color .3s;
     }
-    @media (hover: hover) { .tag:hover { background: var(--accent); border-color: var(--accent); color: #fff; } }
-    .toolkit { border-left: 2px solid var(--line); padding-left: 2rem; }
-    .toolkit-title { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent2); margin-bottom: 2rem; }
-    .tool-row {
+    .about-panel:hover { border-color: var(--accent); }
+    .about-panel::before {
+      content: ''; position: absolute; inset: 0;
+      opacity: 0; transition: opacity .4s;
+    }
+    .about-panel.systems::before { background: linear-gradient(135deg, rgba(232,64,28,.05), transparent); }
+    .about-panel.worlds::before  { background: linear-gradient(135deg, rgba(242,201,76,.05), transparent); }
+    .about-panel:hover::before { opacity: 1; }
+
+    .panel-eyebrow {
+      font-size: .58rem; letter-spacing: .22em; text-transform: uppercase;
+      margin-bottom: 1.2rem; display: flex; align-items: center; gap: .7rem;
+    }
+    .about-panel.systems .panel-eyebrow { color: var(--accent); }
+    .about-panel.worlds  .panel-eyebrow { color: var(--accent2); }
+    .panel-eyebrow::before { content: ''; width: 18px; height: 1px; flex-shrink: 0; }
+    .about-panel.systems .panel-eyebrow::before { background: var(--accent); }
+    .about-panel.worlds  .panel-eyebrow::before { background: var(--accent2); }
+
+    .panel-title {
+      font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.8rem);
+      letter-spacing: .04em; line-height: .95; margin-bottom: 2rem;
+    }
+    .about-panel.systems .panel-title { color: var(--ink); }
+    .about-panel.worlds  .panel-title { color: var(--ink); }
+
+    .panel-list { list-style: none; display: flex; flex-direction: column; gap: .2rem; margin-bottom: 2rem; }
+    .panel-list li {
       display: flex; justify-content: space-between; align-items: center;
-      padding: .9rem 0; border-bottom: 1px solid var(--line);
+      padding: .75rem 0; border-bottom: 1px solid var(--line);
       font-size: .78rem; color: var(--muted); min-height: 44px;
+      transition: color .2s;
     }
-    .tool-row:first-of-type { border-top: 1px solid var(--line); }
-    .tool-dot { width: 6px; height: 6px; background: var(--line); border-radius: 50%; transition: background .2s; flex-shrink: 0; }
-    @media (hover: hover) { .tool-row:hover .tool-dot { background: var(--accent); } .tool-row:hover { color: var(--ink); } }
+    .panel-list li:first-child { border-top: 1px solid var(--line); }
+    .panel-list li:hover { color: var(--ink); }
+    .panel-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; transition: background .2s; }
+    .about-panel.systems .panel-dot { background: var(--line); }
+    .about-panel.worlds  .panel-dot { background: var(--line); }
+    .about-panel.systems li:hover .panel-dot { background: var(--accent); }
+    .about-panel.worlds  li:hover .panel-dot { background: var(--accent2); }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag {
+      font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .35rem .8rem; border: 1px solid var(--line); color: var(--muted);
+      transition: all .2s; min-height: 32px; display: flex; align-items: center;
+    }
+    .about-panel.systems .tag:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .about-panel.worlds  .tag:hover { background: var(--accent2); border-color: var(--accent2); color: var(--bg); }
 
     /* Experience */
     #experience { background: var(--bg2); }
@@ -375,8 +415,8 @@
       .nav-links { display: none; }
       .hamburger { display: flex; }
       .mobile-menu { display: flex; }
-      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .toolkit { border-left: none; border-top: 2px solid var(--line); padding-left: 0; padding-top: 2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .about-panel { padding: 1.8rem; }
       .exp-item { grid-template-columns: 1fr; gap: 1rem; }
       .work-masonry { columns: 2; }
       .process-row { grid-template-columns: 52px 1fr; }
@@ -482,40 +522,61 @@
 <!-- ABOUT -->
 <section id="about">
   <div class="s-label reveal">About</div>
-  <h2 class="s-title reveal rd1">Both sides<br>of the <em>brain.</em></h2>
+  <h2 class="s-title reveal rd1">One person.<br><em>Two worlds.</em></h2>
+
+  <p class="about-intro reveal rd2">
+    I'm <strong>Abdullah Fariz bin Hassan</strong> — a Software Engineer at <strong>Datakraf Solutions</strong> with a
+    <strong>B.Sc. in Computer Science with Cyber Security</strong> from APU, and over
+    <strong>7 years of freelance illustration</strong> and 3D modelling. Most people pick a lane. I didn't.
+  </p>
+
   <div class="about-grid">
-    <div class="about-bio reveal rd2">
-      <p>I'm <strong>Abdullah Fariz bin Hassan</strong> — a Software Engineer at <em>Datakraf Solutions</em> by day, and a digital illustrator, 3D modeller, and creative technologist by night.</p>
-      <p>I hold a <strong>B.Sc. in Computer Science with Cyber Security</strong> from Asia Pacific University. My background spans UI/UX design, IoT embedded systems, web development, CTF challenges, and over <strong>7 years of freelance illustration</strong> and 3D modelling.</p>
-      <p>Most people pick a lane. I didn't. The result is work that's <strong>technically rigorous and visually alive</strong> — built by someone who understands both the machine and the canvas.</p>
+
+    <!-- PANEL 1: Systems I Build -->
+    <div class="about-panel systems reveal rd3">
+      <div class="panel-eyebrow">Systems I Build</div>
+      <div class="panel-title">SOFTWARE &<br>ENGINEERING</div>
+      <ul class="panel-list">
+        <li>UI / UX & Web Design <div class="panel-dot"></div></li>
+        <li>IoT & Embedded Systems <div class="panel-dot"></div></li>
+        <li>CTF / Cyber Security <div class="panel-dot"></div></li>
+        <li>Creative Coding <div class="panel-dot"></div></li>
+        <li>System Architecture <div class="panel-dot"></div></li>
+      </ul>
       <div class="tag-cloud">
-        <div class="tag">Clip Studio Paint</div>
-        <div class="tag">Blender</div>
-        <div class="tag">Figma</div>
-        <div class="tag">After Effects</div>
-        <div class="tag">Sony Vegas Pro</div>
-        <div class="tag">Unreal Engine</div>
         <div class="tag">Python</div>
         <div class="tag">C / C++</div>
         <div class="tag">Arduino</div>
         <div class="tag">Raspberry Pi</div>
+        <div class="tag">Figma</div>
         <div class="tag">Wireshark</div>
         <div class="tag">Cisco Packet Tracer</div>
-        <div class="tag">AutoCAD</div>
-        <div class="tag">Canva</div>
         <div class="tag">Visual Studio</div>
+        <div class="tag">AutoCAD</div>
       </div>
     </div>
-    <div class="toolkit reveal rd3">
-      <div class="toolkit-title">// Current stack</div>
-      <div class="tool-row">Digital Illustration <div class="tool-dot"></div></div>
-      <div class="tool-row">3D Modelling & Render <div class="tool-dot"></div></div>
-      <div class="tool-row">UI / UX & Web Design <div class="tool-dot"></div></div>
-      <div class="tool-row">IoT & Embedded Systems <div class="tool-dot"></div></div>
-      <div class="tool-row">CTF / Cyber Security <div class="tool-dot"></div></div>
-      <div class="tool-row">Video Editing <div class="tool-dot"></div></div>
-      <div class="tool-row">Creative Coding <div class="tool-dot"></div></div>
+
+    <!-- PANEL 2: Worlds I Create -->
+    <div class="about-panel worlds reveal rd4">
+      <div class="panel-eyebrow">Worlds I Create</div>
+      <div class="panel-title">ART &<br>ILLUSTRATION</div>
+      <ul class="panel-list">
+        <li>Digital Illustration <div class="panel-dot"></div></li>
+        <li>3D Modelling & Render <div class="panel-dot"></div></li>
+        <li>Motion & Animation <div class="panel-dot"></div></li>
+        <li>Character Design <div class="panel-dot"></div></li>
+        <li>Video Editing <div class="panel-dot"></div></li>
+      </ul>
+      <div class="tag-cloud">
+        <div class="tag">Clip Studio Paint</div>
+        <div class="tag">Blender</div>
+        <div class="tag">After Effects</div>
+        <div class="tag">Sony Vegas Pro</div>
+        <div class="tag">Unreal Engine</div>
+        <div class="tag">Canva</div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -816,7 +877,7 @@
       <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ ls ./certifications</span></div>
       <div class="t-line t-out">attack-protect-hack/&nbsp;&nbsp;elite-live-soc-module/</div>
       <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ cat ./status.txt</span></div>
-      <div class="t-line"><span class="t-hi">OPEN FOR COLLABORATION</span> — KL, Malaysia — 2026</div>
+      <div class="t-line"><span class="t-hi">ALWAYS UP FOR WORK & COLLABORATION</span> — KL, Malaysia — 2026</div>
       <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ _</span><span class="t-cursor"></span></div>
     </div>
   </div>
@@ -851,7 +912,7 @@
       </div>
       <div class="cf-field">
         <label>Tell me about it</label>
-        <textarea placeholder="What are we building?"></textarea>
+        <textarea placeholder="So, what are we building?"></textarea>
       </div>
       <button class="btn-submit" type="submit">Send it →</button>
     </form>
@@ -875,7 +936,7 @@
       </div>
       <div class="avail-badge">
         <div class="avail-dot"></div>
-        Open for collaboration — 2026
+        Open to work and collaborate — 2026
       </div>
     </div>
   </div>
@@ -884,7 +945,7 @@
 <!-- FOOTER -->
 <footer>
   <span>© 2026 <b>Abdullah Fariz bin Hassan</b></span>
-  <span>Built with intention &amp; caffeine</span>
+  <span>Built with intention and a lot of &amp; caffeine</span>
   <a href="#">↑ Back to top</a>
 </footer>
 
