@@ -331,9 +331,51 @@
     .rd1{transition-delay:.08s} .rd2{transition-delay:.16s} .rd3{transition-delay:.24s} .rd4{transition-delay:.32s}
 
     /* Certificate Modal */
-    .cert-modal { display: none; position: fixed; inset: 0; z-index: 8000; background: rgba(0,0,0,.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 2rem; }
-    .cert-modal.open { display: flex; }
-    .cert-modal-inner { background: var(--bg2); border: 1px solid var(--line); max-width: 700px; width: 100%; position: relative; padding: 2rem; }
+    .cert-modal {
+	  display: none;
+	  position: fixed; inset: 0; z-index: 8000;
+	  background: rgba(0,0,0,0);
+	  backdrop-filter: blur(0px);
+	  align-items: center; justify-content: center;
+	  padding: 2rem;
+	  transition: background .3s, backdrop-filter .3s;
+	}
+	.cert-modal.open {
+	  display: flex;
+	  animation: modalFadeIn .25s forwards;
+	}
+	.cert-modal-inner {
+	  background: var(--bg2);
+	  border: 1px solid var(--line);
+	  max-width: 1000px; width: 100%;
+	  position: relative;
+	  padding: 2rem;
+	  transform: translateY(-20px) scale(.97);
+	  opacity: 0;
+	  animation: none;
+	  transition: none;
+	}
+	.cert-modal.open .cert-modal-inner {
+	  animation: windowOpen .55s cubic-bezier(.4, 0, .2, 1) .05s forwards;
+	}
+	@keyframes modalFadeIn {
+	  from { background: rgba(0,0,0,0); backdrop-filter: blur(0px); }
+	  to   { background: rgba(0,0,0,.85); backdrop-filter: blur(8px); }
+	}
+	@keyframes windowOpen {
+	  0%   { transform: scaleY(0.05) scaleX(0.3) translateY(60%) skewX(8deg); opacity: 0; transform-origin: bottom center; }
+	  40%  { transform: scaleY(0.4) scaleX(0.7) translateY(20%) skewX(-3deg); opacity: 0.6; transform-origin: bottom center; }
+	  70%  { transform: scaleY(1.04) scaleX(1.01) translateY(-3%) skewX(1deg); opacity: 1; transform-origin: bottom center; }
+	  100% { transform: scaleY(1) scaleX(1) translateY(0) skewX(0); opacity: 1; transform-origin: bottom center; }
+	}
+
+	@keyframes windowClose {
+	  0%   { transform: scaleY(1) scaleX(1) translateY(0) skewX(0); opacity: 1; transform-origin: bottom center; }
+	  30%  { transform: scaleY(0.6) scaleX(0.8) translateY(15%) skewX(-4deg); opacity: 0.8; transform-origin: bottom center; }
+	  70%  { transform: scaleY(0.1) scaleX(0.4) translateY(50%) skewX(6deg); opacity: 0.3; transform-origin: bottom center; }
+	  100% { transform: scaleY(0.02) scaleX(0.2) translateY(65%) skewX(8deg); opacity: 0; transform-origin: bottom center; }
+	}
+	
     .cert-modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--muted); font-family: var(--mono); font-size: .8rem; letter-spacing: .1em; cursor: pointer; transition: color .2s; }
     .cert-modal-close:hover { color: var(--accent); }
     .cert-modal-title { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; }
@@ -761,7 +803,8 @@
       <div class="t-line t-out">Diploma in Building — UiTM Sri Iskandar (2017–2020)</div>
       <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ ls ./certifications</span></div>
       <div class="t-line t-out">
-        <span class="cert-link" data-cert="assets/certificates/attack-protect-hack.png"
+        <span class="cert-link" data-cert= 
+			"assets/certificates/attack-protect-hack.png"
               data-name="Certification of Attack, Protect & Learn How to Hack"
               style="cursor:pointer; text-decoration:underline; text-decoration-style:dotted; color:var(--accent2);">
           attack-protect-hack/
@@ -923,6 +966,15 @@
     setTimeout(() => { btn.textContent = 'Send it →'; btn.style.background = ''; }, 3000);
   }
 
+	function closeModal() {
+	  certModal.querySelector('.cert-modal-inner').style.animation = 'windowClose .4s cubic-bezier(.4,0,1,1) forwards';
+	  setTimeout(() => {
+		certModal.classList.remove('open');
+		certModal.querySelector('.cert-modal-inner').style.animation = '';
+		document.body.style.overflow = '';
+	  }, 380);
+	}
+	
   // Certificate modal
   const certModal = document.getElementById('certModal');
   const certImg   = document.getElementById('certImg');
@@ -937,17 +989,15 @@
     });
   });
 
-  document.getElementById('certClose').addEventListener('click', () => {
-    certModal.classList.remove('open');
-    document.body.style.overflow = '';
-  });
+	  document.getElementById('certClose').addEventListener('click', closeModal);
 
-  certModal.addEventListener('click', e => {
-    if (e.target === certModal) {
-      certModal.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-  });
+	certModal.addEventListener('click', e => {
+	  if (e.target === certModal) closeModal();
+	});
+
+	document.addEventListener('keydown', e => {
+	  if (e.key === 'Escape') closeModal();
+	});
 </script>
 </body>
 </html>
