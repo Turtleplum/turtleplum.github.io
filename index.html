@@ -200,81 +200,43 @@
       font-size: 22vw; color: var(--bg2); bottom: -2vw; left: -1vw;
       line-height: 1; pointer-events: none; user-select: none;
     }
-    /* About intro */
     .about-intro { font-family: var(--serif); font-size: clamp(1rem, 2.5vw, 1.15rem); line-height: 1.9; color: #ADA89E; margin-top: 2.5rem; margin-bottom: 3rem; position: relative; z-index: 1; max-width: 780px; }
     .about-intro strong { color: var(--ink); font-weight: 600; }
     .about-intro em { color: var(--accent2); font-style: italic; }
-
-    /* Two-panel grid */
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 0; position: relative; z-index: 1; }
-    .about-panel {
-      border: 1px solid var(--line); padding: 2.5rem;
-      position: relative; overflow: hidden;
-      transition: border-color .3s;
-    }
+    .about-panel { border: 1px solid var(--line); padding: 2.5rem; position: relative; overflow: hidden; transition: border-color .3s; }
     .about-panel:hover { border-color: var(--accent); }
-    .about-panel::before {
-      content: ''; position: absolute; inset: 0;
-      opacity: 0; transition: opacity .4s;
-    }
+    .about-panel::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity .4s; }
     .about-panel.systems::before { background: linear-gradient(135deg, rgba(232,64,28,.05), transparent); }
     .about-panel.worlds::before  { background: linear-gradient(135deg, rgba(242,201,76,.05), transparent); }
     .about-panel:hover::before { opacity: 1; }
-
-    .panel-eyebrow {
-      font-size: .58rem; letter-spacing: .22em; text-transform: uppercase;
-      margin-bottom: 1.2rem; display: flex; align-items: center; gap: .7rem;
-    }
+    .panel-eyebrow { font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 1.2rem; display: flex; align-items: center; gap: .7rem; }
     .about-panel.systems .panel-eyebrow { color: var(--accent); }
     .about-panel.worlds  .panel-eyebrow { color: var(--accent2); }
     .panel-eyebrow::before { content: ''; width: 18px; height: 1px; flex-shrink: 0; }
     .about-panel.systems .panel-eyebrow::before { background: var(--accent); }
     .about-panel.worlds  .panel-eyebrow::before { background: var(--accent2); }
-
-    .panel-title {
-      font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.8rem);
-      letter-spacing: .04em; line-height: .95; margin-bottom: 2rem;
-    }
-    .about-panel.systems .panel-title { color: var(--ink); }
-    .about-panel.worlds  .panel-title { color: var(--ink); }
-
+    .panel-title { font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: .04em; line-height: .95; margin-bottom: 2rem; }
     .panel-list { list-style: none; display: flex; flex-direction: column; gap: .2rem; margin-bottom: 2rem; }
-    .panel-list li {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: .75rem 0; border-bottom: 1px solid var(--line);
-      font-size: .78rem; color: var(--muted); min-height: 44px;
-      transition: color .2s;
-    }
+    .panel-list li { display: flex; justify-content: space-between; align-items: center; padding: .75rem 0; border-bottom: 1px solid var(--line); font-size: .78rem; color: var(--muted); min-height: 44px; transition: color .2s; }
     .panel-list li:first-child { border-top: 1px solid var(--line); }
     .panel-list li:hover { color: var(--ink); }
-    .panel-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; transition: background .2s; }
-    .about-panel.systems .panel-dot { background: var(--line); }
-    .about-panel.worlds  .panel-dot { background: var(--line); }
+    .panel-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; transition: background .2s; background: var(--line); }
     .about-panel.systems li:hover .panel-dot { background: var(--accent); }
     .about-panel.worlds  li:hover .panel-dot { background: var(--accent2); }
-
     .tag-cloud { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .tag {
-      font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
-      padding: .35rem .8rem; border: 1px solid var(--line); color: var(--muted);
-      transition: all .2s; min-height: 32px; display: flex; align-items: center;
-    }
+    .tag { font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; padding: .35rem .8rem; border: 1px solid var(--line); color: var(--muted); transition: all .2s; min-height: 32px; display: flex; align-items: center; }
     .about-panel.systems .tag:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
     .about-panel.worlds  .tag:hover { background: var(--accent2); border-color: var(--accent2); color: var(--bg); }
 
     /* Experience */
     #experience { background: var(--bg2); }
     .exp-list { margin-top: 4rem; }
-    .exp-item {
-      display: grid; grid-template-columns: 200px 1fr;
-      gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--line);
-    }
+    .exp-item { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--line); }
     .exp-item:first-child { border-top: 1px solid var(--line); }
-    .exp-meta {}
     .exp-period { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
     .exp-company { font-family: var(--serif); font-size: 1rem; color: var(--ink); margin-bottom: .3rem; }
     .exp-location { font-size: .68rem; color: var(--muted); }
-    .exp-content {}
     .exp-role { font-family: var(--display); font-size: 1.6rem; letter-spacing: .04em; margin-bottom: 1rem; line-height: 1; }
     .exp-projects { display: flex; flex-direction: column; gap: 1.2rem; }
     .exp-project-name { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent2); margin-bottom: .4rem; }
@@ -285,11 +247,7 @@
     /* Work */
     #work { background: var(--bg); }
     .work-filter { display: flex; gap: .6rem; flex-wrap: wrap; margin: 2.5rem 0 3rem; }
-    .filter-btn {
-      font-family: var(--mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
-      padding: .55rem 1rem; background: transparent; border: 1px solid var(--line);
-      color: var(--muted); cursor: pointer; transition: all .2s; min-height: 40px;
-    }
+    .filter-btn { font-family: var(--mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; padding: .55rem 1rem; background: transparent; border: 1px solid var(--line); color: var(--muted); cursor: pointer; transition: all .2s; min-height: 40px; }
     .filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
     .work-masonry { columns: 3; column-gap: 1.2rem; }
     .work-item { break-inside: avoid; margin-bottom: 1.2rem; position: relative; overflow: hidden; cursor: pointer; transition: opacity .3s, transform .3s; }
@@ -303,11 +261,7 @@
     .wt-6 { aspect-ratio: 4/5;  background: linear-gradient(135deg, #1A1C20, #202830); }
     .wt-7 { aspect-ratio: 4/3;  background: linear-gradient(135deg, #1A1E18, #142210); }
     .wt-8 { aspect-ratio: 1/1;  background: linear-gradient(135deg, #201A10, #302408); }
-    .thumb-tag {
-      position: absolute; bottom: .8rem; left: .8rem;
-      font-size: .55rem; letter-spacing: .14em; text-transform: uppercase;
-      background: var(--bg); color: var(--muted); padding: .25rem .6rem;
-    }
+    .thumb-tag { position: absolute; bottom: .8rem; left: .8rem; font-size: .55rem; letter-spacing: .14em; text-transform: uppercase; background: var(--bg); color: var(--muted); padding: .25rem .6rem; }
     .work-cap { padding: .8rem 0 .4rem; display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; }
     .work-cap-name { font-family: var(--serif); font-size: clamp(.85rem, 2vw, 1rem); font-weight: 500; }
     .work-cap-year { font-size: .6rem; color: var(--muted); letter-spacing: .1em; white-space: nowrap; }
@@ -317,21 +271,14 @@
     /* Marquee */
     .marquee-wrap { background: var(--accent); padding: 1rem 0; overflow: hidden; white-space: nowrap; }
     .marquee-track { display: inline-flex; animation: marquee 20s linear infinite; }
-    .marquee-item {
-      font-family: var(--display); font-size: clamp(1rem, 3vw, 1.4rem);
-      letter-spacing: .06em; color: #fff; padding: 0 1.5rem;
-      display: inline-flex; align-items: center; gap: 1.5rem;
-    }
+    .marquee-item { font-family: var(--display); font-size: clamp(1rem, 3vw, 1.4rem); letter-spacing: .06em; color: #fff; padding: 0 1.5rem; display: inline-flex; align-items: center; gap: 1.5rem; }
     .marquee-item::after { content: '✦'; opacity: .5; font-size: .8em; }
     @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
     /* Process */
     #process { background: var(--bg2); }
     .process-list { margin-top: 4rem; }
-    .process-row {
-      display: grid; grid-template-columns: 64px 1fr 1fr;
-      gap: 1.5rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid var(--line);
-    }
+    .process-row { display: grid; grid-template-columns: 64px 1fr 1fr; gap: 1.5rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid var(--line); }
     .process-row:first-child { border-top: 1px solid var(--line); }
     .process-num { font-family: var(--display); font-size: 3rem; color: var(--line); line-height: 1; transition: color .3s; }
     @media (hover: hover) { .process-row:hover .process-num { color: var(--accent); } }
@@ -339,10 +286,7 @@
     .process-desc { font-size: .8rem; line-height: 1.8; color: var(--muted); padding-top: .5rem; }
 
     /* Terminal */
-    #terminal-block {
-      background: #0D0C0A; padding: clamp(2.5rem, 6vh, 5rem) var(--px);
-      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-    }
+    #terminal-block { background: #0D0C0A; padding: clamp(2.5rem, 6vh, 5rem) var(--px); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .terminal { max-width: 680px; border: 1px solid var(--line); background: #111009; overflow: hidden; }
     .terminal-bar { background: var(--line); padding: .6rem 1rem; display: flex; align-items: center; gap: .5rem; }
     .t-dot { width: 10px; height: 10px; border-radius: 50%; }
@@ -355,51 +299,27 @@
 
     /* Contact */
     #contact { background: var(--bg); position: relative; overflow: hidden; }
-    #contact::after {
-      content: 'LET\'S\A TALK'; position: absolute; font-family: var(--display);
-      font-size: 18vw; color: transparent; -webkit-text-stroke: 1px var(--line);
-      bottom: -2vw; right: -2vw; line-height: .85; pointer-events: none; user-select: none; white-space: pre;
-    }
+    #contact::after { content: 'LET\'S\A TALK'; position: absolute; font-family: var(--display); font-size: 18vw; color: transparent; -webkit-text-stroke: 1px var(--line); bottom: -2vw; right: -2vw; line-height: .85; pointer-events: none; user-select: none; white-space: pre; }
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 4rem; position: relative; z-index: 1; }
     .contact-form { display: flex; flex-direction: column; gap: 1.8rem; }
     .cf-field { display: flex; flex-direction: column; gap: .5rem; }
     .cf-field label { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent2); }
-    .cf-field input, .cf-field textarea, .cf-field select {
-      background: transparent; border: none; border-bottom: 1px solid var(--line);
-      padding: .8rem 0; font-family: var(--mono); font-weight: 300; color: var(--ink);
-      outline: none; transition: border-color .3s; resize: none; -webkit-appearance: none;
-      width: 100%; font-size: max(.85rem, 16px);
-    }
+    .cf-field input, .cf-field textarea, .cf-field select { background: transparent; border: none; border-bottom: 1px solid var(--line); padding: .8rem 0; font-family: var(--mono); font-weight: 300; color: var(--ink); outline: none; transition: border-color .3s; resize: none; -webkit-appearance: none; width: 100%; font-size: max(.85rem, 16px); }
     .cf-field select option { background: var(--bg2); }
     .cf-field input:focus, .cf-field textarea:focus, .cf-field select:focus { border-color: var(--accent); }
     .cf-field textarea { min-height: 90px; }
-    .btn-submit {
-      align-self: flex-start; background: var(--accent); color: #fff; border: none;
-      padding: 1rem 2.2rem; font-family: var(--mono); font-size: .72rem;
-      letter-spacing: .18em; text-transform: uppercase; cursor: pointer;
-      transition: background .25s, transform .15s;
-      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
-      min-height: 48px;
-    }
+    .btn-submit { align-self: flex-start; background: var(--accent); color: #fff; border: none; padding: 1rem 2.2rem; font-family: var(--mono); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; cursor: pointer; transition: background .25s, transform .15s; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); min-height: 48px; }
     @media (hover: hover) { .btn-submit:hover { background: var(--accent2); color: var(--bg); transform: translateY(-2px); } }
     .contact-right { padding-top: .5rem; }
     .c-item { margin-bottom: 2.5rem; }
     .c-item-label { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
     .c-item-val { font-family: var(--serif); font-size: clamp(1.1rem, 3vw, 1.3rem); font-weight: 400; color: var(--ink); text-decoration: none; display: block; transition: color .2s; }
     @media (hover: hover) { .c-item-val:hover { color: var(--accent); } }
-    .avail-badge {
-      display: inline-flex; align-items: center; gap: .6rem;
-      font-size: .62rem; letter-spacing: .14em; text-transform: uppercase;
-      border: 1px solid #27AE60; color: #27AE60; padding: .5rem 1rem; margin-top: 2rem;
-    }
+    .avail-badge { display: inline-flex; align-items: center; gap: .6rem; font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; border: 1px solid #27AE60; color: #27AE60; padding: .5rem 1rem; margin-top: 2rem; }
     .avail-dot { width: 6px; height: 6px; background: #27AE60; border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; }
 
     /* Footer */
-    footer {
-      background: var(--bg2); border-top: 1px solid var(--line); padding: 2rem var(--px);
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: .8rem; font-size: .62rem; letter-spacing: .1em; color: var(--muted);
-    }
+    footer { background: var(--bg2); border-top: 1px solid var(--line); padding: 2rem var(--px); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .8rem; font-size: .62rem; letter-spacing: .1em; color: var(--muted); }
     footer span b { color: var(--accent); font-weight: 400; }
     footer a { color: var(--muted); text-decoration: none; }
 
@@ -410,7 +330,17 @@
     .reveal.on { opacity: 1; transform: translateY(0); }
     .rd1{transition-delay:.08s} .rd2{transition-delay:.16s} .rd3{transition-delay:.24s} .rd4{transition-delay:.32s}
 
-    /* ── Responsive ── */
+    /* Certificate Modal */
+    .cert-modal { display: none; position: fixed; inset: 0; z-index: 8000; background: rgba(0,0,0,.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 2rem; }
+    .cert-modal.open { display: flex; }
+    .cert-modal-inner { background: var(--bg2); border: 1px solid var(--line); max-width: 700px; width: 100%; position: relative; padding: 2rem; }
+    .cert-modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--muted); font-family: var(--mono); font-size: .8rem; letter-spacing: .1em; cursor: pointer; transition: color .2s; }
+    .cert-modal-close:hover { color: var(--accent); }
+    .cert-modal-title { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; }
+    .cert-modal img { width: 100%; display: block; border: 1px solid var(--line); }
+    .cert-modal-name { font-family: var(--serif); font-size: 1.1rem; margin-top: 1rem; color: var(--ink); }
+
+    /* Responsive */
     @media (max-width: 860px) {
       .nav-links { display: none; }
       .hamburger { display: flex; }
@@ -523,16 +453,12 @@
 <section id="about">
   <div class="s-label reveal">About</div>
   <h2 class="s-title reveal rd1">One person.<br><em>Two worlds.</em></h2>
-
   <p class="about-intro reveal rd2">
     I'm <strong>Abdullah Fariz bin Hassan</strong> — a Software Engineer at <strong>Datakraf Solutions</strong> with a
     <strong>B.Sc. in Computer Science with Cyber Security</strong> from APU, and over
     <strong>7 years of freelance illustration</strong> and 3D modelling. Most people pick a lane. I didn't.
   </p>
-
   <div class="about-grid">
-
-    <!-- PANEL 1: Systems I Build -->
     <div class="about-panel systems reveal rd3">
       <div class="panel-eyebrow">Systems I Build</div>
       <div class="panel-title">SOFTWARE &<br>ENGINEERING</div>
@@ -555,8 +481,6 @@
         <div class="tag">AutoCAD</div>
       </div>
     </div>
-
-    <!-- PANEL 2: Worlds I Create -->
     <div class="about-panel worlds reveal rd4">
       <div class="panel-eyebrow">Worlds I Create</div>
       <div class="panel-title">ART &<br>ILLUSTRATION</div>
@@ -576,7 +500,6 @@
         <div class="tag">Canva</div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -585,7 +508,6 @@
   <div class="s-label reveal">Experience</div>
   <h2 class="s-title reveal rd1">Where I've<br><em>shipped.</em></h2>
   <div class="exp-list">
-
     <div class="exp-item reveal rd1">
       <div class="exp-meta">
         <div class="exp-period">Aug 2024 — Present</div>
@@ -633,7 +555,6 @@
         </div>
       </div>
     </div>
-
     <div class="exp-item reveal rd2">
       <div class="exp-meta">
         <div class="exp-period">Oct 2022 — Jan 2023</div>
@@ -656,7 +577,6 @@
         </div>
       </div>
     </div>
-
     <div class="exp-item reveal rd3">
       <div class="exp-meta">
         <div class="exp-period">Aug 2019 — Dec 2019</div>
@@ -677,7 +597,6 @@
         </div>
       </div>
     </div>
-
     <div class="exp-item reveal rd4">
       <div class="exp-meta">
         <div class="exp-period">Jan 2017 — Apr 2024</div>
@@ -698,7 +617,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -715,7 +633,6 @@
     <button class="filter-btn" data-filter="ctf">CTF</button>
   </div>
   <div class="work-masonry reveal rd3">
-
     <div class="work-item" data-cat="design">
       <div class="thumb-inner">
         <div class="wt wt-1" style="display:flex;align-items:center;justify-content:center;">
@@ -728,13 +645,9 @@
         </div>
         <div class="thumb-tag">UI Design</div>
       </div>
-      <div class="work-cap">
-        <span class="work-cap-name">MyINFRA System</span>
-        <span class="work-cap-year">2025</span>
-      </div>
+      <div class="work-cap"><span class="work-cap-name">MyINFRA System</span><span class="work-cap-year">2025</span></div>
       <div class="work-hover-line"></div>
     </div>
-
     <div class="work-item" data-cat="design">
       <div class="thumb-inner">
         <div class="wt wt-7" style="display:flex;align-items:center;justify-content:center;">
@@ -746,13 +659,9 @@
         </div>
         <div class="thumb-tag">Landing Page</div>
       </div>
-      <div class="work-cap">
-        <span class="work-cap-name">Tourism Malaysia SenangHR</span>
-        <span class="work-cap-year">2025</span>
-      </div>
+      <div class="work-cap"><span class="work-cap-name">Tourism Malaysia SenangHR</span><span class="work-cap-year">2025</span></div>
       <div class="work-hover-line"></div>
     </div>
-
     <div class="work-item" data-cat="tech">
       <div class="thumb-inner">
         <div class="wt wt-2" style="display:flex;align-items:center;justify-content:center;">
@@ -764,13 +673,9 @@
         </div>
         <div class="thumb-tag">IoT</div>
       </div>
-      <div class="work-cap">
-        <span class="work-cap-name">Syswell Smart Office (SiOT)</span>
-        <span class="work-cap-year">2022</span>
-      </div>
+      <div class="work-cap"><span class="work-cap-name">Syswell Smart Office (SiOT)</span><span class="work-cap-year">2022</span></div>
       <div class="work-hover-line"></div>
     </div>
-
     <div class="work-item" data-cat="tech">
       <div class="thumb-inner">
         <div class="wt wt-4" style="display:flex;align-items:center;justify-content:center;">
@@ -781,13 +686,9 @@
         </div>
         <div class="thumb-tag">Python Scraper</div>
       </div>
-      <div class="work-cap">
-        <span class="work-cap-name">TenderDB Scraper</span>
-        <span class="work-cap-year">2024</span>
-      </div>
+      <div class="work-cap"><span class="work-cap-name">TenderDB Scraper</span><span class="work-cap-year">2024</span></div>
       <div class="work-hover-line"></div>
     </div>
-
     <div class="work-item" data-cat="art">
       <div class="thumb-inner">
         <div class="wt wt-5" style="display:flex;align-items:center;justify-content:center;">
@@ -799,13 +700,9 @@
         </div>
         <div class="thumb-tag">Character Design</div>
       </div>
-      <div class="work-cap">
-        <span class="work-cap-name">TourismMalaysia SunBear</span>
-        <span class="work-cap-year">2025</span>
-      </div>
+      <div class="work-cap"><span class="work-cap-name">TourismMalaysia SunBear</span><span class="work-cap-year">2025</span></div>
       <div class="work-hover-line"></div>
     </div>
-
     <div class="work-item" data-cat="3d">
       <div class="thumb-inner">
         <div class="wt wt-3" style="display:flex;align-items:center;justify-content:center;">
@@ -816,13 +713,9 @@
         </div>
         <div class="thumb-tag">3D / Blender</div>
       </div>
-      <div class="work-cap">
-        <span class="work-cap-name">3D Modelling Projects</span>
-        <span class="work-cap-year">2017–2024</span>
-      </div>
+      <div class="work-cap"><span class="work-cap-name">3D Modelling Projects</span><span class="work-cap-year">2017–2024</span></div>
       <div class="work-hover-line"></div>
     </div>
-
     <div class="work-item" data-cat="ctf">
       <div class="thumb-inner">
         <div class="wt wt-8" style="display:flex;align-items:center;justify-content:center;">
@@ -833,13 +726,9 @@
         </div>
         <div class="thumb-tag">CTF Write-up</div>
       </div>
-      <div class="work-cap">
-        <span class="work-cap-name">CTF Challenges</span>
-        <span class="work-cap-year">Ongoing</span>
-      </div>
+      <div class="work-cap"><span class="work-cap-name">CTF Challenges</span><span class="work-cap-year">Ongoing</span></div>
       <div class="work-hover-line"></div>
     </div>
-
     <div class="work-item" data-cat="art">
       <div class="thumb-inner">
         <div class="wt wt-6" style="display:flex;align-items:center;justify-content:center;">
@@ -850,13 +739,9 @@
         </div>
         <div class="thumb-tag">Freelance Commission</div>
       </div>
-      <div class="work-cap">
-        <span class="work-cap-name">Illustration Commissions</span>
-        <span class="work-cap-year">2017–2024</span>
-      </div>
+      <div class="work-cap"><span class="work-cap-name">Illustration Commissions</span><span class="work-cap-year">2017–2024</span></div>
       <div class="work-hover-line"></div>
     </div>
-
   </div>
 </section>
 
@@ -875,7 +760,19 @@
       <div class="t-line t-out">B.Sc. Computer Science with Cyber Security — Asia Pacific University (2020–2023)</div>
       <div class="t-line t-out">Diploma in Building — UiTM Sri Iskandar (2017–2020)</div>
       <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ ls ./certifications</span></div>
-      <div class="t-line t-out">attack-protect-hack/&nbsp;&nbsp;elite-live-soc-module/</div>
+      <div class="t-line t-out">
+        <span class="cert-link" data-cert="assets/certificates/attack-protect-hack.jpg"
+              data-name="Certification of Attack, Protect & Learn How to Hack"
+              style="cursor:pointer; text-decoration:underline; text-decoration-style:dotted; color:var(--accent2);">
+          attack-protect-hack/
+        </span>
+        &nbsp;&nbsp;
+        <span class="cert-link" data-cert="assets/certificates/elite-live-soc.jpg"
+              data-name="Certification of ELITE Live SOC Module"
+              style="cursor:pointer; text-decoration:underline; text-decoration-style:dotted; color:var(--accent2);">
+          elite-live-soc-module/
+        </span>
+      </div>
       <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ cat ./status.txt</span></div>
       <div class="t-line"><span class="t-hi">ALWAYS UP FOR WORK & COLLABORATION</span> — KL, Malaysia — 2026</div>
       <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ _</span><span class="t-cursor"></span></div>
@@ -932,14 +829,12 @@
       <div class="c-item">
         <div class="c-item-label">Find me online</div>
         <a class="c-item-val" href="https://github.com/Turtleplum" target="_blank" rel="noopener">GitHub</a>
-		<div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:.5rem;">
-		  <a href="https://www.artstation.com/YOUR_USERNAME" target="_blank" rel="noopener"
-			 style="font-size:1rem; color:var(--muted); text-decoration:none;">ArtStation </a>
-		  <!--<a href="https://www.behance.net/YOUR_USERNAME" target="_blank" rel="noopener"
-			 style="font-size:1rem; color:var(--muted); text-decoration:none;">• Fiverr </a> update later -->
-		  <a href="https://www.linkedin.com/in/fariz-hassan-29677b241/" target="_blank" rel="noopener"
-			 style="font-size:1rem; color:var(--muted); text-decoration:none;">• LinkedIn</a>
-	</div>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:.5rem;">
+          <a href="https://www.artstation.com/YOUR_USERNAME" target="_blank" rel="noopener"
+             style="font-size:1rem; color:var(--muted); text-decoration:none;">ArtStation</a>
+          <a href="https://www.linkedin.com/in/fariz-hassan-29677b241/" target="_blank" rel="noopener"
+             style="font-size:1rem; color:var(--muted); text-decoration:none;">· LinkedIn</a>
+        </div>
       </div>
       <div class="avail-badge">
         <div class="avail-dot"></div>
@@ -956,6 +851,17 @@
   <a href="#">↑ Back to top</a>
 </footer>
 
+<!-- ✅ CERTIFICATE MODAL — inside body, outside script -->
+<div class="cert-modal" id="certModal">
+  <div class="cert-modal-inner">
+    <button class="cert-modal-close" id="certClose">[ close ✕ ]</button>
+    <div class="cert-modal-title">// certificate</div>
+    <img id="certImg" src="" alt="Certificate"/>
+    <div class="cert-modal-name" id="certName"></div>
+  </div>
+</div>
+
+<!-- ✅ SCRIPT — after modal HTML, before </body> -->
 <script>
   const isTouchDevice = () => window.matchMedia('(hover: none)').matches;
   const cur = document.getElementById('cur');
@@ -970,7 +876,7 @@
       trail.style.left=tx+'px'; trail.style.top=ty+'px';
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll('a,button,.work-item,.role-pill,.tag,.tool-row,.filter-btn').forEach(el=>{
+    document.querySelectorAll('a,button,.work-item,.role-pill,.tag,.filter-btn,.cert-link').forEach(el=>{
       el.addEventListener('mouseenter',()=>cur.classList.add('big'));
       el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
     });
@@ -1016,6 +922,32 @@
     btn.style.background = '#27AE60';
     setTimeout(() => { btn.textContent = 'Send it →'; btn.style.background = ''; }, 3000);
   }
+
+  // Certificate modal
+  const certModal = document.getElementById('certModal');
+  const certImg   = document.getElementById('certImg');
+  const certName  = document.getElementById('certName');
+
+  document.querySelectorAll('.cert-link').forEach(el => {
+    el.addEventListener('click', () => {
+      certImg.src = el.dataset.cert;
+      certName.textContent = el.dataset.name;
+      certModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  document.getElementById('certClose').addEventListener('click', () => {
+    certModal.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+
+  certModal.addEventListener('click', e => {
+    if (e.target === certModal) {
+      certModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
 </script>
 </body>
 </html>
