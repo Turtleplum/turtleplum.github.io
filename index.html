@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fariz Hassan's Portfolio — Creative Coder</title>
+  <title>Abdullah Fariz Hassan — Designer & Coder</title>
+  <meta name="description" content="Portfolio of Abdullah Fariz bin Hassan — Software Engineer, Digital Illustrator, 3D Modeller & IoT Developer based in Kuala Lumpur."/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
@@ -34,30 +35,22 @@
       overflow-x: hidden;
     }
 
-    /* touch devices get normal cursor */
-    @media (hover: hover) and (pointer: fine) {
-      body { cursor: none; }
-    }
+    @media (hover: hover) and (pointer: fine) { body { cursor: none; } }
 
-    /* ── Grain overlay ── */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
       opacity: 0.035;
       pointer-events: none;
       z-index: 9000;
     }
 
-    /* ── Custom cursor (desktop only) ── */
-    #cur, #cur-trail {
-      display: none;
-    }
+    /* Cursor */
+    #cur, #cur-trail { display: none; }
     @media (hover: hover) and (pointer: fine) {
       #cur {
-        display: block;
-        position: fixed; width: 12px; height: 12px;
+        display: block; position: fixed; width: 12px; height: 12px;
         background: var(--accent); border-radius: 50%;
         pointer-events: none; z-index: 9999;
         transform: translate(-50%,-50%);
@@ -66,71 +59,44 @@
       }
       #cur.big { width: 48px; height: 48px; }
       #cur-trail {
-        display: block;
-        position: fixed; width: 32px; height: 32px;
+        display: block; position: fixed; width: 32px; height: 32px;
         border: 1px solid var(--ink); border-radius: 50%;
         pointer-events: none; z-index: 9998;
-        transform: translate(-50%,-50%);
-        opacity: .3;
+        transform: translate(-50%,-50%); opacity: .3;
       }
     }
 
-    /* ── Nav ── */
+    /* Nav */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 500;
       display: flex; justify-content: space-between; align-items: center;
       padding: 1.4rem var(--px);
       background: rgba(22,20,18,0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid transparent;
-      transition: border-color .3s;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent; transition: border-color .3s;
     }
     nav.scrolled { border-bottom-color: var(--line); }
-
     .nav-logo {
-      font-family: var(--display);
-      font-size: 1.5rem;
-      letter-spacing: .08em;
-      color: var(--ink);
-      text-decoration: none;
-      z-index: 10;
+      font-family: var(--display); font-size: 1.3rem;
+      letter-spacing: .06em; color: var(--ink); text-decoration: none; z-index: 10;
     }
-
-    /* Desktop links */
-    .nav-links {
-      display: flex; gap: 2rem; list-style: none;
-    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
-      font-family: var(--mono);
-      font-size: .68rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--ink);
-      text-decoration: none;
-      opacity: .5;
-      transition: opacity .2s;
-      padding: .3rem 0;
+      font-family: var(--mono); font-size: .68rem;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--ink); text-decoration: none; opacity: .5;
+      transition: opacity .2s; padding: .3rem 0;
     }
     .nav-links a:hover { opacity: 1; }
 
     /* Hamburger */
     .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: .5rem;
-      z-index: 10;
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: .5rem; z-index: 10;
     }
     .hamburger span {
-      display: block;
-      width: 24px; height: 1.5px;
-      background: var(--ink);
-      transition: transform .3s, opacity .3s;
-      transform-origin: center;
+      display: block; width: 24px; height: 1.5px; background: var(--ink);
+      transition: transform .3s, opacity .3s; transform-origin: center;
     }
     .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
@@ -138,619 +104,302 @@
 
     /* Mobile drawer */
     .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 400;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 4rem var(--px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .3s;
+      display: none; position: fixed; inset: 0; background: var(--bg); z-index: 400;
+      flex-direction: column; justify-content: center; align-items: flex-start;
+      padding: 4rem var(--px); opacity: 0; pointer-events: none; transition: opacity .3s;
     }
-    .mobile-menu.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .mobile-menu ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 1.2rem; }
     .mobile-menu ul a {
-      font-family: var(--display);
-      font-size: clamp(2.5rem, 10vw, 4rem);
-      letter-spacing: .06em;
-      color: var(--ink);
-      text-decoration: none;
-      opacity: .25;
-      transition: opacity .2s, color .2s;
-      display: block;
+      font-family: var(--display); font-size: clamp(2.5rem, 10vw, 4rem);
+      letter-spacing: .06em; color: var(--ink); text-decoration: none;
+      opacity: .25; transition: opacity .2s, color .2s; display: block;
     }
     .mobile-menu ul a:hover, .mobile-menu ul a:active { opacity: 1; color: var(--accent); }
-    .mobile-menu-sub {
-      margin-top: 3rem;
-      font-size: .65rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+    .mobile-menu-sub { margin-top: 3rem; font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
 
-    /* ── Hero ── */
+    /* Hero */
     #hero {
-      min-height: 100svh;
-      display: grid;
-      grid-template-rows: 1fr auto;
-      padding: 0 var(--px) 3.5rem;
-      position: relative;
-      overflow: hidden;
+      min-height: 100svh; display: grid; grid-template-rows: 1fr auto;
+      padding: 0 var(--px) 3.5rem; position: relative; overflow: hidden;
     }
-
     .hero-slash {
-      position: absolute;
-      top: -10%; right: -5%;
-      width: 55%; height: 130%;
-      background: var(--bg2);
-      transform: skewX(-8deg);
-      z-index: 0;
+      position: absolute; top: -10%; right: -5%; width: 55%; height: 130%;
+      background: var(--bg2); transform: skewX(-8deg); z-index: 0;
     }
     .hero-slash::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        135deg, transparent, transparent 40px,
-        rgba(232,64,28,.04) 40px, rgba(232,64,28,.04) 41px
-      );
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(135deg, transparent, transparent 40px, rgba(232,64,28,.04) 40px, rgba(232,64,28,.04) 41px);
     }
-
     .hero-blob {
-      position: absolute;
-      top: 15%; right: 8%;
-      width: clamp(160px, 35vw, 340px);
-      height: clamp(160px, 35vw, 340px);
+      position: absolute; top: 15%; right: 8%;
+      width: clamp(160px, 35vw, 340px); height: clamp(160px, 35vw, 340px);
       background: radial-gradient(circle at 40% 40%, rgba(232,64,28,.22), transparent 70%);
-      border-radius: 50%;
-      filter: blur(40px);
-      z-index: 0;
+      border-radius: 50%; filter: blur(40px); z-index: 0;
       animation: blobDrift 8s ease-in-out infinite alternate;
     }
     @keyframes blobDrift { from{transform:translate(0,0) scale(1);} to{transform:translate(20px,15px) scale(1.08);} }
-
     .hero-content {
-      position: relative; z-index: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding-top: clamp(7rem, 20vh, 12rem);
+      position: relative; z-index: 1; display: flex; flex-direction: column;
+      justify-content: flex-end; padding-top: clamp(7rem, 20vh, 12rem);
     }
-
     .hero-tag {
-      font-size: clamp(.6rem, 2vw, .68rem);
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.2rem;
-      display: flex; align-items: center; gap: .8rem;
+      font-size: clamp(.6rem, 2vw, .68rem); letter-spacing: .2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.2rem; display: flex; align-items: center; gap: .8rem;
       opacity: 0; animation: slideIn .7s .3s forwards;
     }
     .hero-tag::before { content: ''; width: 20px; height: 1px; background: var(--accent); flex-shrink: 0; }
-
     .hero-name {
-      font-family: var(--display);
-      font-size: clamp(4.5rem, 15vw, 14rem);
-      line-height: .88;
-      letter-spacing: .02em;
-      color: var(--ink);
+      font-family: var(--display); font-size: clamp(4.5rem, 15vw, 14rem);
+      line-height: .88; letter-spacing: .02em; color: var(--ink);
       opacity: 0; animation: slideIn .8s .5s forwards;
     }
     .hero-name span { color: var(--accent); }
-
     .hero-sub {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: clamp(1rem, 3vw, 2rem);
-      color: var(--muted);
-      margin-top: 1rem;
-      opacity: 0; animation: slideIn .8s .7s forwards;
-      line-height: 1.6;
+      font-family: var(--serif); font-style: italic;
+      font-size: clamp(1rem, 3vw, 2rem); color: var(--muted);
+      margin-top: 1rem; opacity: 0; animation: slideIn .8s .7s forwards; line-height: 1.6;
     }
-
     .hero-bottom {
-      position: relative; z-index: 1;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      flex-wrap: wrap;
-      gap: 1rem;
-      border-top: 1px solid var(--line);
-      padding-top: 1.5rem;
-      margin-top: 2rem;
+      position: relative; z-index: 1; display: flex;
+      justify-content: space-between; align-items: flex-end;
+      flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--line);
+      padding-top: 1.5rem; margin-top: 2rem;
       opacity: 0; animation: fadeIn .9s 1s forwards;
     }
-
     .hero-roles { display: flex; gap: .7rem; flex-wrap: wrap; }
     .role-pill {
-      font-size: .58rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      border: 1px solid var(--line);
-      padding: .4rem .8rem;
-      color: var(--muted);
-      transition: border-color .2s, color .2s;
-      white-space: nowrap;
+      font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
+      border: 1px solid var(--line); padding: .4rem .8rem; color: var(--muted);
+      transition: border-color .2s, color .2s; white-space: nowrap;
     }
-
     .hero-scroll {
-      font-size: .6rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: flex; align-items: center; gap: .6rem;
-      white-space: nowrap;
+      font-size: .6rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted); display: flex; align-items: center; gap: .6rem; white-space: nowrap;
     }
     .scroll-dot {
-      width: 6px; height: 6px;
-      background: var(--accent); border-radius: 50%;
+      width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
       animation: pulse 1.8s infinite; flex-shrink: 0;
     }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.3;transform:scale(.6);} }
 
-    /* ── Section base ── */
+    /* Section base */
     section { padding: clamp(4rem, 10vh, 8rem) var(--px); }
-
     .s-label {
-      font-size: .6rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1rem;
-      display: flex; align-items: center; gap: .8rem;
+      font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: .8rem;
     }
     .s-label::before { content: '//'; color: var(--accent2); opacity: .6; }
+    .s-title { font-family: var(--display); font-size: clamp(2.6rem, 8vw, 7rem); line-height: .92; letter-spacing: .03em; }
+    .s-title em { font-family: var(--serif); font-style: italic; font-size: .75em; color: var(--muted); letter-spacing: 0; }
 
-    .s-title {
-      font-family: var(--display);
-      font-size: clamp(2.6rem, 8vw, 7rem);
-      line-height: .92;
-      letter-spacing: .03em;
-    }
-    .s-title em {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: .75em;
-      color: var(--muted);
-      letter-spacing: 0;
-    }
-
-    /* ── About ── */
+    /* About */
     #about { background: var(--bg); position: relative; overflow: hidden; }
     #about::before {
-      content: 'ABOUT';
-      position: absolute;
-      font-family: var(--display);
-      font-size: 22vw;
-      color: var(--bg2);
-      bottom: -2vw; left: -1vw;
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
+      content: 'ABOUT'; position: absolute; font-family: var(--display);
+      font-size: 22vw; color: var(--bg2); bottom: -2vw; left: -1vw;
+      line-height: 1; pointer-events: none; user-select: none;
     }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 5rem;
-      margin-top: 4rem;
-      position: relative; z-index: 1;
-    }
-
-    .about-bio p {
-      font-family: var(--serif);
-      font-size: clamp(1rem, 2.5vw, 1.15rem);
-      line-height: 1.9;
-      color: #ADA89E;
-      margin-bottom: 1.4rem;
-    }
+    .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; margin-top: 4rem; position: relative; z-index: 1; }
+    .about-bio p { font-family: var(--serif); font-size: clamp(1rem, 2.5vw, 1.15rem); line-height: 1.9; color: #ADA89E; margin-bottom: 1.4rem; }
     .about-bio p strong { color: var(--ink); font-weight: 600; }
     .about-bio p em { color: var(--accent2); font-style: italic; }
-
     .tag-cloud { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2.5rem; }
     .tag {
-      font-size: .6rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      padding: .4rem .9rem;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      transition: all .2s;
-      /* touch-friendly tap target */
-      min-height: 36px;
-      display: flex; align-items: center;
+      font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+      padding: .4rem .9rem; border: 1px solid var(--line); color: var(--muted);
+      transition: all .2s; min-height: 36px; display: flex; align-items: center;
     }
     @media (hover: hover) { .tag:hover { background: var(--accent); border-color: var(--accent); color: #fff; } }
-
     .toolkit { border-left: 2px solid var(--line); padding-left: 2rem; }
-    .toolkit-title {
-      font-size: .6rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 2rem;
-    }
+    .toolkit-title { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent2); margin-bottom: 2rem; }
     .tool-row {
       display: flex; justify-content: space-between; align-items: center;
-      padding: .9rem 0;
-      border-bottom: 1px solid var(--line);
-      font-size: .78rem;
-      color: var(--muted);
-      min-height: 44px;
+      padding: .9rem 0; border-bottom: 1px solid var(--line);
+      font-size: .78rem; color: var(--muted); min-height: 44px;
     }
     .tool-row:first-of-type { border-top: 1px solid var(--line); }
     .tool-dot { width: 6px; height: 6px; background: var(--line); border-radius: 50%; transition: background .2s; flex-shrink: 0; }
-    @media (hover: hover) {
-      .tool-row:hover .tool-dot { background: var(--accent); }
-      .tool-row:hover { color: var(--ink); }
-    }
+    @media (hover: hover) { .tool-row:hover .tool-dot { background: var(--accent); } .tool-row:hover { color: var(--ink); } }
 
-    /* ── Work ── */
-    #work { background: var(--bg2); }
-
-    .work-filter {
-      display: flex; gap: .6rem; flex-wrap: wrap;
-      margin: 2.5rem 0 3rem;
+    /* Experience */
+    #experience { background: var(--bg2); }
+    .exp-list { margin-top: 4rem; }
+    .exp-item {
+      display: grid; grid-template-columns: 200px 1fr;
+      gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--line);
     }
+    .exp-item:first-child { border-top: 1px solid var(--line); }
+    .exp-meta {}
+    .exp-period { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+    .exp-company { font-family: var(--serif); font-size: 1rem; color: var(--ink); margin-bottom: .3rem; }
+    .exp-location { font-size: .68rem; color: var(--muted); }
+    .exp-content {}
+    .exp-role { font-family: var(--display); font-size: 1.6rem; letter-spacing: .04em; margin-bottom: 1rem; line-height: 1; }
+    .exp-projects { display: flex; flex-direction: column; gap: 1.2rem; }
+    .exp-project-name { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent2); margin-bottom: .4rem; }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+    .exp-bullets li { font-size: .78rem; line-height: 1.7; color: var(--muted); padding-left: 1rem; position: relative; }
+    .exp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: .65rem; top: .1rem; }
+
+    /* Work */
+    #work { background: var(--bg); }
+    .work-filter { display: flex; gap: .6rem; flex-wrap: wrap; margin: 2.5rem 0 3rem; }
     .filter-btn {
-      font-family: var(--mono);
-      font-size: .62rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      padding: .55rem 1rem;
-      background: transparent;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      cursor: pointer;
-      transition: all .2s;
-      min-height: 40px;
+      font-family: var(--mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+      padding: .55rem 1rem; background: transparent; border: 1px solid var(--line);
+      color: var(--muted); cursor: pointer; transition: all .2s; min-height: 40px;
     }
-    .filter-btn:hover, .filter-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .work-masonry {
-      columns: 3;
-      column-gap: 1.2rem;
-    }
-    .work-item {
-      break-inside: avoid;
-      margin-bottom: 1.2rem;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: opacity .3s, transform .3s;
-    }
+    .filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .work-masonry { columns: 3; column-gap: 1.2rem; }
+    .work-item { break-inside: avoid; margin-bottom: 1.2rem; position: relative; overflow: hidden; cursor: pointer; transition: opacity .3s, transform .3s; }
     .thumb-inner { position: relative; overflow: hidden; }
-
-    .wt { width: 100%; display: block; }
+    .wt { width: 100%; display: block; transition: transform .6s cubic-bezier(.4,0,.2,1); }
     .wt-1 { aspect-ratio: 4/3;  background: linear-gradient(135deg, #2A2218, #3D1F10); }
     .wt-2 { aspect-ratio: 1/1;  background: linear-gradient(135deg, #1A2230, #0D3040); }
     .wt-3 { aspect-ratio: 3/4;  background: linear-gradient(135deg, #1E1A2E, #2D1540); }
     .wt-4 { aspect-ratio: 16/9; background: linear-gradient(135deg, #1C2218, #1A3020); }
     .wt-5 { aspect-ratio: 1/1;  background: linear-gradient(135deg, #251818, #3D1010); }
     .wt-6 { aspect-ratio: 4/5;  background: linear-gradient(135deg, #1A1C20, #202830); }
-
+    .wt-7 { aspect-ratio: 4/3;  background: linear-gradient(135deg, #1A1E18, #142210); }
+    .wt-8 { aspect-ratio: 1/1;  background: linear-gradient(135deg, #201A10, #302408); }
     .thumb-tag {
       position: absolute; bottom: .8rem; left: .8rem;
       font-size: .55rem; letter-spacing: .14em; text-transform: uppercase;
-      background: var(--bg); color: var(--muted);
-      padding: .25rem .6rem;
+      background: var(--bg); color: var(--muted); padding: .25rem .6rem;
     }
-
-    .work-cap {
-      padding: .8rem 0 .4rem;
-      display: flex; justify-content: space-between; align-items: baseline;
-      gap: .5rem;
-    }
-    .work-cap-name {
-      font-family: var(--serif);
-      font-size: clamp(.85rem, 2vw, 1rem);
-      font-weight: 500;
-    }
+    .work-cap { padding: .8rem 0 .4rem; display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; }
+    .work-cap-name { font-family: var(--serif); font-size: clamp(.85rem, 2vw, 1rem); font-weight: 500; }
     .work-cap-year { font-size: .6rem; color: var(--muted); letter-spacing: .1em; white-space: nowrap; }
+    .work-hover-line { position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width .4s cubic-bezier(.4,0,.2,1); }
+    @media (hover: hover) { .work-item:hover .work-hover-line { width: 100%; } .work-item:hover .wt { transform: scale(1.04); } }
 
-    .work-hover-line {
-      position: absolute; bottom: 0; left: 0;
-      width: 0; height: 2px;
-      background: var(--accent);
-      transition: width .4s cubic-bezier(.4,0,.2,1);
-    }
-    @media (hover: hover) {
-      .work-item:hover .work-hover-line { width: 100%; }
-      .work-item:hover .wt { transform: scale(1.04); }
-    }
-    .wt { transition: transform .6s cubic-bezier(.4,0,.2,1); }
-
-    /* ── Marquee ── */
-    .marquee-wrap {
-      background: var(--accent);
-      padding: 1rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .marquee-track {
-      display: inline-flex;
-      animation: marquee 18s linear infinite;
-    }
+    /* Marquee */
+    .marquee-wrap { background: var(--accent); padding: 1rem 0; overflow: hidden; white-space: nowrap; }
+    .marquee-track { display: inline-flex; animation: marquee 20s linear infinite; }
     .marquee-item {
-      font-family: var(--display);
-      font-size: clamp(1rem, 3vw, 1.4rem);
-      letter-spacing: .06em;
-      color: #fff;
-      padding: 0 1.5rem;
+      font-family: var(--display); font-size: clamp(1rem, 3vw, 1.4rem);
+      letter-spacing: .06em; color: #fff; padding: 0 1.5rem;
       display: inline-flex; align-items: center; gap: 1.5rem;
     }
     .marquee-item::after { content: '✦'; opacity: .5; font-size: .8em; }
     @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
-    /* ── Process ── */
-    #process { background: var(--bg); }
+    /* Process */
+    #process { background: var(--bg2); }
     .process-list { margin-top: 4rem; }
     .process-row {
-      display: grid;
-      grid-template-columns: 64px 1fr 1fr;
-      gap: 1.5rem;
-      align-items: start;
-      padding: 2.5rem 0;
-      border-bottom: 1px solid var(--line);
+      display: grid; grid-template-columns: 64px 1fr 1fr;
+      gap: 1.5rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid var(--line);
     }
     .process-row:first-child { border-top: 1px solid var(--line); }
-    .process-num {
-      font-family: var(--display);
-      font-size: 3rem;
-      color: var(--line);
-      line-height: 1;
-      transition: color .3s;
-    }
+    .process-num { font-family: var(--display); font-size: 3rem; color: var(--line); line-height: 1; transition: color .3s; }
     @media (hover: hover) { .process-row:hover .process-num { color: var(--accent); } }
-    .process-name {
-      font-family: var(--serif);
-      font-size: clamp(1.3rem, 3vw, 1.8rem);
-      font-weight: 500;
-      line-height: 1.1;
-      padding-top: .3rem;
-    }
-    .process-desc {
-      font-size: .8rem;
-      line-height: 1.8;
-      color: var(--muted);
-      padding-top: .5rem;
-    }
+    .process-name { font-family: var(--serif); font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 500; line-height: 1.1; padding-top: .3rem; }
+    .process-desc { font-size: .8rem; line-height: 1.8; color: var(--muted); padding-top: .5rem; }
 
-    /* ── Terminal ── */
+    /* Terminal */
     #terminal-block {
-      background: #0D0C0A;
-      padding: clamp(2.5rem, 6vh, 5rem) var(--px);
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
+      background: #0D0C0A; padding: clamp(2.5rem, 6vh, 5rem) var(--px);
+      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
     }
-    .terminal {
-      max-width: 680px;
-      border: 1px solid var(--line);
-      background: #111009;
-      overflow: hidden;
-    }
-    .terminal-bar {
-      background: var(--line);
-      padding: .6rem 1rem;
-      display: flex; align-items: center; gap: .5rem;
-    }
+    .terminal { max-width: 680px; border: 1px solid var(--line); background: #111009; overflow: hidden; }
+    .terminal-bar { background: var(--line); padding: .6rem 1rem; display: flex; align-items: center; gap: .5rem; }
     .t-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .t-dot-r { background: #E8401C; }
-    .t-dot-y { background: #F2C94C; }
-    .t-dot-g { background: #27AE60; }
+    .t-dot-r { background: #E8401C; } .t-dot-y { background: #F2C94C; } .t-dot-g { background: #27AE60; }
     .terminal-body { padding: 1.4rem; overflow-x: auto; }
     .t-line { font-family: var(--mono); font-size: clamp(.68rem, 2vw, .8rem); line-height: 2; white-space: nowrap; }
-    .t-prompt { color: var(--accent2); }
-    .t-cmd { color: var(--ink); }
-    .t-out { color: var(--muted); }
-    .t-hi { color: var(--accent); }
-    .t-cursor {
-      display: inline-block; width: 7px; height: 1em;
-      background: var(--ink); vertical-align: middle;
-      animation: blink .8s step-end infinite;
-    }
+    .t-prompt { color: var(--accent2); } .t-cmd { color: var(--ink); } .t-out { color: var(--muted); } .t-hi { color: var(--accent); }
+    .t-cursor { display: inline-block; width: 7px; height: 1em; background: var(--ink); vertical-align: middle; animation: blink .8s step-end infinite; }
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
 
-    /* ── Contact ── */
-    #contact { background: var(--bg2); position: relative; overflow: hidden; }
+    /* Contact */
+    #contact { background: var(--bg); position: relative; overflow: hidden; }
     #contact::after {
-      content: 'LET\'S\A TALK';
-      position: absolute;
-      font-family: var(--display);
-      font-size: 18vw;
-      color: transparent;
-      -webkit-text-stroke: 1px var(--line);
-      bottom: -2vw; right: -2vw;
-      line-height: .85;
-      pointer-events: none;
-      user-select: none;
-      white-space: pre;
+      content: 'LET\'S\A TALK'; position: absolute; font-family: var(--display);
+      font-size: 18vw; color: transparent; -webkit-text-stroke: 1px var(--line);
+      bottom: -2vw; right: -2vw; line-height: .85; pointer-events: none; user-select: none; white-space: pre;
     }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      margin-top: 4rem;
-      position: relative; z-index: 1;
-    }
-
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 4rem; position: relative; z-index: 1; }
     .contact-form { display: flex; flex-direction: column; gap: 1.8rem; }
     .cf-field { display: flex; flex-direction: column; gap: .5rem; }
-    .cf-field label {
-      font-size: .6rem; letter-spacing: .18em; text-transform: uppercase;
-      color: var(--accent2);
-    }
+    .cf-field label { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent2); }
     .cf-field input, .cf-field textarea, .cf-field select {
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid var(--line);
-      padding: .8rem 0;
-      font-family: var(--mono);
-      font-size: .85rem;
-      font-weight: 300;
-      color: var(--ink);
-      outline: none;
-      transition: border-color .3s;
-      resize: none;
-      -webkit-appearance: none;
-      width: 100%;
-      /* prevent iOS zoom on focus */
-      font-size: max(.85rem, 16px);
+      background: transparent; border: none; border-bottom: 1px solid var(--line);
+      padding: .8rem 0; font-family: var(--mono); font-weight: 300; color: var(--ink);
+      outline: none; transition: border-color .3s; resize: none; -webkit-appearance: none;
+      width: 100%; font-size: max(.85rem, 16px);
     }
     .cf-field select option { background: var(--bg2); }
     .cf-field input:focus, .cf-field textarea:focus, .cf-field select:focus { border-color: var(--accent); }
     .cf-field textarea { min-height: 90px; }
-
     .btn-submit {
-      align-self: flex-start;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      padding: 1rem 2.2rem;
-      font-family: var(--mono);
-      font-size: .72rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      cursor: pointer;
+      align-self: flex-start; background: var(--accent); color: #fff; border: none;
+      padding: 1rem 2.2rem; font-family: var(--mono); font-size: .72rem;
+      letter-spacing: .18em; text-transform: uppercase; cursor: pointer;
       transition: background .25s, transform .15s;
       clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
       min-height: 48px;
     }
     @media (hover: hover) { .btn-submit:hover { background: var(--accent2); color: var(--bg); transform: translateY(-2px); } }
-
     .contact-right { padding-top: .5rem; }
     .c-item { margin-bottom: 2.5rem; }
     .c-item-label { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
-    .c-item-val {
-      font-family: var(--serif);
-      font-size: clamp(1.1rem, 3vw, 1.3rem);
-      font-weight: 400;
-      color: var(--ink);
-      text-decoration: none;
-      display: block;
-      transition: color .2s;
-    }
+    .c-item-val { font-family: var(--serif); font-size: clamp(1.1rem, 3vw, 1.3rem); font-weight: 400; color: var(--ink); text-decoration: none; display: block; transition: color .2s; }
     @media (hover: hover) { .c-item-val:hover { color: var(--accent); } }
-
     .avail-badge {
       display: inline-flex; align-items: center; gap: .6rem;
       font-size: .62rem; letter-spacing: .14em; text-transform: uppercase;
-      border: 1px solid #27AE60;
-      color: #27AE60;
-      padding: .5rem 1rem;
-      margin-top: 2rem;
+      border: 1px solid #27AE60; color: #27AE60; padding: .5rem 1rem; margin-top: 2rem;
     }
     .avail-dot { width: 6px; height: 6px; background: #27AE60; border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; }
 
-    /* ── Footer ── */
+    /* Footer */
     footer {
-      background: var(--bg);
-      border-top: 1px solid var(--line);
-      padding: 2rem var(--px);
+      background: var(--bg2); border-top: 1px solid var(--line); padding: 2rem var(--px);
       display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: .8rem;
-      font-size: .62rem;
-      letter-spacing: .1em;
-      color: var(--muted);
+      flex-wrap: wrap; gap: .8rem; font-size: .62rem; letter-spacing: .1em; color: var(--muted);
     }
     footer span b { color: var(--accent); font-weight: 400; }
     footer a { color: var(--muted); text-decoration: none; }
 
-    /* ── Animations ── */
+    /* Animations */
     @keyframes slideIn { from{opacity:0;transform:translateY(28px);} to{opacity:1;transform:translateY(0);} }
     @keyframes fadeIn  { from{opacity:0;} to{opacity:1;} }
-
-    .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
-    }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1); }
     .reveal.on { opacity: 1; transform: translateY(0); }
     .rd1{transition-delay:.08s} .rd2{transition-delay:.16s} .rd3{transition-delay:.24s} .rd4{transition-delay:.32s}
 
-    /* ═══════════════════════════════════════
-       RESPONSIVE BREAKPOINTS
-    ═══════════════════════════════════════ */
-
-    /* Tablet — hide desktop nav, show hamburger */
+    /* ── Responsive ── */
     @media (max-width: 860px) {
       .nav-links { display: none; }
       .hamburger { display: flex; }
       .mobile-menu { display: flex; }
-
-      /* about: single column */
       .about-grid { grid-template-columns: 1fr; gap: 3rem; }
       .toolkit { border-left: none; border-top: 2px solid var(--line); padding-left: 0; padding-top: 2rem; }
-
-      /* work: 2 columns */
+      .exp-item { grid-template-columns: 1fr; gap: 1rem; }
       .work-masonry { columns: 2; }
-
-      /* process: 2 col grid → num + name stacked */
       .process-row { grid-template-columns: 52px 1fr; }
       .process-desc { display: none; }
-
-      /* contact: single column */
       .contact-grid { grid-template-columns: 1fr; gap: 3.5rem; }
       #contact::after { font-size: 28vw; opacity: .4; }
-
-      /* footer */
       footer { justify-content: center; text-align: center; }
     }
-
-    /* Mobile */
     @media (max-width: 540px) {
       #about::before { display: none; }
-
-      /* hero: tighten up */
       .hero-roles { display: none; }
       .hero-scroll { font-size: .55rem; }
-
-      /* single column work */
       .work-masonry { columns: 1; }
-
-      /* filter buttons wrap nicely */
       .work-filter { gap: .5rem; }
       .filter-btn { font-size: .58rem; padding: .5rem .8rem; }
-
-      /* process: no num column */
       .process-row { grid-template-columns: 1fr; gap: .6rem; padding: 2rem 0; }
       .process-num { font-size: 1.8rem; }
-
-      /* terminal: allow h-scroll */
       .terminal-body { padding: 1rem; }
-
-      /* contact ghost text */
       #contact::after { display: none; }
-
-      /* footer stacked */
       footer { flex-direction: column; gap: .6rem; }
     }
-
-    /* Very small screens */
-    @media (max-width: 360px) {
-      .hero-name { font-size: 3.8rem; }
-      .s-title { font-size: 2.4rem; }
-    }
-
-    /* Respect prefers-reduced-motion */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-    }
+    @media (max-width: 360px) { .hero-name { font-size: 3.8rem; } .s-title { font-size: 2.4rem; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
@@ -760,27 +409,25 @@
 
 <!-- NAV -->
 <nav id="nav">
-  <a class="nav-logo" href="#">ABDULLAH FARIZ BIN HASSAN</a>
-
+  <a class="nav-logo" href="#">FARIZ HASSAN</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
     <li><a href="#work">Work</a></li>
-    <li><a href="#process">Process</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-
   <button class="hamburger" id="hamburger" aria-label="Toggle menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- MOBILE MENU DRAWER -->
+<!-- MOBILE DRAWER -->
 <div class="mobile-menu" id="mobileMenu">
   <ul>
-    <li><a href="#about"   class="mob-link">About</a></li>
-    <li><a href="#work"    class="mob-link">Work</a></li>
-    <li><a href="#process" class="mob-link">Process</a></li>
-    <li><a href="#contact" class="mob-link">Contact</a></li>
+    <li><a href="#about"      class="mob-link">About</a></li>
+    <li><a href="#experience" class="mob-link">Experience</a></li>
+    <li><a href="#work"       class="mob-link">Work</a></li>
+    <li><a href="#contact"    class="mob-link">Contact</a></li>
   </ul>
   <p class="mobile-menu-sub">Designer & Coder — KL, MY</p>
 </div>
@@ -789,21 +436,19 @@
 <section id="hero">
   <div class="hero-slash"></div>
   <div class="hero-blob"></div>
-
   <div class="hero-content">
-    <p class="hero-tag">Designer & Coder — KL, MY</p>
-    <h1 class="hero-name">ILLUST<span>CODER.</span></h1>
-    <p class="hero-sub">Illustration · Design · 3D · Video Editing · IoT · CTF</p>
+    <p class="hero-tag">Software Engineer & Creative — KL, MY</p>
+    <h1 class="hero-name">ILLUST<br><span>CODER.</span></h1>
+    <p class="hero-sub">Illustration · Design · 3D · IoT · CTF · Video Editing</p>
   </div>
-
   <div class="hero-bottom">
     <div class="hero-roles">
       <div class="role-pill">Digital Illustration</div>
       <div class="role-pill">3D Modelling</div>
-      <div class="role-pill">Animation</div>
-	  <div class="role-pill">Video Editing</div>
+      <div class="role-pill">UI / UX Design</div>
       <div class="role-pill">IoT Systems</div>
       <div class="role-pill">CTF / Security</div>
+      <div class="role-pill">Video Editing</div>
     </div>
     <div class="hero-scroll">
       <div class="scroll-dot"></div>
@@ -815,20 +460,22 @@
 <!-- MARQUEE -->
 <div class="marquee-wrap">
   <div class="marquee-track">
-    <span class="marquee-item">Digital Art</span>
+    <span class="marquee-item">Digital Illustration</span>
     <span class="marquee-item">3D Modelling</span>
-    <span class="marquee-item">Animation</span>
+    <span class="marquee-item">Blender</span>
     <span class="marquee-item">IoT Engineering</span>
     <span class="marquee-item">CTF Challenges</span>
-    <span class="marquee-item">Visual Studio</span>
-    <span class="marquee-item">Creative Coding</span>
-    <span class="marquee-item">Digital Art</span>
+    <span class="marquee-item">UI / UX Design</span>
+    <span class="marquee-item">Video Editing</span>
+    <span class="marquee-item">Cyber Security</span>
+    <span class="marquee-item">Digital Illustration</span>
     <span class="marquee-item">3D Modelling</span>
-    <span class="marquee-item">Animation</span>
+    <span class="marquee-item">Blender</span>
     <span class="marquee-item">IoT Engineering</span>
     <span class="marquee-item">CTF Challenges</span>
-    <span class="marquee-item">Visual Studio</span>
-    <span class="marquee-item">Creative Coding</span>
+    <span class="marquee-item">UI / UX Design</span>
+    <span class="marquee-item">Video Editing</span>
+    <span class="marquee-item">Cyber Security</span>
   </div>
 </div>
 
@@ -838,32 +485,159 @@
   <h2 class="s-title reveal rd1">Both sides<br>of the <em>brain.</em></h2>
   <div class="about-grid">
     <div class="about-bio reveal rd2">
-      <p>I'm a <strong>creative technologist</strong> — equal parts artist and engineer. By day I build <em>IoT systems and crack CTF challenges</em>; by night I'm rendering 3D scenes and pushing pixels in illustration.</p>
-      <p>Most people pick a lane. I didn't. The result is work that's technically rigorous and visually alive — <strong>built by someone who understands both the machine and the canvas.</strong></p>
-      <p>Currently based in <strong>Kuala Lumpur</strong>, open to collaborations that sit at the edge of art and technology.</p>
+      <p>I'm <strong>Abdullah Fariz bin Hassan</strong> — a Software Engineer at <em>Datakraf Solutions</em> by day, and a digital illustrator, 3D modeller, and creative technologist by night.</p>
+      <p>I hold a <strong>B.Sc. in Computer Science with Cyber Security</strong> from Asia Pacific University. My background spans UI/UX design, IoT embedded systems, web development, CTF challenges, and over <strong>7 years of freelance illustration</strong> and 3D modelling.</p>
+      <p>Most people pick a lane. I didn't. The result is work that's <strong>technically rigorous and visually alive</strong> — built by someone who understands both the machine and the canvas.</p>
       <div class="tag-cloud">
+        <div class="tag">Clip Studio Paint</div>
         <div class="tag">Blender</div>
-        <div class="tag">Clip Studio paint</div>
+        <div class="tag">Figma</div>
         <div class="tag">After Effects</div>
+        <div class="tag">Sony Vegas Pro</div>
+        <div class="tag">Unreal Engine</div>
         <div class="tag">Python</div>
         <div class="tag">C / C++</div>
         <div class="tag">Arduino</div>
         <div class="tag">Raspberry Pi</div>
-        <div class="tag">Figma</div>
-        <div class="tag">unreal engine</div>
         <div class="tag">Wireshark</div>
+        <div class="tag">Cisco Packet Tracer</div>
+        <div class="tag">AutoCAD</div>
+        <div class="tag">Canva</div>
+        <div class="tag">Visual Studio</div>
       </div>
     </div>
     <div class="toolkit reveal rd3">
       <div class="toolkit-title">// Current stack</div>
       <div class="tool-row">Digital Illustration <div class="tool-dot"></div></div>
       <div class="tool-row">3D Modelling & Render <div class="tool-dot"></div></div>
-      <div class="tool-row">Motion & Animation <div class="tool-dot"></div></div>
+      <div class="tool-row">UI / UX & Web Design <div class="tool-dot"></div></div>
       <div class="tool-row">IoT & Embedded Systems <div class="tool-dot"></div></div>
-      <div class="tool-row">CTF / Reverse Engineering <div class="tool-dot"></div></div>
+      <div class="tool-row">CTF / Cyber Security <div class="tool-dot"></div></div>
+      <div class="tool-row">Video Editing <div class="tool-dot"></div></div>
       <div class="tool-row">Creative Coding <div class="tool-dot"></div></div>
-      <div class="tool-row">UI / Interaction Design <div class="tool-dot"></div></div>
     </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="s-label reveal">Experience</div>
+  <h2 class="s-title reveal rd1">Where I've<br><em>shipped.</em></h2>
+  <div class="exp-list">
+
+    <div class="exp-item reveal rd1">
+      <div class="exp-meta">
+        <div class="exp-period">Aug 2024 — Present</div>
+        <div class="exp-company">Datakraf Solutions Sdn Bhd</div>
+        <div class="exp-location">Wangsa Maju, Kuala Lumpur</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">SOFTWARE ENGINEER</div>
+        <div class="exp-projects">
+          <div>
+            <div class="exp-project-name">MyINFRA — Facility Management System (Nov 2024 – Present)</div>
+            <ul class="exp-bullets">
+              <li>Co-lead design for the MyINFRA system prototype</li>
+              <li>Prepared Software Requirement Specification (SRS) documentation for earlier modules</li>
+              <li>Worked closely with dev team on functionality, usability and design alignment</li>
+              <li>On-site IT support & design contribution for MyINFRA logo</li>
+            </ul>
+          </div>
+          <div>
+            <div class="exp-project-name">eNORES — Foreign Worker Management System (Jun – Jul 2025)</div>
+            <ul class="exp-bullets">
+              <li>Designed Aduan Buruh & Khidmat Pelanggan interface</li>
+              <li>Collaborated with dev team on usability and design alignment</li>
+            </ul>
+          </div>
+          <div>
+            <div class="exp-project-name">Tourism Malaysia SenangHR (Jun – Jul 2025)</div>
+            <ul class="exp-bullets">
+              <li>Designed the TourismMalaysia 'SunBear' mascot for SenangHR</li>
+              <li>Implemented the landing page for Tourism Malaysia SenangHR</li>
+            </ul>
+          </div>
+          <div>
+            <div class="exp-project-name">1SC for PBT — One Stop Center Dashboard (Sep – Oct 2024)</div>
+            <ul class="exp-bullets">
+              <li>Designed dashboard UI for Pihak Berkuasa Tempatan One Stop Center</li>
+            </ul>
+          </div>
+          <div>
+            <div class="exp-project-name">TenderDB Scraper (Aug – Sep 2024)</div>
+            <ul class="exp-bullets">
+              <li>Built a JKR Tender scraper using Python and Playwright</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal rd2">
+      <div class="exp-meta">
+        <div class="exp-period">Oct 2022 — Jan 2023</div>
+        <div class="exp-company">Syswell IoT Sdn Bhd</div>
+        <div class="exp-location">Puchong, Selangor</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">JUNIOR IOT PROGRAMMER</div>
+        <div class="exp-projects">
+          <div>
+            <div class="exp-project-name">Syswell Smart Office (SiOT)</div>
+            <ul class="exp-bullets">
+              <li>Deployed smart devices for door access, lighting and fan control in office environments</li>
+              <li>Achieved OTA (Over-The-Air) communication for wall-mounted smart devices</li>
+              <li>Established TelNet access for each device to enhance connectivity</li>
+              <li>Led UI overhaul for the device management system</li>
+              <li>Created video introduction for smart device maintenance and control</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal rd3">
+      <div class="exp-meta">
+        <div class="exp-period">Aug 2019 — Dec 2019</div>
+        <div class="exp-company">MRT Corp</div>
+        <div class="exp-location">Bukit Damansara, Kuala Lumpur</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">SITE INSPECTION INTERN</div>
+        <div class="exp-projects">
+          <div>
+            <div class="exp-project-name">Mass Rapid Transit 2 (MRT2)</div>
+            <ul class="exp-bullets">
+              <li>Oversaw MRT Viaduct construction progress per span — from piling to completion</li>
+              <li>Conducted safety, quality and OSHA compliance inspections</li>
+              <li>Prepared monthly quality reports on workmanship and structural assessments</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal rd4">
+      <div class="exp-meta">
+        <div class="exp-period">Jan 2017 — Apr 2024</div>
+        <div class="exp-company">Self Employed</div>
+        <div class="exp-location">Remote</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">FREELANCE ILLUSTRATOR & 3D MODELLER</div>
+        <div class="exp-projects">
+          <div>
+            <ul class="exp-bullets">
+              <li>7+ years of digital illustration for commissions, non-profits and promotional materials</li>
+              <li>Accepted commissions via Twitter, Sketchmob, Fiverr, Discord and other platforms</li>
+              <li>Managed end-to-end creative process — concept, sketch, to final digital render</li>
+              <li>Collaborated with organisations to create illustrations aligned with their branding</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -871,31 +645,49 @@
 <section id="work">
   <div class="s-label reveal">Selected Work</div>
   <h2 class="s-title reveal rd1">Projects that<br><em>cross the line.</em></h2>
-
   <div class="work-filter reveal rd2">
     <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="art">Art & Illustration</button>
+    <button class="filter-btn" data-filter="design">UI / Design</button>
+    <button class="filter-btn" data-filter="art">Illustration</button>
     <button class="filter-btn" data-filter="3d">3D & Animation</button>
     <button class="filter-btn" data-filter="tech">Tech & IoT</button>
     <button class="filter-btn" data-filter="ctf">CTF</button>
   </div>
-
   <div class="work-masonry reveal rd3">
 
-    <div class="work-item" data-cat="art">
+    <div class="work-item" data-cat="design">
       <div class="thumb-inner">
         <div class="wt wt-1" style="display:flex;align-items:center;justify-content:center;">
           <svg width="56" height="56" viewBox="0 0 60 60" fill="none">
-            <circle cx="30" cy="30" r="28" stroke="#E8401C" stroke-width="1" opacity=".4"/>
-            <path d="M20 40 Q30 15 40 40" stroke="#F2C94C" stroke-width="1.5" fill="none" opacity=".6"/>
-            <circle cx="30" cy="28" r="4" fill="#E8401C" opacity=".5"/>
+            <rect x="8" y="12" width="44" height="36" rx="2" stroke="#F2C94C" stroke-width="1" opacity=".4"/>
+            <rect x="14" y="18" width="14" height="10" rx="1" fill="rgba(232,64,28,.2)" stroke="#E8401C" stroke-width=".5" opacity=".6"/>
+            <line x1="32" y1="20" x2="46" y2="20" stroke="#7A7060" stroke-width="1" opacity=".4"/>
+            <line x1="32" y1="24" x2="42" y2="24" stroke="#7A7060" stroke-width="1" opacity=".3"/>
           </svg>
         </div>
-        <div class="thumb-tag">Illustration</div>
+        <div class="thumb-tag">UI Design</div>
       </div>
       <div class="work-cap">
-        <span class="work-cap-name">Neon Reverie Series</span>
-        <span class="work-cap-year">2024</span>
+        <span class="work-cap-name">MyINFRA System</span>
+        <span class="work-cap-year">2025</span>
+      </div>
+      <div class="work-hover-line"></div>
+    </div>
+
+    <div class="work-item" data-cat="design">
+      <div class="thumb-inner">
+        <div class="wt wt-7" style="display:flex;align-items:center;justify-content:center;">
+          <svg width="52" height="52" viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="28" r="20" stroke="#27AE60" stroke-width="1" opacity=".3"/>
+            <path d="M18 28 Q28 14 38 28" stroke="#F2C94C" stroke-width="1.5" fill="none" opacity=".6"/>
+            <circle cx="28" cy="22" r="5" fill="rgba(242,201,76,.15)" stroke="#F2C94C" stroke-width="1" opacity=".5"/>
+          </svg>
+        </div>
+        <div class="thumb-tag">Landing Page</div>
+      </div>
+      <div class="work-cap">
+        <span class="work-cap-name">Tourism Malaysia SenangHR</span>
+        <span class="work-cap-year">2025</span>
       </div>
       <div class="work-hover-line"></div>
     </div>
@@ -912,42 +704,25 @@
         <div class="thumb-tag">IoT</div>
       </div>
       <div class="work-cap">
-        <span class="work-cap-name">Smart Environment Monitor</span>
-        <span class="work-cap-year">2024</span>
+        <span class="work-cap-name">Syswell Smart Office (SiOT)</span>
+        <span class="work-cap-year">2022</span>
       </div>
       <div class="work-hover-line"></div>
     </div>
 
-    <div class="work-item" data-cat="3d">
-      <div class="thumb-inner">
-        <div class="wt wt-3" style="display:flex;align-items:center;justify-content:center;">
-          <svg width="50" height="50" viewBox="0 0 54 54" fill="none">
-            <polygon points="27,6 48,42 6,42" stroke="#E8401C" stroke-width="1" fill="none" opacity=".4"/>
-            <polygon points="27,14 42,38 12,38" stroke="#F2C94C" stroke-width=".5" fill="rgba(232,64,28,.08)" opacity=".6"/>
-          </svg>
-        </div>
-        <div class="thumb-tag">3D / Blender</div>
-      </div>
-      <div class="work-cap">
-        <span class="work-cap-name">Brutalist Architecture Scene</span>
-        <span class="work-cap-year">2025</span>
-      </div>
-      <div class="work-hover-line"></div>
-    </div>
-
-    <div class="work-item" data-cat="ctf">
+    <div class="work-item" data-cat="tech">
       <div class="thumb-inner">
         <div class="wt wt-4" style="display:flex;align-items:center;justify-content:center;">
           <svg width="56" height="32" viewBox="0 0 60 34" fill="none">
-            <rect x="2" y="2" width="56" height="30" rx="3" stroke="#27AE60" stroke-width="1" opacity=".4"/>
-            <text x="8" y="21" font-family="monospace" font-size="11" fill="#27AE60" opacity=".6">flag{...}</text>
+            <rect x="2" y="2" width="56" height="30" rx="3" stroke="#F2C94C" stroke-width="1" opacity=".4"/>
+            <text x="7" y="21" font-family="monospace" font-size="10" fill="#F2C94C" opacity=".6">playwright.py</text>
           </svg>
         </div>
-        <div class="thumb-tag">CTF Write-up</div>
+        <div class="thumb-tag">Python Scraper</div>
       </div>
       <div class="work-cap">
-        <span class="work-cap-name">HackTheBox — Forensics</span>
-        <span class="work-cap-year">2025</span>
+        <span class="work-cap-name">TenderDB Scraper</span>
+        <span class="work-cap-year">2024</span>
       </div>
       <div class="work-hover-line"></div>
     </div>
@@ -964,7 +739,7 @@
         <div class="thumb-tag">Character Design</div>
       </div>
       <div class="work-cap">
-        <span class="work-cap-name">Entity — Character Sheet</span>
+        <span class="work-cap-name">TourismMalaysia SunBear</span>
         <span class="work-cap-year">2025</span>
       </div>
       <div class="work-hover-line"></div>
@@ -972,17 +747,51 @@
 
     <div class="work-item" data-cat="3d">
       <div class="thumb-inner">
+        <div class="wt wt-3" style="display:flex;align-items:center;justify-content:center;">
+          <svg width="50" height="50" viewBox="0 0 54 54" fill="none">
+            <polygon points="27,6 48,42 6,42" stroke="#E8401C" stroke-width="1" fill="none" opacity=".4"/>
+            <polygon points="27,14 42,38 12,38" stroke="#F2C94C" stroke-width=".5" fill="rgba(232,64,28,.08)" opacity=".6"/>
+          </svg>
+        </div>
+        <div class="thumb-tag">3D / Blender</div>
+      </div>
+      <div class="work-cap">
+        <span class="work-cap-name">3D Modelling Projects</span>
+        <span class="work-cap-year">2017–2024</span>
+      </div>
+      <div class="work-hover-line"></div>
+    </div>
+
+    <div class="work-item" data-cat="ctf">
+      <div class="thumb-inner">
+        <div class="wt wt-8" style="display:flex;align-items:center;justify-content:center;">
+          <svg width="56" height="32" viewBox="0 0 60 34" fill="none">
+            <rect x="2" y="2" width="56" height="30" rx="3" stroke="#27AE60" stroke-width="1" opacity=".4"/>
+            <text x="8" y="21" font-family="monospace" font-size="11" fill="#27AE60" opacity=".6">flag{...}</text>
+          </svg>
+        </div>
+        <div class="thumb-tag">CTF Write-up</div>
+      </div>
+      <div class="work-cap">
+        <span class="work-cap-name">CTF Challenges</span>
+        <span class="work-cap-year">Ongoing</span>
+      </div>
+      <div class="work-hover-line"></div>
+    </div>
+
+    <div class="work-item" data-cat="art">
+      <div class="thumb-inner">
         <div class="wt wt-6" style="display:flex;align-items:center;justify-content:center;">
           <svg width="48" height="48" viewBox="0 0 52 52" fill="none">
             <rect x="14" y="14" width="24" height="24" stroke="#F2C94C" stroke-width="1" fill="none" opacity=".3" transform="rotate(20 26 26)"/>
             <rect x="14" y="14" width="24" height="24" stroke="#E8401C" stroke-width="1" fill="none" opacity=".4" transform="rotate(-10 26 26)"/>
           </svg>
         </div>
-        <div class="thumb-tag">Animation</div>
+        <div class="thumb-tag">Freelance Commission</div>
       </div>
       <div class="work-cap">
-        <span class="work-cap-name">Loop Study #07</span>
-        <span class="work-cap-year">2025</span>
+        <span class="work-cap-name">Illustration Commissions</span>
+        <span class="work-cap-year">2017–2024</span>
       </div>
       <div class="work-hover-line"></div>
     </div>
@@ -999,45 +808,19 @@
       <div class="t-dot t-dot-g"></div>
     </div>
     <div class="terminal-body">
-      <div class="t-line"><span class="t-prompt">~/portfolio</span> <span class="t-cmd">$ whoami</span></div>
-      <div class="t-line t-out">→ creative technologist, digital artist, security enthusiast</div>
-      <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/portfolio</span> <span class="t-cmd">$ ls ./skills</span></div>
-      <div class="t-line t-out">illustration/&nbsp;&nbsp;animation/&nbsp;&nbsp;blender3d/&nbsp;&nbsp;iot-systems/</div>
-      <div class="t-line t-out">ctf-writeups/&nbsp;&nbsp;creative-coding/&nbsp;&nbsp;ui-design/</div>
-      <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/portfolio</span> <span class="t-cmd">$ cat ./status.txt</span></div>
+      <div class="t-line"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ whoami</span></div>
+      <div class="t-line t-out">→ Abdullah Fariz bin Hassan — software engineer, illustrator, IoT developer</div>
+      <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ cat ./education.txt</span></div>
+      <div class="t-line t-out">B.Sc. Computer Science with Cyber Security — Asia Pacific University (2020–2023)</div>
+      <div class="t-line t-out">Diploma in Building — UiTM Sri Iskandar (2017–2020)</div>
+      <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ ls ./certifications</span></div>
+      <div class="t-line t-out">attack-protect-hack/&nbsp;&nbsp;elite-live-soc-module/</div>
+      <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ cat ./status.txt</span></div>
       <div class="t-line"><span class="t-hi">OPEN FOR COLLABORATION</span> — KL, Malaysia — 2026</div>
-      <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/portfolio</span> <span class="t-cmd">$ _</span><span class="t-cursor"></span></div>
+      <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ _</span><span class="t-cursor"></span></div>
     </div>
   </div>
 </div>
-
-<!-- PROCESS -->
-<section id="process">
-  <div class="s-label reveal">How I work</div>
-  <h2 class="s-title reveal rd1">The method<br>behind the <em>madness.</em></h2>
-  <div class="process-list">
-    <div class="process-row reveal rd1">
-      <div class="process-num">01</div>
-      <div class="process-name">Explore & Research</div>
-      <div class="process-desc">Every project starts with curiosity — understanding the problem space, gathering references across art and engineering to find unexpected angles.</div>
-    </div>
-    <div class="process-row reveal rd2">
-      <div class="process-num">02</div>
-      <div class="process-name">Sketch & Prototype</div>
-      <div class="process-desc">Ideas get rough before they get refined. Quick sketches, wireframes, breadboard circuits — finding the shape of a solution before committing to it.</div>
-    </div>
-    <div class="process-row reveal rd3">
-      <div class="process-num">03</div>
-      <div class="process-name">Build & Render</div>
-      <div class="process-desc">Where craft comes in — whether that's pushing polygons in Blender, writing firmware for a microcontroller, or painting detail into an illustration.</div>
-    </div>
-    <div class="process-row reveal rd4">
-      <div class="process-num">04</div>
-      <div class="process-name">Refine & Ship</div>
-      <div class="process-desc">Polish isn't optional. Final pass on every detail — optimised, documented, and delivered with care for whoever experiences it next.</div>
-    </div>
-  </div>
-</section>
 
 <!-- CONTACT -->
 <section id="contact">
@@ -1059,8 +842,10 @@
           <option value="">Select one...</option>
           <option>Digital Illustration</option>
           <option>3D / Animation</option>
+          <option>UI / UX Design</option>
           <option>IoT Project</option>
           <option>CTF Collaboration</option>
+          <option>Video Editing</option>
           <option>Something else entirely</option>
         </select>
       </div>
@@ -1070,24 +855,27 @@
       </div>
       <button class="btn-submit" type="submit">Send it →</button>
     </form>
-
     <div class="contact-right reveal rd3">
       <div class="c-item">
         <div class="c-item-label">Email</div>
         <a class="c-item-val" href="mailto:farizhassan99@gmail.com">farizhassan99@gmail.com</a>
       </div>
       <div class="c-item">
+        <div class="c-item-label">Phone</div>
+        <a class="c-item-val" href="tel:+60132521229">013-2521229</a>
+      </div>
+      <div class="c-item">
         <div class="c-item-label">Location</div>
         <span class="c-item-val">Kuala Lumpur, Malaysia</span>
       </div>
       <div class="c-item">
-        <div class="c-item-label">Find me</div>
-        <a class="c-item-val" href="#">ArtStation</a>
-        <a class="c-item-val" href="#" style="font-size:1rem;color:var(--muted);margin-top:.4rem;display:block;">GitHub · Behance · LinkedIn</a>
+        <div class="c-item-label">Find me online</div>
+        <a class="c-item-val" href="https://github.com/Turtleplum" target="_blank" rel="noopener">GitHub</a>
+        <a class="c-item-val" href="#" style="font-size:1rem;color:var(--muted);margin-top:.5rem;display:block;">ArtStation · Behance · LinkedIn</a>
       </div>
       <div class="avail-badge">
         <div class="avail-dot"></div>
-        Available for projects — 2026
+        Open for collaboration — 2026
       </div>
     </div>
   </div>
@@ -1095,13 +883,12 @@
 
 <!-- FOOTER -->
 <footer>
-  <span>© 2026 <b>FarizH</b> — Illust Coder</span>
+  <span>© 2026 <b>Abdullah Fariz bin Hassan</b></span>
   <span>Built with intention &amp; caffeine</span>
   <a href="#">↑ Back to top</a>
 </footer>
 
 <script>
-  /* ── Custom cursor (desktop only) ── */
   const isTouchDevice = () => window.matchMedia('(hover: none)').matches;
   const cur = document.getElementById('cur');
   const trail = document.getElementById('cur-trail');
@@ -1121,34 +908,25 @@
     });
   }
 
-  /* ── Nav scroll border ── */
   window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
   }, { passive: true });
 
-  /* ── Hamburger menu ── */
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
-
   function toggleMenu(open) {
     hamburger.classList.toggle('open', open);
     mobileMenu.classList.toggle('open', open);
     document.body.style.overflow = open ? 'hidden' : '';
   }
-
   hamburger.addEventListener('click', () => toggleMenu(!hamburger.classList.contains('open')));
+  document.querySelectorAll('.mob-link').forEach(link => link.addEventListener('click', () => toggleMenu(false)));
 
-  document.querySelectorAll('.mob-link').forEach(link => {
-    link.addEventListener('click', () => toggleMenu(false));
-  });
-
-  /* ── Scroll reveal ── */
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  /* ── Work filter ── */
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1163,7 +941,6 @@
     });
   });
 
-  /* ── Form submit ── */
   function handleSubmit(e) {
     e.preventDefault();
     const btn = e.target.querySelector('.btn-submit');
