@@ -76,130 +76,55 @@
       border-bottom: 1px solid transparent; transition: border-color .3s;
     }
     nav.scrolled { border-bottom-color: var(--line); }
-    .nav-logo {
-      font-family: var(--display); font-size: 1.3rem;
-      letter-spacing: .06em; color: var(--ink); text-decoration: none; z-index: 10;
-    }
+    .nav-logo { font-family: var(--display); font-size: 1.3rem; letter-spacing: .06em; color: var(--ink); text-decoration: none; z-index: 10; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      font-family: var(--mono); font-size: .68rem;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: var(--ink); text-decoration: none; opacity: .5;
-      transition: opacity .2s; padding: .3rem 0;
-    }
+    .nav-links a { font-family: var(--mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); text-decoration: none; opacity: .5; transition: opacity .2s; padding: .3rem 0; }
     .nav-links a:hover { opacity: 1; }
 
     /* Hamburger */
-    .hamburger {
-      display: none; flex-direction: column; gap: 5px;
-      background: none; border: none; cursor: pointer; padding: .5rem; z-index: 10;
-    }
-    .hamburger span {
-      display: block; width: 24px; height: 1.5px; background: var(--ink);
-      transition: transform .3s, opacity .3s; transform-origin: center;
-    }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: .5rem; z-index: 10; }
+    .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--ink); transition: transform .3s, opacity .3s; transform-origin: center; }
     .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
     /* Mobile drawer */
-    .mobile-menu {
-      display: none; position: fixed; inset: 0; background: var(--bg); z-index: 400;
-      flex-direction: column; justify-content: center; align-items: flex-start;
-      padding: 4rem var(--px); opacity: 0; pointer-events: none; transition: opacity .3s;
-    }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 400; flex-direction: column; justify-content: center; align-items: flex-start; padding: 4rem var(--px); opacity: 0; pointer-events: none; transition: opacity .3s; }
     .mobile-menu.open { opacity: 1; pointer-events: all; }
     .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 1.2rem; }
-    .mobile-menu ul a {
-      font-family: var(--display); font-size: clamp(2.5rem, 10vw, 4rem);
-      letter-spacing: .06em; color: var(--ink); text-decoration: none;
-      opacity: .25; transition: opacity .2s, color .2s; display: block;
-    }
+    .mobile-menu ul a { font-family: var(--display); font-size: clamp(2.5rem, 10vw, 4rem); letter-spacing: .06em; color: var(--ink); text-decoration: none; opacity: .25; transition: opacity .2s, color .2s; display: block; }
     .mobile-menu ul a:hover, .mobile-menu ul a:active { opacity: 1; color: var(--accent); }
     .mobile-menu-sub { margin-top: 3rem; font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
 
     /* Hero */
-    #hero {
-      min-height: 100svh; display: grid; grid-template-rows: 1fr auto;
-      padding: 0 var(--px) 3.5rem; position: relative; overflow: hidden;
-    }
-    .hero-slash {
-      position: absolute; top: -10%; right: -5%; width: 55%; height: 130%;
-      background: var(--bg2); transform: skewX(-8deg); z-index: 0;
-    }
-    .hero-slash::after {
-      content: ''; position: absolute; inset: 0;
-      background: repeating-linear-gradient(135deg, transparent, transparent 40px, rgba(232,64,28,.04) 40px, rgba(232,64,28,.04) 41px);
-    }
-    .hero-blob {
-      position: absolute; top: 15%; right: 8%;
-      width: clamp(160px, 35vw, 340px); height: clamp(160px, 35vw, 340px);
-      background: radial-gradient(circle at 40% 40%, rgba(232,64,28,.22), transparent 70%);
-      border-radius: 50%; filter: blur(40px); z-index: 0;
-      animation: blobDrift 8s ease-in-out infinite alternate;
-    }
+    #hero { min-height: 100svh; display: grid; grid-template-rows: 1fr auto; padding: 0 var(--px) 3.5rem; position: relative; overflow: hidden; }
+    .hero-slash { position: absolute; top: -10%; right: -5%; width: 55%; height: 130%; background: var(--bg2); transform: skewX(-8deg); z-index: 0; }
+    .hero-slash::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(135deg, transparent, transparent 40px, rgba(232,64,28,.04) 40px, rgba(232,64,28,.04) 41px); }
+    .hero-blob { position: absolute; top: 15%; right: 8%; width: clamp(160px, 35vw, 340px); height: clamp(160px, 35vw, 340px); background: radial-gradient(circle at 40% 40%, rgba(232,64,28,.22), transparent 70%); border-radius: 50%; filter: blur(40px); z-index: 0; animation: blobDrift 8s ease-in-out infinite alternate; }
     @keyframes blobDrift { from{transform:translate(0,0) scale(1);} to{transform:translate(20px,15px) scale(1.08);} }
-    .hero-content {
-      position: relative; z-index: 1; display: flex; flex-direction: column;
-      justify-content: flex-end; padding-top: clamp(7rem, 20vh, 12rem);
-    }
-    .hero-tag {
-      font-size: clamp(.6rem, 2vw, .68rem); letter-spacing: .2em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 1.2rem; display: flex; align-items: center; gap: .8rem;
-      opacity: 0; animation: slideIn .7s .3s forwards;
-    }
+    .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-top: clamp(7rem, 20vh, 12rem); }
+    .hero-tag { font-size: clamp(.6rem, 2vw, .68rem); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; display: flex; align-items: center; gap: .8rem; opacity: 0; animation: slideIn .7s .3s forwards; }
     .hero-tag::before { content: ''; width: 20px; height: 1px; background: var(--accent); flex-shrink: 0; }
-    .hero-name {
-      font-family: var(--display); font-size: clamp(4.5rem, 15vw, 14rem);
-      line-height: .88; letter-spacing: .02em; color: var(--ink);
-      opacity: 0; animation: slideIn .8s .5s forwards;
-    }
+    .hero-name { font-family: var(--display); font-size: clamp(4.5rem, 15vw, 14rem); line-height: .88; letter-spacing: .02em; color: var(--ink); opacity: 0; animation: slideIn .8s .5s forwards; }
     .hero-name span { color: var(--accent); }
-    .hero-sub {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1rem, 3vw, 2rem); color: var(--muted);
-      margin-top: 1rem; opacity: 0; animation: slideIn .8s .7s forwards; line-height: 1.6;
-    }
-    .hero-bottom {
-      position: relative; z-index: 1; display: flex;
-      justify-content: space-between; align-items: flex-end;
-      flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--line);
-      padding-top: 1.5rem; margin-top: 2rem;
-      opacity: 0; animation: fadeIn .9s 1s forwards;
-    }
+    .hero-sub { font-family: var(--serif); font-style: italic; font-size: clamp(1rem, 3vw, 2rem); color: var(--muted); margin-top: 1rem; opacity: 0; animation: slideIn .8s .7s forwards; line-height: 1.6; }
+    .hero-bottom { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--line); padding-top: 1.5rem; margin-top: 2rem; opacity: 0; animation: fadeIn .9s 1s forwards; }
     .hero-roles { display: flex; gap: .7rem; flex-wrap: wrap; }
-    .role-pill {
-      font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
-      border: 1px solid var(--line); padding: .4rem .8rem; color: var(--muted);
-      transition: border-color .2s, color .2s; white-space: nowrap;
-    }
-    .hero-scroll {
-      font-size: .6rem; letter-spacing: .18em; text-transform: uppercase;
-      color: var(--muted); display: flex; align-items: center; gap: .6rem; white-space: nowrap;
-    }
-    .scroll-dot {
-      width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
-      animation: pulse 1.8s infinite; flex-shrink: 0;
-    }
+    .role-pill { font-size: .58rem; letter-spacing: .12em; text-transform: uppercase; border: 1px solid var(--line); padding: .4rem .8rem; color: var(--muted); transition: border-color .2s, color .2s; white-space: nowrap; }
+    .hero-scroll { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: .6rem; white-space: nowrap; }
+    .scroll-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 1.8s infinite; flex-shrink: 0; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.3;transform:scale(.6);} }
 
     /* Section base */
     section { padding: clamp(4rem, 10vh, 8rem) var(--px); }
-    .s-label {
-      font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: .8rem;
-    }
+    .s-label { font-size: .6rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: .8rem; }
     .s-label::before { content: '//'; color: var(--accent2); opacity: .6; }
     .s-title { font-family: var(--display); font-size: clamp(2.6rem, 8vw, 7rem); line-height: .92; letter-spacing: .03em; }
     .s-title em { font-family: var(--serif); font-style: italic; font-size: .75em; color: var(--muted); letter-spacing: 0; }
 
     /* About */
     #about { background: var(--bg); position: relative; overflow: hidden; }
-    #about::before {
-      content: 'ABOUT'; position: absolute; font-family: var(--display);
-      font-size: 22vw; color: var(--bg2); bottom: -2vw; left: -1vw;
-      line-height: 1; pointer-events: none; user-select: none;
-    }
+    #about::before { content: 'ABOUT'; position: absolute; font-family: var(--display); font-size: 22vw; color: var(--bg2); bottom: -2vw; left: -1vw; line-height: 1; pointer-events: none; user-select: none; }
     .about-intro { font-family: var(--serif); font-size: clamp(1rem, 2.5vw, 1.15rem); line-height: 1.9; color: #ADA89E; margin-top: 2.5rem; margin-bottom: 3rem; position: relative; z-index: 1; max-width: 780px; }
     .about-intro strong { color: var(--ink); font-weight: 600; }
     .about-intro em { color: var(--accent2); font-style: italic; }
@@ -330,57 +255,93 @@
     .reveal.on { opacity: 1; transform: translateY(0); }
     .rd1{transition-delay:.08s} .rd2{transition-delay:.16s} .rd3{transition-delay:.24s} .rd4{transition-delay:.32s}
 
-    /* Certificate Modal */
-    .cert-modal {
-	  display: none;
-	  position: fixed; inset: 0; z-index: 8000;
-	  background: rgba(0,0,0,0);
-	  backdrop-filter: blur(0px);
-	  align-items: center; justify-content: center;
-	  padding: 2rem;
-	  transition: background .3s, backdrop-filter .3s;
-	}
-	.cert-modal.open {
-	  display: flex;
-	  animation: modalFadeIn .25s forwards;
-	}
-	.cert-modal-inner {
-	  background: var(--bg2);
-	  border: 1px solid var(--line);
-	  max-width: 1000px; width: 100%;
-	  position: relative;
-	  padding: 2rem;
-	  transform: translateY(-20px) scale(.97);
-	  opacity: 0;
-	  animation: none;
-	  transition: none;
-	}
-	.cert-modal.open .cert-modal-inner {
-	  animation: windowOpen .55s cubic-bezier(.4, 0, .2, 1) .05s forwards;
-	}
-	@keyframes modalFadeIn {
-	  from { background: rgba(0,0,0,0); backdrop-filter: blur(0px); }
-	  to   { background: rgba(0,0,0,.85); backdrop-filter: blur(8px); }
-	}
-	@keyframes windowOpen {
-	  0%   { transform: scaleY(0.05) scaleX(0.3) translateY(60%) skewX(8deg); opacity: 0; transform-origin: bottom center; }
-	  40%  { transform: scaleY(0.4) scaleX(0.7) translateY(20%) skewX(-3deg); opacity: 0.6; transform-origin: bottom center; }
-	  70%  { transform: scaleY(1.04) scaleX(1.01) translateY(-3%) skewX(1deg); opacity: 1; transform-origin: bottom center; }
-	  100% { transform: scaleY(1) scaleX(1) translateY(0) skewX(0); opacity: 1; transform-origin: bottom center; }
-	}
+    /* Certificate Modal — CSS Genie */
+    .cert-backdrop {
+      position: fixed; inset: 0; z-index: 7999;
+      background: rgba(0,0,0,0); backdrop-filter: blur(0px);
+      transition: background .4s, backdrop-filter .4s;
+      pointer-events: none;
+    }
+    .cert-backdrop.open { background: rgba(0,0,0,.85); backdrop-filter: blur(8px); pointer-events: all; }
 
-	@keyframes windowClose {
-	  0%   { transform: scaleY(1) scaleX(1) translateY(0) skewX(0); opacity: 1; transform-origin: bottom center; }
-	  30%  { transform: scaleY(0.6) scaleX(0.8) translateY(15%) skewX(-4deg); opacity: 0.8; transform-origin: bottom center; }
-	  70%  { transform: scaleY(0.1) scaleX(0.4) translateY(50%) skewX(6deg); opacity: 0.3; transform-origin: bottom center; }
-	  100% { transform: scaleY(0.02) scaleX(0.2) translateY(65%) skewX(8deg); opacity: 0; transform-origin: bottom center; }
-	}
-	
+    .cert-modal {
+      position: fixed; inset: 0; z-index: 8000;
+      display: flex; align-items: center; justify-content: center; padding: 2rem;
+      pointer-events: none;
+    }
+
+    .cert-modal-inner {
+      background: var(--bg2); border: 1px solid var(--line);
+      max-width: 1000px; width: 100%; position: relative; padding: 2rem;
+      pointer-events: all;
+      /* default hidden state — genie'd down */
+      transform-origin: bottom center;
+      transform: scaleY(0.02) scaleX(0.15) translateY(40px) skewX(6deg);
+      opacity: 0;
+      transition: none;
+    }
+
+    /* Opening: genie unspool from bottom */
+    .cert-modal-inner.genie-open {
+      animation: genieOpen .55s cubic-bezier(.2,0,.2,1) forwards;
+    }
+
+    /* Closing: suck back down */
+    .cert-modal-inner.genie-close {
+      animation: genieClose .4s cubic-bezier(.4,0,1,1) forwards;
+    }
+
+    /* Resting open state — after animation completes */
+    .cert-modal-inner.genie-done {
+      transform: scaleY(1) scaleX(1) translateY(0) skewX(0);
+      opacity: 1;
+    }
+
+    @keyframes genieOpen {
+      0%   { transform: scaleY(0.02) scaleX(0.15) translateY(40px) skewX(6deg);  opacity: 0; }
+      30%  { transform: scaleY(0.25) scaleX(0.55) translateY(20px) skewX(3deg);  opacity: 0.6; }
+      65%  { transform: scaleY(1.04) scaleX(1.02) translateY(-4px) skewX(-1deg); opacity: 1; }
+      80%  { transform: scaleY(0.97) scaleX(0.99) translateY(2px)  skewX(.5deg); opacity: 1; }
+      100% { transform: scaleY(1)    scaleX(1)    translateY(0)    skewX(0);     opacity: 1; }
+    }
+
+    @keyframes genieClose {
+      0%   { transform: scaleY(1)    scaleX(1)    translateY(0)    skewX(0);    opacity: 1; }
+      30%  { transform: scaleY(0.6)  scaleX(0.75) translateY(12px) skewX(3deg); opacity: 0.8; }
+      70%  { transform: scaleY(0.12) scaleX(0.35) translateY(30px) skewX(5deg); opacity: 0.3; }
+      100% { transform: scaleY(0.02) scaleX(0.15) translateY(40px) skewX(6deg); opacity: 0; }
+    }
+
     .cert-modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--muted); font-family: var(--mono); font-size: .8rem; letter-spacing: .1em; cursor: pointer; transition: color .2s; }
     .cert-modal-close:hover { color: var(--accent); }
     .cert-modal-title { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; }
     .cert-modal img { width: 100%; display: block; border: 1px solid var(--line); }
     .cert-modal-name { font-family: var(--serif); font-size: 1.1rem; margin-top: 1rem; color: var(--ink); }
+
+    /* Back to top button */
+    #backToTop {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      z-index: 600;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity .3s, transform .3s, background .2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #backToTop.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+    #backToTop:hover { background: var(--accent2); color: var(--bg); }
 
     /* Responsive */
     @media (max-width: 860px) {
@@ -803,8 +764,7 @@
       <div class="t-line t-out">Diploma in Building — UiTM Sri Iskandar (2017–2020)</div>
       <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">~/farizhassan</span> <span class="t-cmd">$ ls ./certifications</span></div>
       <div class="t-line t-out">
-        <span class="cert-link" data-cert= 
-			"assets/certificates/attack-protect-hack.png"
+        <span class="cert-link" data-cert="assets/certificates/attack-protect-hack.png"
               data-name="Certification of Attack, Protect & Learn How to Hack"
               style="cursor:pointer; text-decoration:underline; text-decoration-style:dotted; color:var(--accent2);">
           attack-protect-hack/
@@ -826,7 +786,7 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="s-label reveal">Contact</div>
-  <h2 class="s-title reveal rd1">Got some<br><em>Ideas?</em></h2>
+  <h2 class="s-title reveal rd1">Got a wild<br><em>idea?</em></h2>
   <div class="contact-grid">
     <form class="contact-form reveal rd2" onsubmit="handleSubmit(event)">
       <div class="cf-field">
@@ -871,13 +831,11 @@
       </div>
       <div class="c-item">
         <div class="c-item-label">Find me online</div>
-        <a class="c-item-val" href="https://github.com/Turtleplum" target="_blank" rel="noopener">GitHub</a>
-        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:.5rem;">
-          <a href="https://www.artstation.com/YOUR_USERNAME" target="_blank" rel="noopener"
-             style="font-size:1rem; color:var(--muted); text-decoration:none;">ArtStation</a>
-          <a href="https://www.linkedin.com/in/fariz-hassan-29677b241/" target="_blank" rel="noopener"
-             style="font-size:1rem; color:var(--muted); text-decoration:none;">· LinkedIn</a>
-        </div>
+        <div style="display:flex; gap:.6rem; align-items:baseline; flex-wrap:wrap;">
+		  <a class="c-item-val" href="https://github.com/Turtleplum" target="_blank" rel="noopener" style="display:inline;">GitHub</a>
+		  <span style="color:var(--muted); font-family:var(--serif); font-size:clamp(1.1rem,3vw,1.3rem);">·</span>
+		  <a class="c-item-val" href="https://www.linkedin.com/in/fariz-hassan-29677b241/" target="_blank" rel="noopener" style="display:inline;">LinkedIn</a>
+		</div>
       </div>
       <div class="avail-badge">
         <div class="avail-dot"></div>
@@ -891,12 +849,18 @@
 <footer>
   <span>© 2026 <b>Abdullah Fariz bin Hassan</b></span>
   <span>Built with intention &amp; a lot of caffeine</span>
-  <a href="#">↑ Back to top</a>
+  <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" style="color:var(--muted);text-decoration:none;">↑ Back to top</a>
 </footer>
 
-<!-- ✅ CERTIFICATE MODAL — inside body, outside script -->
+<!-- BACKDROP -->
+<div class="cert-backdrop" id="certBackdrop"></div>
+
+<!-- BACK TO TOP -->
+<button id="backToTop" aria-label="Back to top">↑</button>
+
+<!-- CERTIFICATE MODAL -->
 <div class="cert-modal" id="certModal">
-  <div class="cert-modal-inner">
+  <div class="cert-modal-inner" id="certModalInner">
     <button class="cert-modal-close" id="certClose">[ close ✕ ]</button>
     <div class="cert-modal-title">// certificate</div>
     <img id="certImg" src="" alt="Certificate"/>
@@ -904,10 +868,10 @@
   </div>
 </div>
 
-<!-- ✅ SCRIPT — after modal HTML, before </body> -->
 <script>
+  // ── General UI ─────────────────────────────────────────────────────────────
   const isTouchDevice = () => window.matchMedia('(hover: none)').matches;
-  const cur = document.getElementById('cur');
+  const cur   = document.getElementById('cur');
   const trail = document.getElementById('cur-trail');
   let mx=0,my=0,tx=0,ty=0;
 
@@ -927,9 +891,14 @@
 
   window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+    document.getElementById('backToTop').classList.toggle('visible', window.scrollY > 400);
   }, { passive: true });
 
-  const hamburger = document.getElementById('hamburger');
+  document.getElementById('backToTop').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  const hamburger  = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
   function toggleMenu(open) {
     hamburger.classList.toggle('open', open);
@@ -951,7 +920,7 @@
       const f = btn.dataset.filter;
       document.querySelectorAll('.work-item').forEach(item => {
         const match = f === 'all' || item.dataset.cat === f;
-        item.style.opacity = match ? '1' : '.15';
+        item.style.opacity   = match ? '1'    : '.15';
         item.style.transform = match ? 'scale(1)' : 'scale(.97)';
         item.style.transition = 'opacity .3s, transform .3s';
       });
@@ -966,38 +935,60 @@
     setTimeout(() => { btn.textContent = 'Send it →'; btn.style.background = ''; }, 3000);
   }
 
-	function closeModal() {
-	  certModal.querySelector('.cert-modal-inner').style.animation = 'windowClose .4s cubic-bezier(.4,0,1,1) forwards';
-	  setTimeout(() => {
-		certModal.classList.remove('open');
-		certModal.querySelector('.cert-modal-inner').style.animation = '';
-		document.body.style.overflow = '';
-	  }, 380);
-	}
-	
-  // Certificate modal
-  const certModal = document.getElementById('certModal');
-  const certImg   = document.getElementById('certImg');
-  const certName  = document.getElementById('certName');
+  // ── Certificate Modal (CSS Genie) ─────────────────────────────────────────
+  const certModal      = document.getElementById('certModal');
+  const certModalInner = document.getElementById('certModalInner');
+  const certBackdrop   = document.getElementById('certBackdrop');
+  const certImg        = document.getElementById('certImg');
+  const certName       = document.getElementById('certName');
 
-  document.querySelectorAll('.cert-link').forEach(el => {
-    el.addEventListener('click', () => {
-      certImg.src = el.dataset.cert;
-      certName.textContent = el.dataset.name;
-      certModal.classList.add('open');
-      document.body.style.overflow = 'hidden';
+  function openModal(src, title) {
+    certImg.src = src;
+    certName.textContent = title;
+
+    // Show backdrop and modal container
+    certBackdrop.classList.add('open');
+    certModal.style.pointerEvents = 'all';
+    document.body.style.overflow = 'hidden';
+
+    // Reset any lingering classes
+    certModalInner.classList.remove('genie-close', 'genie-done');
+
+    // Trigger open animation
+    certModalInner.classList.add('genie-open');
+
+    // After open animation ends, set resting state
+    certModalInner.addEventListener('animationend', function onOpen() {
+      certModalInner.removeEventListener('animationend', onOpen);
+      certModalInner.classList.remove('genie-open');
+      certModalInner.classList.add('genie-done');
     });
+  }
+
+  function closeModal() {
+    // Reset to animated state before closing
+    certModalInner.classList.remove('genie-done');
+    certModalInner.classList.add('genie-close');
+
+    certModalInner.addEventListener('animationend', function onClose() {
+      certModalInner.removeEventListener('animationend', onClose);
+      certModalInner.classList.remove('genie-close');
+
+      // Hide everything
+      certBackdrop.classList.remove('open');
+      certModal.style.pointerEvents = 'none';
+      document.body.style.overflow = '';
+    });
+  }
+
+  // Wire up triggers
+  document.querySelectorAll('.cert-link').forEach(el => {
+    el.addEventListener('click', () => openModal(el.dataset.cert, el.dataset.name));
   });
 
-	  document.getElementById('certClose').addEventListener('click', closeModal);
-
-	certModal.addEventListener('click', e => {
-	  if (e.target === certModal) closeModal();
-	});
-
-	document.addEventListener('keydown', e => {
-	  if (e.key === 'Escape') closeModal();
-	});
+  document.getElementById('certClose').addEventListener('click', closeModal);
+  certBackdrop.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>
