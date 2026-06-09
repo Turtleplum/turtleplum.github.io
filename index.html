@@ -91,56 +91,20 @@
       }
     }
 
-    /* Nav — starts as floating pill top-right, expands full-width on scroll */
+    /* Nav */
     nav {
-      position: fixed; top: 1.2rem; right: var(--px); z-index: 500;
-      display: flex; justify-content: flex-end; align-items: center; gap: 1.5rem;
-      padding: .7rem 1.2rem;
-      background: rgba(22,20,18,0.75);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      transition: top .4s cubic-bezier(.4,0,.2,1),
-                  right .4s cubic-bezier(.4,0,.2,1),
-                  left .4s cubic-bezier(.4,0,.2,1),
-                  padding .4s cubic-bezier(.4,0,.2,1),
-                  border-radius .4s cubic-bezier(.4,0,.2,1),
-                  background .3s, border-color .3s;
-    }
-
-    /* Light mode nav base */
-    [data-theme="light"] nav {
-      background: rgba(245,242,237,0.82);
-    }
-
-    /* Scrolled: expand to full-width bar */
-    nav.scrolled {
-      top: 0; right: 0; left: 0;
-      border-radius: 0;
-      border-left: none; border-right: none; border-top: none;
-      border-bottom-color: var(--line);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; justify-content: space-between; align-items: center;
       padding: 1.4rem var(--px);
-      justify-content: space-between;
       background: var(--nav-bg);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, background .4s;
     }
-
-    /* Logo — hidden when floating, visible when scrolled */
-    .nav-logo {
-      font-family: var(--display); font-size: 1.3rem;
-      letter-spacing: .06em; color: var(--ink); text-decoration: none; z-index: 10;
-      opacity: 0; pointer-events: none;
-      transition: opacity .3s;
-      white-space: nowrap;
-    }
-    nav.scrolled .nav-logo { opacity: 1; pointer-events: all; }
-
-    .nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
-    .nav-links a {
-      font-family: var(--mono); font-size: .68rem;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: var(--ink); text-decoration: none; opacity: .5;
-      transition: opacity .2s; padding: .3rem 0; white-space: nowrap;
-    }
+    nav.scrolled { border-bottom-color: var(--line); }
+    .nav-logo { font-family: var(--display); font-size: 1.3rem; letter-spacing: .06em; color: var(--ink); text-decoration: none; z-index: 10; opacity: 1; pointer-events: all; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a { font-family: var(--mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); text-decoration: none; opacity: .5; transition: opacity .2s; padding: .3rem 0; white-space: nowrap; }
     .nav-links a:hover { opacity: 1; }
 
     /* Right nav group */
@@ -305,7 +269,7 @@
     .terminal-bar { background: #2E2A25; padding: .6rem 1rem; display: flex; align-items: center; gap: .5rem; }
     .t-dot { width: 10px; height: 10px; border-radius: 50%; }
     .t-dot-r { background: #E8401C; } .t-dot-y { background: #F2C94C; } .t-dot-g { background: #27AE60; }
-    .terminal-body { padding: 1.4rem; overflow-x: auto; }
+    .terminal-body { padding: 1.4rem; overflow-x: auto; color: #F0EBE1; }
     .t-line {
       font-family: var(--mono);
       font-size: clamp(.65rem, 2vw, .8rem);
@@ -320,6 +284,7 @@
     .t-out { color: #7A7060; }
     .t-hi { color: #E8401C; }
     .t-cursor { display: inline-block; width: 7px; height: 1em; background: #F0EBE1; vertical-align: middle; animation: blink .8s step-end infinite; }
+    #terminal-block .cert-link { color: #F2C94C !important; }
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
 
     @media (max-width: 540px) {
@@ -398,12 +363,6 @@
       .nav-links { display: none; }
       .nav-right .hamburger { display: flex; }
       .mobile-menu { display: flex; }
-      /* Pill nav on mobile: tighten it */
-      nav:not(.scrolled) {
-        top: .8rem; right: .8rem;
-        padding: .6rem 1rem;
-        gap: .8rem;
-      }
       .about-grid { grid-template-columns: 1fr; gap: 1.5rem; }
       .about-panel { padding: 1.8rem; }
       .exp-item { grid-template-columns: 1fr; gap: 1rem; }
