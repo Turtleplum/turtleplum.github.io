@@ -110,7 +110,10 @@
     .nav-links a { font-family: var(--mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); text-decoration: none; opacity: .5; transition: opacity .2s; padding: .3rem 0; }
     .nav-links a:hover { opacity: 1; }
 
-    /* Theme toggle */
+    /* Right nav group */
+    .nav-right { display: flex; align-items: center; gap: .8rem; }
+    /* Hide hamburger on desktop, show on tablet/mobile */
+    .nav-right .hamburger { display: none; }
     .theme-toggle {
       background: none; border: 1px solid var(--line);
       color: var(--muted); cursor: pointer;
@@ -356,7 +359,7 @@
     /* Responsive */
     @media (max-width: 860px) {
       .nav-links { display: none; }
-      .hamburger { display: flex; }
+      .nav-right .hamburger { display: flex; }
       .mobile-menu { display: flex; }
       .about-grid { grid-template-columns: 1fr; gap: 1.5rem; }
       .about-panel { padding: 1.8rem; }
@@ -397,10 +400,9 @@
     <li><a href="#experience">Experience</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:.8rem;">
-    <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle theme">☀️</button>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
@@ -888,7 +890,7 @@
 
   function updateToggleIcons(theme) {
     const icon = theme === 'dark' ? '☀️' : '🌙';
-    document.querySelectorAll('.theme-toggle').forEach(btn => btn.textContent = icon);
+    document.getElementById('themeToggle').textContent = icon;
   }
   updateToggleIcons(savedTheme);
 
@@ -899,9 +901,7 @@
     localStorage.setItem('theme', next);
     updateToggleIcons(next);
   }
-  document.querySelectorAll('.theme-toggle').forEach(btn => {
-    btn.addEventListener('click', toggleTheme);
-  });
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
   // ── General UI ─────────────────────────────────────────────────────────────
   const isTouchDevice = () => window.matchMedia('(hover: none)').matches;
