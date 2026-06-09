@@ -885,7 +885,8 @@
 <script>
   // ── Theme toggle ──────────────────────────────────────────────────────────
   const html = document.documentElement;
-  const savedTheme = localStorage.getItem('theme') || 'dark';
+  const savedTheme = localStorage.getItem('theme') ||
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   html.setAttribute('data-theme', savedTheme);
 
   function updateToggleIcons(theme) {
