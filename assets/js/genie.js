@@ -34,19 +34,17 @@
   const FS = `
     precision mediump float;
     uniform sampler2D uTex;
-    uniform float uP;       // progress: 0=open, 1=genie'd
-    uniform vec2  uTarget;  // normalized target point (0-1)
+    uniform float uP;
+    uniform vec2  uTarget;
     varying vec2 vUv;
 
     void main() {
       float p = clamp(uP, 0.0, 1.0);
-      float bot = 1.0 - vUv.y; // stronger effect at bottom
+      float bot = 1.0 - vUv.y;
 
-      // Vertical squeeze toward target y
       float sy = mix(1.0, 0.02, p);
       float cy = mix(0.5, uTarget.y, p);
 
-      // Horizontal squeeze — bottom narrows more than top
       float sx = mix(1.0, 0.04, p * (0.4 + 0.6 * bot));
       float cx = mix(0.5, uTarget.x, p * (0.3 + 0.7 * bot));
 
@@ -132,6 +130,16 @@
     return tex;
   }
 
+  // ── Theme-aware background clear colour ───────────────────────────────────
+  function setClearColour() {
+    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+    if (isDark) {
+      gl.clearColor(0.118, 0.106, 0.094, 1.0); // #1E1B18 dark bg2
+    } else {
+      gl.clearColor(0.918, 0.902, 0.875, 1.0); // #EAE6DF light bg2
+    }
+  }
+
   function resizeCanvas() {
     canvas.width  = window.innerWidth  * window.devicePixelRatio;
     canvas.height = window.innerHeight * window.devicePixelRatio;
@@ -142,18 +150,19 @@
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
 
-  // ── Animation loop ────────────────────────────────────────────────────────
+  // ── Animation state ───────────────────────────────────────────────────────
   let animating    = false;
-  let animDir      = 1;     // 1=closing (0→1), -1=opening (1→0)
+  let animDir      = 1;
   let animProgress = 0;
   let lastTime     = 0;
   let currentTex   = null;
-  const DURATION   = 600;  // ms
+  const DURATION   = 600;
 
   function easeInOutCubic(t) {
     return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3) / 2;
   }
 
+  // ── Render loop ───────────────────────────────────────────────────────────
   function renderFrame(ts) {
     if (!animating) return;
 
@@ -166,6 +175,7 @@
       ? Math.min(1, animProgress + step)
       : Math.max(0, animProgress - step);
 
+    setClearColour();
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.uniform1f(uP, easeInOutCubic(animProgress));
     gl.uniform2f(uTarget, 0.5, 0.0);
@@ -181,13 +191,13 @@
       canvas.style.display = 'none';
 
       if (animDir === 1) {
-        // Closed
+        // Finished closing
         certModal.classList.remove('open');
         certBackdrop.classList.remove('open');
         certModalInner.classList.remove('ready');
         document.body.style.overflow = '';
       } else {
-        // Opened
+        // Finished opening — reveal real modal
         certModalInner.classList.add('ready');
       }
 
@@ -198,50 +208,70 @@
     requestAnimationFrame(renderFrame);
   }
 
-  // ── Open / Close ──────────────────────────────────────────────────────────
+  // ── Open ──────────────────────────────────────────────────────────────────
   async function openModal(src, title) {
     if (animating) return;
+
     certImg.src = src;
     certName.textContent = title;
     document.body.style.overflow = 'hidden';
 
-    // Show modal fully to snapshot it
-    certModal.classList.add('open');
+    // Show backdrop immediately
     certBackdrop.classList.add('open');
+
+    // Make modal visible so we can snapshot it
+    certModal.style.pointerEvents = 'all';
     certModalInner.classList.add('ready');
 
-    // Wait for image
+    // Show canvas ON TOP immediately — covers modal with bg colour
+    resizeCanvas();
+    canvas.style.display = 'block';
+    setClearColour();
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // Wait for image to load
     await new Promise(res => {
       if (certImg.complete && certImg.naturalWidth > 0) return res();
       certImg.onload = res; certImg.onerror = res;
     });
 
-    // Wait two frames for paint
+    // Wait two frames for full paint
     await new Promise(res => requestAnimationFrame(() => requestAnimationFrame(res)));
 
-    // Snapshot then hide real modal
-    resizeCanvas();
+    // Snapshot modal into WebGL texture
+    if (currentTex) gl.deleteTexture(currentTex);
     currentTex = createTexture();
     gl.bindTexture(gl.TEXTURE_2D, currentTex);
-    certModalInner.classList.remove('ready');
-    canvas.style.display = 'block';
 
-    animDir      = -1;   // opening: progress 1 → 0
+    // Hide real modal — WebGL canvas handles visuals from here
+    certModalInner.classList.remove('ready');
+
+    // Start genie opening animation (progress: 1 → 0)
+    animDir      = -1;
     animProgress = 1.0;
     animating    = true;
     lastTime     = 0;
     requestAnimationFrame(renderFrame);
   }
 
+  // ── Close ─────────────────────────────────────────────────────────────────
   function closeModal() {
     if (animating) return;
+
+    // Snapshot current visible modal
+    certModalInner.classList.add('ready');
     resizeCanvas();
+
+    if (currentTex) gl.deleteTexture(currentTex);
     currentTex = createTexture();
     gl.bindTexture(gl.TEXTURE_2D, currentTex);
+
+    // Hide real modal — WebGL canvas handles visuals
     certModalInner.classList.remove('ready');
     canvas.style.display = 'block';
 
-    animDir      = 1;    // closing: progress 0 → 1
+    // Start genie closing animation (progress: 0 → 1)
+    animDir      = 1;
     animProgress = 0.0;
     animating    = true;
     lastTime     = 0;
