@@ -1,6 +1,9 @@
-// genie.js — WebGL Genie Effect for Certificate Modal
+// genie.js — SVG Curtain Genie Effect for Certificate Modal
+// Inspired by: https://jsbin.com/gedokogore/1
+// Approach: modal slides up from corner, SVG curtain pulls away to reveal it
 
 (function () {
+
   // ── DOM refs ──────────────────────────────────────────────────────────────
   const certModal      = document.getElementById('certModal');
   const certModalInner = document.getElementById('certModalInner');
@@ -8,312 +11,171 @@
   const certImg        = document.getElementById('certImg');
   const certName       = document.getElementById('certName');
 
-  // ── Create WebGL canvas ───────────────────────────────────────────────────
-  const canvas = document.createElement('canvas');
-  canvas.id = 'genie-canvas';
-  canvas.style.cssText = `
-    position: fixed; inset: 0; z-index: 8001;
-    pointer-events: none; display: none;
-    width: 100%; height: 100%;
-  `;
-  document.body.appendChild(canvas);
+  // ── Inject CSS ────────────────────────────────────────────────────────────
+  const style = document.createElement('style');
+  style.textContent = `
+    /* Modal starts hidden, scaled down at bottom-center */
+    .cert-modal-inner {
+      transform-origin: bottom center;
+      transform: translateY(60px) scale(0.05, 0.05);
+      opacity: 0;
+    }
 
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-  if (!gl) { console.warn('WebGL not supported'); return; }
+    /* Slide up animation — modal content reveals */
+    .cert-modal-inner.genie-open {
+      animation: genieSlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
 
-  // ── Shaders ───────────────────────────────────────────────────────────────
-  const VS = `
-    attribute vec2 aPos;
-    attribute vec2 aUv;
-    varying vec2 vUv;
-    void main() {
-      vUv = aUv;
-      gl_Position = vec4(aPos, 0.0, 1.0);
+    /* Slide down animation — modal content hides */
+    .cert-modal-inner.genie-close {
+      animation: genieSlideDown 0.35s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+    }
+
+    /* Resting open state */
+    .cert-modal-inner.genie-done {
+      transform: translateY(0) scale(1, 1);
+      opacity: 1;
+    }
+
+    @keyframes genieSlideUp {
+      0%   { transform: translateY(60px) scale(0.05, 0.05); opacity: 0;    border-radius: 999px; }
+      40%  { transform: translateY(20px) scale(0.5,  0.35); opacity: 0.7;  border-radius: 60px;  }
+      70%  { transform: translateY(-6px) scale(1.02, 1.02); opacity: 1;    border-radius: 4px;   }
+      85%  { transform: translateY(3px)  scale(0.99, 0.99); opacity: 1;    border-radius: 2px;   }
+      100% { transform: translateY(0)    scale(1,    1);    opacity: 1;    border-radius: 0;     }
+    }
+
+    @keyframes genieSlideDown {
+      0%   { transform: translateY(0)    scale(1,    1);    opacity: 1;    border-radius: 0;    }
+      40%  { transform: translateY(10px) scale(0.85, 0.7);  opacity: 0.8;  border-radius: 20px; }
+      100% { transform: translateY(60px) scale(0.05, 0.05); opacity: 0;    border-radius: 999px;}
+    }
+
+    /* SVG curtain — genie-shaped white blob that pulls away */
+    #genie-curtain {
+      position: fixed;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 8002;
+      pointer-events: none;
+      width: 120vw;
+      height: 120vh;
+      opacity: 0;
+    }
+
+    #genie-curtain.curtain-reveal {
+      animation: curtainPullDown 0.6s cubic-bezier(0.99, 0.22, 1, -0.44) forwards;
+      opacity: 1;
+    }
+
+    #genie-curtain.curtain-cover {
+      animation: curtainPullUp 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      opacity: 1;
+    }
+
+    @keyframes curtainPullDown {
+      0%   { transform: translateX(-50%) translateY(0%);    }
+      100% { transform: translateX(-50%) translateY(110%);  }
+    }
+
+    @keyframes curtainPullUp {
+      0%   { transform: translateX(-50%) translateY(110%);  }
+      100% { transform: translateX(-50%) translateY(0%);    }
     }
   `;
+  document.head.appendChild(style);
 
-  const FS = `
-    precision mediump float;
-    uniform sampler2D uTex;
-    uniform float uP;
-    uniform vec2  uTarget;
-    uniform vec2  uModalPos;   // modal top-left in 0-1 screen space
-    uniform vec2  uModalSize;  // modal width/height in 0-1 screen space
-    varying vec2 vUv;
-
-    void main() {
-      float p = clamp(uP, 0.0, 1.0);
-
-      // vUv is 0-1 over the full screen quad
-      // Convert screen UV to modal-local UV first
-      vec2 modalUv = (vUv - uModalPos) / uModalSize;
-
-      // Only draw within modal bounds
-      if (modalUv.x < 0.0 || modalUv.x > 1.0 || modalUv.y < 0.0 || modalUv.y > 1.0) {
-        gl_FragColor = vec4(0.0);
-        return;
-      }
-
-      // Genie distortion on modalUv
-      float bot = 1.0 - modalUv.y;
-      float sy  = mix(1.0, 0.02, p);
-      float cy  = mix(0.5, uTarget.y, p);
-      float sx  = mix(1.0, 0.04, p * (0.4 + 0.6 * bot));
-      float cx  = mix(0.5, uTarget.x, p * (0.3 + 0.7 * bot));
-
-      vec2 uv;
-      uv.x = (modalUv.x - cx) / sx + cx;
-      uv.y = (modalUv.y - cy) / sy + cy;
-
-      float alpha = 1.0 - smoothstep(0.82, 1.0, p);
-
-      if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
-        gl_FragColor = vec4(0.0);
-      } else {
-        vec4 col = texture2D(uTex, uv);
-        gl_FragColor = vec4(col.rgb, col.a * alpha);
-      }
-    }
+  // ── SVG curtain element ───────────────────────────────────────────────────
+  // A genie-shaped SVG blob — wide at top, tapers to a point at bottom
+  const curtain = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  curtain.id = 'genie-curtain';
+  curtain.setAttribute('viewBox', '0 0 1000 1000');
+  curtain.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  curtain.innerHTML = `
+    <path d="
+      M 0,0
+      L 1000,0
+      L 1000,400
+      C 1000,400 750,700 500,1000
+      C 250,700 0,400 0,400
+      Z
+    " fill="var(--bg2, #1E1B18)"/>
   `;
+  document.body.appendChild(curtain);
 
-  // ── Compile shaders ───────────────────────────────────────────────────────
-  function compileShader(type, src) {
-    const s = gl.createShader(type);
-    gl.shaderSource(s, src);
-    gl.compileShader(s);
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-      console.error('Shader error:', gl.getShaderInfoLog(s));
-    }
-    return s;
-  }
-
-  const prog = gl.createProgram();
-  gl.attachShader(prog, compileShader(gl.VERTEX_SHADER, VS));
-  gl.attachShader(prog, compileShader(gl.FRAGMENT_SHADER, FS));
-  gl.linkProgram(prog);
-  gl.useProgram(prog);
-
-  // ── Fullscreen quad ───────────────────────────────────────────────────────
-  const verts = new Float32Array([
-    -1,-1, 0,0,
-     1,-1, 1,0,
-    -1, 1, 0,1,
-     1, 1, 1,1,
-  ]);
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
-
-  const aPos = gl.getAttribLocation(prog, 'aPos');
-  const aUv  = gl.getAttribLocation(prog, 'aUv');
-  gl.enableVertexAttribArray(aPos);
-  gl.enableVertexAttribArray(aUv);
-  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 16, 0);
-  gl.vertexAttribPointer(aUv,  2, gl.FLOAT, false, 16, 8);
-
-  const uTex      = gl.getUniformLocation(prog, 'uTex');
-  const uP        = gl.getUniformLocation(prog, 'uP');
-  const uTarget   = gl.getUniformLocation(prog, 'uTarget');
-  const uModalPos  = gl.getUniformLocation(prog, 'uModalPos');
-  const uModalSize = gl.getUniformLocation(prog, 'uModalSize');
-
-  gl.enable(gl.BLEND);
-  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  // ── State ─────────────────────────────────────────────────────────────────
+  let isAnimating = false;
 
   // ── Helpers ───────────────────────────────────────────────────────────────
-  function setClearColour() {
-    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-    if (isDark) gl.clearColor(0.0, 0.0, 0.0, 0.0);
-    else        gl.clearColor(0.0, 0.0, 0.0, 0.0);
-    // always transparent — only the modal texture is drawn
+  function resetClasses(el, ...classes) {
+    el.classList.remove(...classes);
   }
 
-  function resizeCanvas() {
-    canvas.width  = window.innerWidth  * window.devicePixelRatio;
-    canvas.height = window.innerHeight * window.devicePixelRatio;
-    canvas.style.width  = window.innerWidth  + 'px';
-    canvas.style.height = window.innerHeight + 'px';
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  // Store modal rect for shader
-  let modalRect = null;
-
-  function setModalUniforms() {
-    if (!modalRect) return;
-    const sw = window.innerWidth;
-    const sh = window.innerHeight;
-    // Convert pixel rect to 0-1 screen space (Y flipped for WebGL)
-    const x = modalRect.left / sw;
-    const y = 1.0 - (modalRect.bottom / sh); // flip Y
-    const w = modalRect.width  / sw;
-    const h = modalRect.height / sh;
-    gl.uniform2f(uModalPos,  x, y);
-    gl.uniform2f(uModalSize, w, h);
-  }
-
-  // ── Texture from modal snapshot ───────────────────────────────────────────
-  function createTexture() {
-    const rect = certModalInner.getBoundingClientRect();
-    const dpr  = window.devicePixelRatio;
-    const w = Math.round(rect.width  * dpr);
-    const h = Math.round(rect.height * dpr);
-
-    const off = document.createElement('canvas');
-    off.width = w; off.height = h;
-    const ctx = off.getContext('2d');
-    ctx.scale(dpr, dpr);
-    ctx.fillStyle = getComputedStyle(certModalInner).backgroundColor || '#1E1B18';
-    ctx.fillRect(0, 0, rect.width, rect.height);
-    if (certImg.complete && certImg.naturalWidth > 0) {
-      const ir = certImg.getBoundingClientRect();
-      ctx.drawImage(certImg, ir.left - rect.left, ir.top - rect.top, ir.width, ir.height);
-    }
-
-    const tex = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, off);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-    // Store rect for shader uniforms
-    modalRect = rect;
-
-    return tex;
-  }
-
-  // ── Animation state ───────────────────────────────────────────────────────
-  let animating    = false;
-  let animDir      = 1;
-  let animProgress = 0;
-  let lastTime     = 0;
-  let currentTex   = null;
-  const DURATION   = 600;
-
-  function easeInOutCubic(t) {
-    return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3) / 2;
-  }
-
-  // ── Render loop ───────────────────────────────────────────────────────────
-  function renderFrame(ts) {
-    if (!animating) return;
-
-    if (!lastTime) lastTime = ts;
-    const delta = ts - lastTime;
-    lastTime = ts;
-
-    const step = delta / DURATION;
-    animProgress = animDir === 1
-      ? Math.min(1, animProgress + step)
-      : Math.max(0, animProgress - step);
-
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    setModalUniforms();
-    gl.uniform1f(uP, easeInOutCubic(animProgress));
-    gl.uniform2f(uTarget, 0.5, 0.0);
-    gl.uniform1i(uTex, 0);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-    const done = (animDir === 1 && animProgress >= 1) ||
-                 (animDir === -1 && animProgress <= 0);
-
-    if (done) {
-      animating = false;
-      lastTime  = 0;
-      canvas.style.display = 'none';
-
-      if (animDir === 1) {
-        // Finished closing — reset everything
-        certModal.style.pointerEvents = 'none'; // ← fix: unblock clicks
-        certBackdrop.classList.remove('open');
-        certModalInner.classList.remove('ready');
-        document.body.style.overflow = '';
-      } else {
-        // Finished opening — show real modal
-        certModalInner.classList.add('ready');
-      }
-
-      if (currentTex) { gl.deleteTexture(currentTex); currentTex = null; }
-      return;
-    }
-
-    requestAnimationFrame(renderFrame);
+  function onAnimEnd(el, fn) {
+    el.addEventListener('animationend', fn, { once: true });
   }
 
   // ── Open ──────────────────────────────────────────────────────────────────
-  async function openModal(src, title) {
-    if (animating) return;
+  function openModal(src, title) {
+    if (isAnimating) return;
+    isAnimating = true;
 
     certImg.src = src;
     certName.textContent = title;
     document.body.style.overflow = 'hidden';
 
+    // Show backdrop
     certBackdrop.classList.add('open');
+
+    // Show modal container (but inner is still scaled tiny)
     certModal.style.pointerEvents = 'all';
+    certModalInner.classList.remove('genie-close', 'genie-done');
 
-    // Show modal fully so browser lays it out at correct size
-    certModalInner.classList.add('ready');
+    // Start curtain covering from bottom (pulls up to cover)
+    resetClasses(curtain, 'curtain-reveal', 'curtain-cover');
+    // No curtain needed on open — modal slides up directly
 
-    // Wait for image to load
-    await new Promise(res => {
-      if (certImg.complete && certImg.naturalWidth > 0) return res();
-      certImg.onload = res; certImg.onerror = res;
-    });
+    // Slight delay so backdrop fades in first
+    setTimeout(() => {
+      certModalInner.classList.add('genie-open');
 
-    // Wait two frames so modal is fully painted at correct size
-    await new Promise(res => requestAnimationFrame(() => requestAnimationFrame(res)));
-
-    // Snapshot modal at its real size
-    resizeCanvas();
-    if (currentTex) gl.deleteTexture(currentTex);
-    currentTex = createTexture(); // also stores modalRect
-    gl.bindTexture(gl.TEXTURE_2D, currentTex);
-
-    // Now hide real modal — canvas takes over
-    certModalInner.classList.remove('ready');
-    canvas.style.display = 'block';
-
-    // Start genie opening (progress: 1 → 0)
-    animDir      = -1;
-    animProgress = 1.0;
-    animating    = true;
-    lastTime     = 0;
-    requestAnimationFrame(renderFrame);
+      onAnimEnd(certModalInner, () => {
+        certModalInner.classList.remove('genie-open');
+        certModalInner.classList.add('genie-done');
+        isAnimating = false;
+      });
+    }, 80);
   }
 
   // ── Close ─────────────────────────────────────────────────────────────────
   function closeModal() {
-    if (animating) return;
+    if (isAnimating) return;
+    isAnimating = true;
 
-    // Show modal briefly to snapshot it
-    certModalInner.classList.add('ready');
-    resizeCanvas();
+    // Curtain pulls down first to briefly cover the modal
+    resetClasses(curtain, 'curtain-reveal', 'curtain-cover');
 
-    if (currentTex) gl.deleteTexture(currentTex);
-    currentTex = createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, currentTex);
+    // Slide modal down while curtain covers
+    certModalInner.classList.remove('genie-done');
+    certModalInner.classList.add('genie-close');
 
-    // Hide real modal — canvas takes over
-    certModalInner.classList.remove('ready');
-    canvas.style.display = 'block';
+    onAnimEnd(certModalInner, () => {
+      certModalInner.classList.remove('genie-close');
 
-    // Start genie closing (progress: 0 → 1)
-    animDir      = 1;
-    animProgress = 0.0;
-    animating    = true;
-    lastTime     = 0;
-    requestAnimationFrame(renderFrame);
+      // Hide everything
+      certModal.style.pointerEvents = 'none';
+      certBackdrop.classList.remove('open');
+      document.body.style.overflow = '';
+      isAnimating = false;
+    });
   }
 
   // ── Wire up ───────────────────────────────────────────────────────────────
   document.querySelectorAll('.cert-link').forEach(el => {
     el.addEventListener('click', () => openModal(el.dataset.cert, el.dataset.name));
   });
+
   document.getElementById('certClose').addEventListener('click', closeModal);
   certBackdrop.addEventListener('click', closeModal);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
