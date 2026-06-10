@@ -1,61 +1,52 @@
-// genie.js — CSS Genie Effect for Certificate Modal
+// genie.js — Scale from click point animation
 
 (function () {
 
-  // ── DOM refs ──────────────────────────────────────────────────────────────
   const certModal      = document.getElementById('certModal');
   const certModalInner = document.getElementById('certModalInner');
   const certBackdrop   = document.getElementById('certBackdrop');
   const certImg        = document.getElementById('certImg');
   const certName       = document.getElementById('certName');
 
-  // ── Inject CSS ────────────────────────────────────────────────────────────
+  // Inject animation CSS — overrides any conflicting index.html styles
   const style = document.createElement('style');
   style.textContent = `
-    .cert-modal-inner {
-      transform-origin: bottom center;
-      transform: translateY(60px) scaleY(0.02) scaleX(0.1);
-      opacity: 0;
-      visibility: hidden;
+    #certModalInner {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      transform: scale(0.05) !important;
+      transform-origin: center center;
+      transition: none !important;
     }
-
-    .cert-modal-inner.genie-open {
-      visibility: visible;
-      animation: genieOpen 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    #certModalInner.modal-open {
+      visibility: visible !important;
+      animation: modalScaleIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
     }
-
-    .cert-modal-inner.genie-close {
-      visibility: visible;
-      animation: genieClose 0.3s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+    #certModalInner.modal-close {
+      visibility: visible !important;
+      animation: modalScaleOut 0.25s cubic-bezier(0.55, 0, 1, 0.45) forwards !important;
     }
-
-    .cert-modal-inner.genie-done {
-      visibility: visible;
-      transform: translateY(0) scaleY(1) scaleX(1);
-      opacity: 1;
+    #certModalInner.modal-done {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: scale(1) !important;
     }
-
-    @keyframes genieOpen {
-      0%   { transform: translateY(60px) scaleY(0.02) scaleX(0.1);   opacity: 0;   border-radius: 999px; }
-      30%  { transform: translateY(30px) scaleY(0.2)  scaleX(0.45);  opacity: 0.6; border-radius: 80px;  }
-      60%  { transform: translateY(-5px) scaleY(1.03) scaleX(1.02);  opacity: 1;   border-radius: 6px;   }
-      80%  { transform: translateY(3px)  scaleY(0.98) scaleX(0.99);  opacity: 1;   border-radius: 2px;   }
-      100% { transform: translateY(0)    scaleY(1)    scaleX(1);     opacity: 1;   border-radius: 0;     }
+    @keyframes modalScaleIn {
+      0%   { opacity: 0; transform: scale(0.05); border-radius: 50%;  }
+      60%  { opacity: 1; transform: scale(1.04); border-radius: 4px;  }
+      80%  { opacity: 1; transform: scale(0.97); border-radius: 2px;  }
+      100% { opacity: 1; transform: scale(1);    border-radius: 0;    }
     }
-
-    @keyframes genieClose {
-      0%   { transform: translateY(0)    scaleY(1)    scaleX(1);    opacity: 1; border-radius: 0;     }
-      40%  { transform: translateY(15px) scaleY(0.5)  scaleX(0.6);  opacity: 0.7; border-radius: 30px; }
-      100% { transform: translateY(60px) scaleY(0.02) scaleX(0.1);  opacity: 0; border-radius: 999px; }
+    @keyframes modalScaleOut {
+      0%   { opacity: 1; transform: scale(1);    border-radius: 0;    }
+      100% { opacity: 0; transform: scale(0.05); border-radius: 50%;  }
     }
   `;
   document.head.appendChild(style);
 
-  // ── State ─────────────────────────────────────────────────────────────────
   let isAnimating = false;
 
-  // ── Open ──────────────────────────────────────────────────────────────────
-  function openModal(src, title) {
+  function openModal(src, title, originX, originY) {
     if (isAnimating) return;
     isAnimating = true;
 
@@ -63,31 +54,33 @@
     certName.textContent = title;
     document.body.style.overflow = 'hidden';
 
+    // Set transform-origin to click position relative to modal
+    certModalInner.style.transformOrigin = `${originX} ${originY}`;
+
     certBackdrop.classList.add('open');
     certModal.style.pointerEvents = 'all';
 
-    certModalInner.classList.remove('genie-close', 'genie-done');
-    certModalInner.classList.add('genie-open');
+    certModalInner.classList.remove('modal-close', 'modal-done');
+    certModalInner.classList.add('modal-open');
 
     certModalInner.addEventListener('animationend', function onOpen() {
       certModalInner.removeEventListener('animationend', onOpen);
-      certModalInner.classList.remove('genie-open');
-      certModalInner.classList.add('genie-done');
+      certModalInner.classList.remove('modal-open');
+      certModalInner.classList.add('modal-done');
       isAnimating = false;
     });
   }
 
-  // ── Close ─────────────────────────────────────────────────────────────────
   function closeModal() {
     if (isAnimating) return;
     isAnimating = true;
 
-    certModalInner.classList.remove('genie-done');
-    certModalInner.classList.add('genie-close');
+    certModalInner.classList.remove('modal-done');
+    certModalInner.classList.add('modal-close');
 
     certModalInner.addEventListener('animationend', function onClose() {
       certModalInner.removeEventListener('animationend', onClose);
-      certModalInner.classList.remove('genie-close');
+      certModalInner.classList.remove('modal-close');
       certModal.style.pointerEvents = 'none';
       certBackdrop.classList.remove('open');
       document.body.style.overflow = '';
@@ -95,9 +88,17 @@
     });
   }
 
-  // ── Wire up ───────────────────────────────────────────────────────────────
   document.querySelectorAll('.cert-link').forEach(el => {
-    el.addEventListener('click', () => openModal(el.dataset.cert, el.dataset.name));
+    el.addEventListener('click', function(e) {
+      const vw = window.innerWidth;
+      const modalW = Math.min(1000, vw - 64);
+      const modalLeft = (vw - modalW) / 2;
+      const relX = Math.round(((e.clientX - modalLeft) / modalW) * 100);
+      const relY = Math.round((e.clientY / window.innerHeight) * 100);
+      const ox = Math.max(0, Math.min(100, relX)) + '%';
+      const oy = Math.max(0, Math.min(100, relY)) + '%';
+      openModal(el.dataset.cert, el.dataset.name, ox, oy);
+    });
   });
 
   document.getElementById('certClose').addEventListener('click', closeModal);
