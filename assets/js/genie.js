@@ -19,6 +19,7 @@
   document.body.appendChild(canvas);
 
   const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) { console.warn('WebGL not supported'); return; }
 
   // ── Shaders ───────────────────────────────────────────────────────────────
   const VS = `
@@ -36,21 +37,33 @@
     uniform sampler2D uTex;
     uniform float uP;
     uniform vec2  uTarget;
+    uniform vec2  uModalPos;   // modal top-left in 0-1 screen space
+    uniform vec2  uModalSize;  // modal width/height in 0-1 screen space
     varying vec2 vUv;
 
     void main() {
       float p = clamp(uP, 0.0, 1.0);
-      float bot = 1.0 - vUv.y;
 
-      float sy = mix(1.0, 0.02, p);
-      float cy = mix(0.5, uTarget.y, p);
+      // vUv is 0-1 over the full screen quad
+      // Convert screen UV to modal-local UV first
+      vec2 modalUv = (vUv - uModalPos) / uModalSize;
 
-      float sx = mix(1.0, 0.04, p * (0.4 + 0.6 * bot));
-      float cx = mix(0.5, uTarget.x, p * (0.3 + 0.7 * bot));
+      // Only draw within modal bounds
+      if (modalUv.x < 0.0 || modalUv.x > 1.0 || modalUv.y < 0.0 || modalUv.y > 1.0) {
+        gl_FragColor = vec4(0.0);
+        return;
+      }
+
+      // Genie distortion on modalUv
+      float bot = 1.0 - modalUv.y;
+      float sy  = mix(1.0, 0.02, p);
+      float cy  = mix(0.5, uTarget.y, p);
+      float sx  = mix(1.0, 0.04, p * (0.4 + 0.6 * bot));
+      float cx  = mix(0.5, uTarget.x, p * (0.3 + 0.7 * bot));
 
       vec2 uv;
-      uv.x = (vUv.x - cx) / sx + cx;
-      uv.y = (vUv.y - cy) / sy + cy;
+      uv.x = (modalUv.x - cx) / sx + cx;
+      uv.y = (modalUv.y - cy) / sy + cy;
 
       float alpha = 1.0 - smoothstep(0.82, 1.0, p);
 
@@ -68,6 +81,9 @@
     const s = gl.createShader(type);
     gl.shaderSource(s, src);
     gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.error('Shader error:', gl.getShaderInfoLog(s));
+    }
     return s;
   }
 
@@ -95,12 +111,48 @@
   gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 16, 0);
   gl.vertexAttribPointer(aUv,  2, gl.FLOAT, false, 16, 8);
 
-  const uTex    = gl.getUniformLocation(prog, 'uTex');
-  const uP      = gl.getUniformLocation(prog, 'uP');
-  const uTarget = gl.getUniformLocation(prog, 'uTarget');
+  const uTex      = gl.getUniformLocation(prog, 'uTex');
+  const uP        = gl.getUniformLocation(prog, 'uP');
+  const uTarget   = gl.getUniformLocation(prog, 'uTarget');
+  const uModalPos  = gl.getUniformLocation(prog, 'uModalPos');
+  const uModalSize = gl.getUniformLocation(prog, 'uModalSize');
 
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function setClearColour() {
+    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+    if (isDark) gl.clearColor(0.0, 0.0, 0.0, 0.0);
+    else        gl.clearColor(0.0, 0.0, 0.0, 0.0);
+    // always transparent — only the modal texture is drawn
+  }
+
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth  * window.devicePixelRatio;
+    canvas.height = window.innerHeight * window.devicePixelRatio;
+    canvas.style.width  = window.innerWidth  + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  // Store modal rect for shader
+  let modalRect = null;
+
+  function setModalUniforms() {
+    if (!modalRect) return;
+    const sw = window.innerWidth;
+    const sh = window.innerHeight;
+    // Convert pixel rect to 0-1 screen space (Y flipped for WebGL)
+    const x = modalRect.left / sw;
+    const y = 1.0 - (modalRect.bottom / sh); // flip Y
+    const w = modalRect.width  / sw;
+    const h = modalRect.height / sh;
+    gl.uniform2f(uModalPos,  x, y);
+    gl.uniform2f(uModalSize, w, h);
+  }
 
   // ── Texture from modal snapshot ───────────────────────────────────────────
   function createTexture() {
@@ -127,28 +179,12 @@
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+    // Store rect for shader uniforms
+    modalRect = rect;
+
     return tex;
   }
-
-  // ── Theme-aware background clear colour ───────────────────────────────────
-  function setClearColour() {
-    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-    if (isDark) {
-      gl.clearColor(0.118, 0.106, 0.094, 1.0); // #1E1B18 dark bg2
-    } else {
-      gl.clearColor(0.918, 0.902, 0.875, 1.0); // #EAE6DF light bg2
-    }
-  }
-
-  function resizeCanvas() {
-    canvas.width  = window.innerWidth  * window.devicePixelRatio;
-    canvas.height = window.innerHeight * window.devicePixelRatio;
-    canvas.style.width  = window.innerWidth  + 'px';
-    canvas.style.height = window.innerHeight + 'px';
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
 
   // ── Animation state ───────────────────────────────────────────────────────
   let animating    = false;
@@ -175,8 +211,9 @@
       ? Math.min(1, animProgress + step)
       : Math.max(0, animProgress - step);
 
-    setClearColour();
+    gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
+    setModalUniforms();
     gl.uniform1f(uP, easeInOutCubic(animProgress));
     gl.uniform2f(uTarget, 0.5, 0.0);
     gl.uniform1i(uTex, 0);
@@ -191,13 +228,13 @@
       canvas.style.display = 'none';
 
       if (animDir === 1) {
-        // Finished closing
-        certModal.classList.remove('open');
+        // Finished closing — reset everything
+        certModal.style.pointerEvents = 'none'; // ← fix: unblock clicks
         certBackdrop.classList.remove('open');
         certModalInner.classList.remove('ready');
         document.body.style.overflow = '';
       } else {
-        // Finished opening — reveal real modal
+        // Finished opening — show real modal
         certModalInner.classList.add('ready');
       }
 
@@ -216,18 +253,11 @@
     certName.textContent = title;
     document.body.style.overflow = 'hidden';
 
-    // Show backdrop immediately
     certBackdrop.classList.add('open');
-
-    // Make modal visible so we can snapshot it
     certModal.style.pointerEvents = 'all';
-    certModalInner.classList.add('ready');
 
-    // Show canvas ON TOP immediately — covers modal with bg colour
-    resizeCanvas();
-    canvas.style.display = 'block';
-    setClearColour();
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    // Show modal fully so browser lays it out at correct size
+    certModalInner.classList.add('ready');
 
     // Wait for image to load
     await new Promise(res => {
@@ -235,18 +265,20 @@
       certImg.onload = res; certImg.onerror = res;
     });
 
-    // Wait two frames for full paint
+    // Wait two frames so modal is fully painted at correct size
     await new Promise(res => requestAnimationFrame(() => requestAnimationFrame(res)));
 
-    // Snapshot modal into WebGL texture
+    // Snapshot modal at its real size
+    resizeCanvas();
     if (currentTex) gl.deleteTexture(currentTex);
-    currentTex = createTexture();
+    currentTex = createTexture(); // also stores modalRect
     gl.bindTexture(gl.TEXTURE_2D, currentTex);
 
-    // Hide real modal — WebGL canvas handles visuals from here
+    // Now hide real modal — canvas takes over
     certModalInner.classList.remove('ready');
+    canvas.style.display = 'block';
 
-    // Start genie opening animation (progress: 1 → 0)
+    // Start genie opening (progress: 1 → 0)
     animDir      = -1;
     animProgress = 1.0;
     animating    = true;
@@ -258,7 +290,7 @@
   function closeModal() {
     if (animating) return;
 
-    // Snapshot current visible modal
+    // Show modal briefly to snapshot it
     certModalInner.classList.add('ready');
     resizeCanvas();
 
@@ -266,11 +298,11 @@
     currentTex = createTexture();
     gl.bindTexture(gl.TEXTURE_2D, currentTex);
 
-    // Hide real modal — WebGL canvas handles visuals
+    // Hide real modal — canvas takes over
     certModalInner.classList.remove('ready');
     canvas.style.display = 'block';
 
-    // Start genie closing animation (progress: 0 → 1)
+    // Start genie closing (progress: 0 → 1)
     animDir      = 1;
     animProgress = 0.0;
     animating    = true;
