@@ -326,27 +326,12 @@
     .reveal.on { opacity: 1; transform: translateY(0); }
     .rd1{transition-delay:.08s} .rd2{transition-delay:.16s} .rd3{transition-delay:.24s} .rd4{transition-delay:.32s}
 
-    /* Certificate Modal — CSS Genie */
+    /* Certificate Modal */
     .cert-backdrop { position: fixed; inset: 0; z-index: 7999; background: rgba(0,0,0,0); backdrop-filter: blur(0px); transition: background .4s, backdrop-filter .4s; pointer-events: none; }
     .cert-backdrop.open { background: rgba(0,0,0,.85); backdrop-filter: blur(8px); pointer-events: all; }
     .cert-modal { position: fixed; inset: 0; z-index: 8000; display: flex; align-items: center; justify-content: center; padding: 2rem; pointer-events: none; }
-    .cert-modal-inner { background: var(--bg2); border: 1px solid var(--line); max-width: 1000px; width: 100%; position: relative; padding: 2rem; pointer-events: all; transform-origin: bottom center; transform: scaleY(0.02) scaleX(0.15) translateY(40px) skewX(6deg); opacity: 0; transition: none; }
-    .cert-modal-inner.genie-open { animation: genieOpen .55s cubic-bezier(.2,0,.2,1) forwards; }
-    .cert-modal-inner.genie-close { animation: genieClose .25s cubic-bezier(.4,0,1,1) forwards; }
-    .cert-modal-inner.genie-done { transform: scaleY(1) scaleX(1) translateY(0) skewX(0); opacity: 1; }
-    @keyframes genieOpen {
-      0%   { transform: scaleY(0.02) scaleX(0.15) translateY(40px) skewX(6deg);  opacity: 0; }
-      30%  { transform: scaleY(0.25) scaleX(0.55) translateY(20px) skewX(3deg);  opacity: 0.6; }
-      65%  { transform: scaleY(1.04) scaleX(1.02) translateY(-4px) skewX(-1deg); opacity: 1; }
-      80%  { transform: scaleY(0.97) scaleX(0.99) translateY(2px)  skewX(.5deg); opacity: 1; }
-      100% { transform: scaleY(1)    scaleX(1)    translateY(0)    skewX(0);     opacity: 1; }
-    }
-    @keyframes genieClose {
-      0%   { transform: scaleY(1)    scaleX(1)    translateY(0)    skewX(0);    opacity: 1; }
-      30%  { transform: scaleY(0.6)  scaleX(0.75) translateY(12px) skewX(3deg); opacity: 0.8; }
-      70%  { transform: scaleY(0.12) scaleX(0.35) translateY(30px) skewX(5deg); opacity: 0.3; }
-      100% { transform: scaleY(0.02) scaleX(0.15) translateY(40px) skewX(6deg); opacity: 0; }
-    }
+    .cert-modal-inner { background: var(--bg2); border: 1px solid var(--line); max-width: 1000px; width: 100%; position: relative; padding: 2rem; pointer-events: all; opacity: 0; visibility: hidden; }
+    .cert-modal-inner.ready { opacity: 1; visibility: visible; }
     .cert-modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--muted); font-family: var(--mono); font-size: .8rem; letter-spacing: .1em; cursor: pointer; transition: color .2s; }
     .cert-modal-close:hover { color: var(--accent); }
     .cert-modal-title { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; }
@@ -1003,47 +988,8 @@
       if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
     }, { passive: true });
   });
-
-  // ── Certificate Modal (CSS Genie) ─────────────────────────────────────────
-  const certModal      = document.getElementById('certModal');
-  const certModalInner = document.getElementById('certModalInner');
-  const certBackdrop   = document.getElementById('certBackdrop');
-  const certImg        = document.getElementById('certImg');
-  const certName       = document.getElementById('certName');
-
-  function openModal(src, title) {
-    certImg.src = src;
-    certName.textContent = title;
-    certBackdrop.classList.add('open');
-    certModal.style.pointerEvents = 'all';
-    document.body.style.overflow = 'hidden';
-    certModalInner.classList.remove('genie-close', 'genie-done');
-    certModalInner.classList.add('genie-open');
-    certModalInner.addEventListener('animationend', function onOpen() {
-      certModalInner.removeEventListener('animationend', onOpen);
-      certModalInner.classList.remove('genie-open');
-      certModalInner.classList.add('genie-done');
-    });
-  }
-
-  function closeModal() {
-    certModalInner.classList.remove('genie-done');
-    certModalInner.classList.add('genie-close');
-    certModalInner.addEventListener('animationend', function onClose() {
-      certModalInner.removeEventListener('animationend', onClose);
-      certModalInner.classList.remove('genie-close');
-      certBackdrop.classList.remove('open');
-      certModal.style.pointerEvents = 'none';
-      document.body.style.overflow = '';
-    });
-  }
-
-  document.querySelectorAll('.cert-link').forEach(el => {
-    el.addEventListener('click', () => openModal(el.dataset.cert, el.dataset.name));
-  });
-  document.getElementById('certClose').addEventListener('click', closeModal);
-  certBackdrop.addEventListener('click', closeModal);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
+  
+<script src="assets/js/genie.js"></script>
 </body>
 </html>
