@@ -326,11 +326,27 @@
     .reveal.on { opacity: 1; transform: translateY(0); }
     .rd1{transition-delay:.08s} .rd2{transition-delay:.16s} .rd3{transition-delay:.24s} .rd4{transition-delay:.32s}
 
-    /* Certificate Modal */
+    /* Certificate Modal — CSS Genie */
     .cert-backdrop { position: fixed; inset: 0; z-index: 7999; background: rgba(0,0,0,0); backdrop-filter: blur(0px); transition: background .4s, backdrop-filter .4s; pointer-events: none; }
     .cert-backdrop.open { background: rgba(0,0,0,.85); backdrop-filter: blur(8px); pointer-events: all; }
     .cert-modal { position: fixed; inset: 0; z-index: 8000; display: flex; align-items: center; justify-content: center; padding: 2rem; pointer-events: none; }
-    .cert-modal-inner { background: var(--bg2); border: 1px solid var(--line); max-width: 1000px; width: 100%; position: relative; padding: 2rem; pointer-events: all; }
+    .cert-modal-inner { background: var(--bg2); border: 1px solid var(--line); max-width: 1000px; width: 100%; position: relative; padding: 2rem; pointer-events: all; transform-origin: bottom center; transform: scaleY(0.02) scaleX(0.15) translateY(40px) skewX(6deg); opacity: 0; transition: none; }
+    .cert-modal-inner.genie-open { animation: genieOpen .55s cubic-bezier(.2,0,.2,1) forwards; }
+    .cert-modal-inner.genie-close { animation: genieClose .25s cubic-bezier(.4,0,1,1) forwards; }
+    .cert-modal-inner.genie-done { transform: scaleY(1) scaleX(1) translateY(0) skewX(0); opacity: 1; }
+    @keyframes genieOpen {
+      0%   { transform: scaleY(0.02) scaleX(0.15) translateY(40px) skewX(6deg);  opacity: 0; }
+      30%  { transform: scaleY(0.25) scaleX(0.55) translateY(20px) skewX(3deg);  opacity: 0.6; }
+      65%  { transform: scaleY(1.04) scaleX(1.02) translateY(-4px) skewX(-1deg); opacity: 1; }
+      80%  { transform: scaleY(0.97) scaleX(0.99) translateY(2px)  skewX(.5deg); opacity: 1; }
+      100% { transform: scaleY(1)    scaleX(1)    translateY(0)    skewX(0);     opacity: 1; }
+    }
+    @keyframes genieClose {
+      0%   { transform: scaleY(1)    scaleX(1)    translateY(0)    skewX(0);    opacity: 1; }
+      30%  { transform: scaleY(0.6)  scaleX(0.75) translateY(12px) skewX(3deg); opacity: 0.8; }
+      70%  { transform: scaleY(0.12) scaleX(0.35) translateY(30px) skewX(5deg); opacity: 0.3; }
+      100% { transform: scaleY(0.02) scaleX(0.15) translateY(40px) skewX(6deg); opacity: 0; }
+    }
     .cert-modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--muted); font-family: var(--mono); font-size: .8rem; letter-spacing: .1em; cursor: pointer; transition: color .2s; }
     .cert-modal-close:hover { color: var(--accent); }
     .cert-modal-title { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; }
@@ -639,17 +655,22 @@
   <div class="work-masonry reveal rd3">
     <div class="work-item" data-cat="design">
       <div class="thumb-inner">
-        <div class="wt wt-1" style="display:flex;align-items:center;justify-content:center;">
-          <svg width="56" height="56" viewBox="0 0 60 60" fill="none">
-            <rect x="8" y="12" width="44" height="36" rx="2" stroke="#F2C94C" stroke-width="1" opacity=".4"/>
-            <rect x="14" y="18" width="14" height="10" rx="1" fill="rgba(232,64,28,.2)" stroke="#E8401C" stroke-width=".5" opacity=".6"/>
-            <line x1="32" y1="20" x2="46" y2="20" stroke="#7A7060" stroke-width="1" opacity=".4"/>
-            <line x1="32" y1="24" x2="42" y2="24" stroke="#7A7060" stroke-width="1" opacity=".3"/>
-          </svg>
-        </div>
+        <img
+          src="assets/work/myinfra-preview.png"
+          data-gif="assets/work/myinfra-preview.gif"
+          class="wt wt-1 hover-gif"
+          alt="MyINFRA — Immovable Asset Management System"
+          style="object-fit:cover;"
+        />
         <div class="thumb-tag">UI Design</div>
       </div>
-      <div class="work-cap"><span class="work-cap-name">MyINFRA System</span><span class="work-cap-year">2025</span></div>
+      <div class="work-cap">
+        <span class="work-cap-name">MyINFRA</span>
+        <span class="work-cap-year">2025</span>
+      </div>
+      <div style="font-size:.62rem; color:var(--muted); padding-bottom:.4rem; letter-spacing:.04em;">
+        Immovable Asset Management System
+      </div>
       <div class="work-hover-line"></div>
     </div>
     <div class="work-item" data-cat="design">
@@ -987,8 +1008,14 @@
       if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
     }, { passive: true });
   });
+
+  // ── Hover GIF preview ─────────────────────────────────────────────────────
+  document.querySelectorAll('.hover-gif').forEach(img => {
+    const still = img.src;
+    const gif   = img.dataset.gif;
+    img.addEventListener('mouseenter', () => img.src = gif);
+    img.addEventListener('mouseleave', () => img.src = still);
+  });
 </script>
-  
-<script src="assets/js/genie.js"></script>
 </body>
 </html>
