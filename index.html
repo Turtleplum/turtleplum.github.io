@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Abdullah Fariz Hassan — Designer & Coder</title>
   <meta name="description" content="Portfolio of Abdullah Fariz bin Hassan — Software Engineer, Digital Illustrator, 3D Modeller & IoT Developer based in Kuala Lumpur."/>
+  <meta name="author" content="Abdullah Fariz bin Hassan"/>
+  <meta name="theme-color" content="#161412"/>
+
+  <!-- Favicon (inline, no file needed) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23161412'/%3E%3Ctext%20x='16'%20y='24'%20font-family='Arial%20Black,Arial'%20font-size='22'%20font-weight='900'%20text-anchor='middle'%20fill='%23E8401C'%3EF%3C/text%3E%3C/svg%3E"/>
+
+  <!-- Social sharing (Open Graph + Twitter). Add assets/og-cover.png (1200×630) for a rich preview. -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Abdullah Fariz Hassan — Designer & Coder"/>
+  <meta property="og:description" content="Software Engineer, Digital Illustrator, 3D Modeller & IoT Developer based in Kuala Lumpur. One person, two worlds."/>
+  <meta property="og:image" content="assets/og-cover.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Abdullah Fariz Hassan — Designer & Coder"/>
+  <meta name="twitter:description" content="Software Engineer, Digital Illustrator, 3D Modeller & IoT Developer based in Kuala Lumpur."/>
+  <meta name="twitter:image" content="assets/og-cover.png"/>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@600;700&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
@@ -38,11 +54,11 @@
       --bg: #F5F2ED;
       --bg2: #EAE6DF;
       --ink: #1A1714;
-      --muted: #8A8070;
-      --accent: #E8401C;
-      --accent2: #C9860A;
+      --muted: #6E6656;            /* darkened for readable contrast on light bg */
+      --accent: #D4370F;           /* slightly deeper so it passes contrast on cream */
+      --accent2: #B4780A;
       --line: #D4CEC5;
-      --about-text: #5A5348;
+      --about-text: #4C463C;
       --nav-bg: rgba(245,242,237,0.88);
       --hero-slash-line: rgba(232,64,28,.06);
       --hero-blob-color: rgba(232,64,28,.15);
@@ -64,6 +80,30 @@
     }
 
     @media (hover: hover) and (pointer: fine) { body { cursor: none; } }
+
+    /* Keyboard focus — visible even though the mouse cursor is hidden */
+    a:focus-visible, button:focus-visible, input:focus-visible,
+    textarea:focus-visible, select:focus-visible, .cert-link:focus-visible {
+      outline: 2px solid var(--accent2);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* Skip link for keyboard / screen-reader users */
+    .skip-link {
+      position: fixed; top: -60px; left: 1rem; z-index: 10000;
+      background: var(--accent); color: #fff; padding: .6rem 1rem;
+      font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+      text-decoration: none; transition: top .2s;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* Scroll progress bar */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 9500; pointer-events: none; transition: width .08s linear;
+    }
 
     body::before {
       content: '';
@@ -112,7 +152,6 @@
 
     /* Right nav group */
     .nav-right { display: flex; align-items: center; gap: .8rem; }
-    /* Hide hamburger on desktop, show on tablet/mobile */
     .nav-right .hamburger { display: none; }
     .theme-toggle {
       background: none; border: 1px solid var(--line);
@@ -253,7 +292,7 @@
       .work-item:hover { transform: rotate(0deg) translateY(-5px); border-color: var(--accent); }
     }
     .thumb-inner { position: relative; overflow: hidden; }
-    .wt { width: 100%; display: block; transition: transform .6s cubic-bezier(.4,0,.2,1); }
+    .wt { width: 100%; display: block; transition: transform .6s cubic-bezier(.4,0,.2,1); object-fit: cover; }
     .wt-1 { aspect-ratio: 4/3;  background: linear-gradient(135deg, #2A2218, #3D1F10); }
     .wt-2 { aspect-ratio: 1/1;  background: linear-gradient(135deg, #1A2230, #0D3040); }
     .wt-3 { aspect-ratio: 3/4;  background: linear-gradient(135deg, #1E1A2E, #2D1540); }
@@ -262,25 +301,12 @@
     .wt-6 { aspect-ratio: 4/5;  background: linear-gradient(135deg, #1A1C20, #202830); }
     .wt-7 { aspect-ratio: 4/3;  background: linear-gradient(135deg, #1A1E18, #142210); }
     .wt-8 { aspect-ratio: 1/1;  background: linear-gradient(135deg, #201A10, #302408); }
-    .thumb-tag { position: absolute; bottom: .8rem; left: .8rem; font-size: .55rem; letter-spacing: .14em; text-transform: uppercase; background: var(--bg); color: var(--muted); padding: .25rem .6rem; transition: background .4s; }
+    .thumb-tag { position: absolute; bottom: .8rem; left: .8rem; font-size: .55rem; letter-spacing: .14em; text-transform: uppercase; background: var(--bg); color: var(--muted); padding: .25rem .6rem; transition: background .4s; z-index: 1; }
     .work-cap { padding: .8rem 0 .4rem; display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; }
     .work-cap-name { font-family: var(--serif); font-size: clamp(.85rem, 2vw, 1rem); font-weight: 500; }
     .work-cap-year { font-size: .6rem; color: var(--muted); letter-spacing: .1em; white-space: nowrap; }
     .work-hover-line { position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width .4s cubic-bezier(.4,0,.2,1); }
     @media (hover: hover) { .work-item:hover .work-hover-line { width: 100%; } .work-item:hover .wt { transform: scale(1.04); } }
-
-    /* Carousel */
-    .carousel { position: relative; overflow: hidden; aspect-ratio: 4/3; background: var(--bg2); }
-    .carousel-track { display: flex; transition: transform .4s cubic-bezier(.4,0,.2,1); height: 100%; }
-    .carousel-slide { min-width: 100%; width: 100%; height: 100%; object-fit: cover; display: block; flex-shrink: 0; }
-    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(22,20,18,.7); border: 1px solid var(--line); color: var(--ink); width: 32px; height: 32px; font-size: 1.1rem; cursor: pointer; opacity: 0; transition: opacity .2s, background .2s; display: flex; align-items: center; justify-content: center; z-index: 2; }
-    .carousel:hover .carousel-btn { opacity: 1; }
-    .carousel-prev { left: .5rem; }
-    .carousel-next { right: .5rem; }
-    .carousel-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-    .carousel-dots { position: absolute; bottom: .6rem; left: 50%; transform: translateX(-50%); display: flex; gap: .4rem; z-index: 2; }
-    .carousel-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(240,235,225,.3); cursor: pointer; transition: background .2s, transform .2s; }
-    .carousel-dot.active { background: var(--accent); transform: scale(1.3); }
 
     /* Marquee */
     .marquee-wrap { background: var(--accent); padding: 1rem 0; overflow: hidden; white-space: nowrap; }
@@ -288,16 +314,6 @@
     .marquee-item { font-family: var(--display); font-size: clamp(1rem, 3vw, 1.4rem); letter-spacing: .06em; color: #fff; padding: 0 1.5rem; display: inline-flex; align-items: center; gap: 1.5rem; }
     .marquee-item::after { content: '✦'; opacity: .5; font-size: .8em; }
     @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
-
-    /* Process */
-    #process { background: var(--bg2); }
-    .process-list { margin-top: 4rem; }
-    .process-row { display: grid; grid-template-columns: 64px 1fr 1fr; gap: 1.5rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid var(--line); }
-    .process-row:first-child { border-top: 1px solid var(--line); }
-    .process-num { font-family: var(--display); font-size: 3rem; color: var(--line); line-height: 1; transition: color .3s; }
-    @media (hover: hover) { .process-row:hover .process-num { color: var(--accent); } }
-    .process-name { font-family: var(--serif); font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 500; line-height: 1.1; padding-top: .3rem; }
-    .process-desc { font-size: .8rem; line-height: 1.8; color: var(--muted); padding-top: .5rem; }
 
     /* Terminal — always dark regardless of theme */
     #terminal-block { background: #0D0C0A; padding: clamp(2.5rem, 6vh, 5rem) var(--px); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -339,6 +355,7 @@
     .cf-field input, .cf-field textarea, .cf-field select { background: transparent; border: none; border-bottom: 1px solid var(--line); padding: .8rem 0; font-family: var(--mono); font-weight: 300; color: var(--ink); outline: none; transition: border-color .3s; resize: none; -webkit-appearance: none; width: 100%; font-size: max(.85rem, 16px); }
     .cf-field select option { background: var(--bg2); color: var(--ink); }
     .cf-field input:focus, .cf-field textarea:focus, .cf-field select:focus { border-color: var(--accent); }
+    .cf-field input:focus-visible, .cf-field textarea:focus-visible, .cf-field select:focus-visible { outline: none; }
     .cf-field textarea { min-height: 90px; }
     .btn-submit { align-self: flex-start; background: var(--accent); color: #fff; border: none; padding: 1rem 2.2rem; font-family: var(--mono); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; cursor: pointer; transition: background .25s, transform .15s; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); min-height: 48px; }
     @media (hover: hover) { .btn-submit:hover { background: var(--accent2); color: var(--bg); transform: translateY(-2px); } }
@@ -387,8 +404,6 @@
       .about-panel { padding: 1.8rem; }
       .exp-item { grid-template-columns: 1fr; gap: 1rem; }
       .work-masonry { columns: 2; }
-      .process-row { grid-template-columns: 52px 1fr; }
-      .process-desc { display: none; }
       .contact-grid { grid-template-columns: 1fr; gap: 3.5rem; }
       #contact::after { font-size: 28vw; opacity: .4; }
       footer { justify-content: center; text-align: center; }
@@ -400,17 +415,21 @@
       .work-masonry { columns: 1; }
       .work-filter { gap: .5rem; }
       .filter-btn { font-size: .58rem; padding: .5rem .8rem; }
-      .process-row { grid-template-columns: 1fr; gap: .6rem; padding: 2rem 0; }
-      .process-num { font-size: 1.8rem; }
       #contact::after { display: none; }
       footer { flex-direction: column; gap: .6rem; }
     }
     @media (max-width: 360px) { .hero-name { font-size: 3.8rem; } .s-title { font-size: 2.4rem; } }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+      .marquee-track, .hero-blob, .scroll-dot, .avail-dot, .t-cursor { animation: none !important; }
+    }
   </style>
 </head>
 <body>
 
+<a href="#work" class="skip-link">Skip to content</a>
+<div id="progress"></div>
 <div id="cur"></div>
 <div id="cur-trail"></div>
 
@@ -424,8 +443,8 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme">☀️</button>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -468,7 +487,7 @@
 </section>
 
 <!-- MARQUEE -->
-<div class="marquee-wrap">
+<div class="marquee-wrap" aria-hidden="true">
   <div class="marquee-track">
     <span class="marquee-item">Digital Illustration</span>
     <span class="marquee-item">3D Modelling</span>
@@ -508,7 +527,7 @@
     <div class="work-item" data-cat="design">
       <div class="thumb-inner">
         <img src="assets/work/myinfra-preview.png" data-gif="assets/work/myinfra-preview.gif"
-             class="wt wt-1 hover-gif" alt="MyINFRA" style="object-fit:cover;"/>
+             class="wt wt-1 hover-gif" alt="MyINFRA" loading="lazy" decoding="async"/>
         <div class="thumb-tag">UI Design</div>
       </div>
       <div class="work-cap"><span class="work-cap-name">MyINFRA</span><span class="work-cap-year">2025</span></div>
@@ -520,7 +539,7 @@
     <div class="work-item" data-cat="design">
       <div class="thumb-inner">
         <img src="assets/work/senanghr-preview.png" data-gif="assets/work/senanghr-preview.gif"
-             class="wt wt-7 hover-gif" alt="Tourism Malaysia SenangHR" style="object-fit:cover;"/>
+             class="wt wt-7 hover-gif" alt="Tourism Malaysia SenangHR" loading="lazy" decoding="async"/>
         <div class="thumb-tag">Landing Page</div>
       </div>
       <div class="work-cap"><span class="work-cap-name">Tourism Malaysia SenangHR</span><span class="work-cap-year">2025</span></div>
@@ -531,7 +550,7 @@
     <div class="work-item" data-cat="tech">
       <div class="thumb-inner">
         <img src="assets/work/siot-preview.png" data-gif="assets/work/siot-preview.gif"
-             class="wt wt-2 hover-gif" alt="Syswell Smart Office" style="object-fit:cover;"/>
+             class="wt wt-2 hover-gif" alt="Syswell Smart Office" loading="lazy" decoding="async"/>
         <div class="thumb-tag">IoT</div>
       </div>
       <div class="work-cap"><span class="work-cap-name">Syswell Smart Office (SiOT)</span><span class="work-cap-year">2022</span></div>
@@ -542,7 +561,7 @@
     <div class="work-item" data-cat="tech">
       <div class="thumb-inner">
         <img src="assets/work/tenderdb-preview.png" data-gif="assets/work/tenderdb-preview.gif"
-             class="wt wt-4 hover-gif" alt="TenderDB Scraper" style="object-fit:cover;"/>
+             class="wt wt-4 hover-gif" alt="TenderDB Scraper" loading="lazy" decoding="async"/>
         <div class="thumb-tag">Python Scraper</div>
       </div>
       <div class="work-cap"><span class="work-cap-name">TenderDB Scraper</span><span class="work-cap-year">2024</span></div>
@@ -553,7 +572,7 @@
     <div class="work-item" data-cat="art">
       <div class="thumb-inner">
         <img src="assets/work/sunbear-preview.png" data-gif="assets/work/sunbear-preview.gif"
-             class="wt wt-5 hover-gif" alt="TourismMalaysia SunBear" style="object-fit:cover;"/>
+             class="wt wt-5 hover-gif" alt="TourismMalaysia SunBear" loading="lazy" decoding="async"/>
         <div class="thumb-tag">Character Design</div>
       </div>
       <div class="work-cap"><span class="work-cap-name">TourismMalaysia SunBear</span><span class="work-cap-year">2025</span></div>
@@ -564,7 +583,7 @@
     <div class="work-item" data-cat="3d">
       <div class="thumb-inner">
         <img src="assets/work/3d-preview.png" data-gif="assets/work/3d-preview.gif"
-             class="wt wt-3 hover-gif" alt="3D Modelling Projects" style="object-fit:cover;"/>
+             class="wt wt-3 hover-gif" alt="3D Modelling Projects" loading="lazy" decoding="async"/>
         <div class="thumb-tag">3D / Blender</div>
       </div>
       <div class="work-cap"><span class="work-cap-name">3D Modelling Projects</span><span class="work-cap-year">2017–2024</span></div>
@@ -575,7 +594,7 @@
     <div class="work-item" data-cat="ctf">
       <div class="thumb-inner">
         <img src="assets/work/ctf-preview.png" data-gif="assets/work/ctf-preview.gif"
-             class="wt wt-8 hover-gif" alt="CTF Challenges" style="object-fit:cover;"/>
+             class="wt wt-8 hover-gif" alt="CTF Challenges" loading="lazy" decoding="async"/>
         <div class="thumb-tag">CTF Write-up</div>
       </div>
       <div class="work-cap"><span class="work-cap-name">CTF Challenges</span><span class="work-cap-year">Ongoing</span></div>
@@ -586,7 +605,7 @@
     <div class="work-item" data-cat="art">
       <div class="thumb-inner">
         <img src="assets/work/illustration-preview.png" data-gif="assets/work/illustration-preview.gif"
-             class="wt wt-6 hover-gif" alt="Illustration Commissions" style="object-fit:cover;"/>
+             class="wt wt-6 hover-gif" alt="Illustration Commissions" loading="lazy" decoding="async"/>
         <div class="thumb-tag">Freelance Commission</div>
       </div>
       <div class="work-cap"><span class="work-cap-name">Illustration Commissions</span><span class="work-cap-year">2017–2024</span></div>
@@ -602,7 +621,7 @@
   <h2 class="s-title reveal rd1">One person.<br><em>Two worlds.</em></h2>
   <p class="about-intro reveal rd2">
     I'm <strong>Abdullah Fariz bin Hassan</strong> — a Software Engineer with a
-    <strong>Bachelor of Computer Science</strong> in <strong>Cyber Security</strong> from <strong><a href="https://www.apu.edu.my/" style="text-decoration:none; color:var(--ink)" target="_blank">Asia Pacific University ↗</a></strong>, and over
+    <strong>Bachelor of Computer Science</strong> in <strong>Cyber Security</strong> from <strong><a href="https://www.apu.edu.my/" style="text-decoration:none; color:var(--ink)" target="_blank" rel="noopener">Asia Pacific University ↗</a></strong>, and over
     <span class="circled"><strong>7 years</strong><svg viewBox="0 0 120 50" aria-hidden="true"><path d="M12 24 C 14 7, 106 5, 111 22 C 115 40, 18 46, 9 28 C 5 17, 34 8, 72 7"/></svg></span> of experience in <strong>Illustration, 3D modelling</strong> and <strong>Design</strong>. Most people pick a lane. I didn't.
   </p>
   <div class="about-grid">
@@ -807,18 +826,18 @@
   <div class="s-label reveal">Contact</div>
   <h2 class="s-title reveal rd1">Got a wild<br><em>idea?</em></h2>
   <div class="contact-grid">
-    <form class="contact-form reveal rd2" onsubmit="handleSubmit(event)">
+    <form class="contact-form reveal rd2" id="contactForm" novalidate>
       <div class="cf-field">
-        <label>Your name</label>
-        <input type="text" placeholder="Full name" autocomplete="name"/>
+        <label for="cf-name">Your name</label>
+        <input id="cf-name" name="name" type="text" placeholder="Full name" autocomplete="name" required/>
       </div>
       <div class="cf-field">
-        <label>Email</label>
-        <input type="email" placeholder="you@email.com" autocomplete="email"/>
+        <label for="cf-email">Email</label>
+        <input id="cf-email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required/>
       </div>
       <div class="cf-field">
-        <label>Project type</label>
-        <select>
+        <label for="cf-type">Project type</label>
+        <select id="cf-type" name="ptype">
           <option value="">Select one...</option>
           <option>Digital Illustration</option>
           <option>3D / Animation</option>
@@ -830,8 +849,8 @@
         </select>
       </div>
       <div class="cf-field">
-        <label>Tell me about it</label>
-        <textarea placeholder="So, what's the plan?"></textarea>
+        <label for="cf-msg">Tell me about it</label>
+        <textarea id="cf-msg" name="message" placeholder="So, what's the plan?" required></textarea>
       </div>
       <button class="btn-submit" type="submit">Send it →</button>
     </form>
@@ -879,7 +898,7 @@
 
 <!-- CERTIFICATE MODAL -->
 <div class="cert-modal" id="certModal">
-  <div class="cert-modal-inner" id="certModalInner">
+  <div class="cert-modal-inner" id="certModalInner" role="dialog" aria-modal="true" aria-label="Certificate">
     <button class="cert-modal-close" id="certClose">[ close ✕ ]</button>
     <div class="cert-modal-title">// certificate</div>
     <img id="certImg" src="" alt="Certificate"/>
@@ -894,123 +913,131 @@
   html.setAttribute('data-theme', savedTheme);
 
   function updateToggleIcons(theme) {
-    const icon = theme === 'dark' ? '☀️' : '🌙';
-    document.getElementById('themeToggle').textContent = icon;
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
   }
   updateToggleIcons(savedTheme);
 
   function toggleTheme() {
-    const current = html.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
     updateToggleIcons(next);
   }
   document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
-  // ── General UI ─────────────────────────────────────────────────────────────
+  // ── Custom cursor ──────────────────────────────────────────────────────────
   const isTouchDevice = () => window.matchMedia('(hover: none)').matches;
   const cur   = document.getElementById('cur');
   const trail = document.getElementById('cur-trail');
-  let mx=0,my=0,tx=0,ty=0;
+  let mx = 0, my = 0, tx = 0, ty = 0;
 
   if (!isTouchDevice()) {
-    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
     (function loop(){
-      tx+=(mx-tx)*.13; ty+=(my-ty)*.13;
-      cur.style.left=mx+'px'; cur.style.top=my+'px';
-      trail.style.left=tx+'px'; trail.style.top=ty+'px';
+      tx += (mx - tx) * .13; ty += (my - ty) * .13;
+      cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+      trail.style.left = tx + 'px'; trail.style.top = ty + 'px';
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll('a,button,.work-item,.role-pill,.tag,.filter-btn,.cert-link').forEach(el=>{
-      el.addEventListener('mouseenter',()=>cur.classList.add('big'));
-      el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+    document.querySelectorAll('a,button,.work-item,.role-pill,.tag,.filter-btn,.cert-link').forEach(el => {
+      el.addEventListener('mouseenter', () => cur.classList.add('big'));
+      el.addEventListener('mouseleave', () => cur.classList.remove('big'));
     });
   }
 
+  // ── Scroll: nav border, back-to-top, progress bar ──────────────────────────
+  const nav = document.getElementById('nav');
+  const backToTop = document.getElementById('backToTop');
+  const progress = document.getElementById('progress');
   window.addEventListener('scroll', () => {
-    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
-    document.getElementById('backToTop').classList.toggle('visible', window.scrollY > 400);
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 50);
+    backToTop.classList.toggle('visible', y > 400);
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
   }, { passive: true });
 
-  document.getElementById('backToTop').addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
+  // ── Mobile menu ────────────────────────────────────────────────────────────
   const hamburger  = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
   function toggleMenu(open) {
     hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
     mobileMenu.classList.toggle('open', open);
     document.body.style.overflow = open ? 'hidden' : '';
   }
   hamburger.addEventListener('click', () => toggleMenu(!hamburger.classList.contains('open')));
   document.querySelectorAll('.mob-link').forEach(link => link.addEventListener('click', () => toggleMenu(false)));
 
+  // ── Reveal on scroll ───────────────────────────────────────────────────────
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
+  // ── Work filter ────────────────────────────────────────────────────────────
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const f = btn.dataset.filter;
       document.querySelectorAll('.work-item').forEach(item => {
-        const match = f === 'all' || item.dataset.cat === f;
-        item.style.opacity = match ? '1' : '.15';
+        item.style.opacity = (f === 'all' || item.dataset.cat === f) ? '1' : '.15';
       });
     });
   });
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.btn-submit');
-    btn.textContent = 'Sent ✓';
-    btn.style.background = '#27AE60';
-    setTimeout(() => { btn.textContent = 'Send it →'; btn.style.background = ''; }, 3000);
+  // ── Image fallback: broken thumbnail → clean labelled tile ─────────────────
+  function placeholderFor(label) {
+    const svg =
+      "<svg xmlns='http://www.w3.org/2000/svg' width='600' height='450'>" +
+      "<rect width='100%' height='100%' fill='#1E1B18'/>" +
+      "<rect x='1' y='1' width='598' height='448' fill='none' stroke='#2E2A25'/>" +
+      "<text x='50%' y='48%' fill='#7A7060' font-family='monospace' font-size='22' text-anchor='middle'>" +
+      (label || 'Preview') + "</text>" +
+      "<text x='50%' y='56%' fill='#E8401C' font-family='monospace' font-size='13' text-anchor='middle'>coming soon</text>" +
+      "</svg>";
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
   }
-
-  // ── Carousels ─────────────────────────────────────────────────────────────
-  document.querySelectorAll('.carousel').forEach(car => {
-    const track    = car.querySelector('.carousel-track');
-    const slides   = car.querySelectorAll('.carousel-slide');
-    const dotsWrap = car.querySelector('.carousel-dots');
-    let current = 0;
-
-    slides.forEach((_, i) => {
-      const dot = document.createElement('div');
-      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-      dot.addEventListener('click', () => goTo(i));
-      dotsWrap.appendChild(dot);
+  document.querySelectorAll('.wt').forEach(img => {
+    img.addEventListener('error', () => {
+      if (img.dataset.broken) return;   // guard against loops
+      img.dataset.broken = '1';
+      img.src = placeholderFor(img.getAttribute('alt'));
     });
-
-    function goTo(n) {
-      current = (n + slides.length) % slides.length;
-      track.style.transform = `translateX(-${current * 100}%)`;
-      car.querySelectorAll('.carousel-dot').forEach((d, i) =>
-        d.classList.toggle('active', i === current)
-      );
-    }
-
-    car.querySelector('.carousel-prev').addEventListener('click', e => { e.stopPropagation(); goTo(current - 1); });
-    car.querySelector('.carousel-next').addEventListener('click', e => { e.stopPropagation(); goTo(current + 1); });
-
-    let startX = 0;
-    car.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-    car.addEventListener('touchend', e => {
-      const diff = startX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
-    }, { passive: true });
   });
 
-  // ── Hover GIF preview ─────────────────────────────────────────────────────
+  // ── Hover GIF preview (skips items whose still failed to load) ──────────────
   document.querySelectorAll('.hover-gif').forEach(img => {
-    const still = img.src;
-    const gif   = img.dataset.gif;
-    img.addEventListener('mouseenter', () => img.src = gif);
-    img.addEventListener('mouseleave', () => img.src = still);
+    const gif = img.dataset.gif;
+    if (!gif) return;
+    img.addEventListener('mouseenter', () => { if (!img.dataset.broken) { img._still = img.src; img.src = gif; } });
+    img.addEventListener('mouseleave', () => { if (img._still) img.src = img._still; });
+  });
+
+  // ── Contact form → opens a pre-filled email (no backend needed) ────────────
+  document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.target;
+    if (!f.checkValidity()) { f.reportValidity(); return; }
+    const el = f.elements;
+    const name  = el.name.value.trim();
+    const email = el.email.value.trim();
+    const type  = el.ptype.value;
+    const msg   = el.message.value.trim();
+    const subject = encodeURIComponent('Portfolio enquiry' + (type ? ' — ' + type : '') + (name ? ' from ' + name : ''));
+    const body    = encodeURIComponent(
+      'Name: ' + name + '\nEmail: ' + email + '\nProject type: ' + (type || '—') + '\n\n' + msg
+    );
+    window.location.href = 'mailto:farizhassan99@gmail.com?subject=' + subject + '&body=' + body;
+
+    const btn = f.querySelector('.btn-submit');
+    const original = btn.textContent;
+    btn.textContent = 'Opening mail…';
+    btn.style.background = '#27AE60';
+    setTimeout(() => { btn.textContent = original; btn.style.background = ''; f.reset(); }, 3500);
   });
 </script>
 
