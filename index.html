@@ -197,6 +197,10 @@
       width: 100%; max-width: 1400px; margin: 0 auto;
       display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap);
       grid-template-rows: auto 1fr auto;
+      /* Big screens: the whole hero scales up as one piece. --z is set by JS
+         (1 at ≤1440×900, grows with the window). vh-based sizes inside divide by --z
+         so they aren't scaled twice. */
+      zoom: var(--z, 1);
       transform-origin: 50% 30%;
       transform: scale(calc(1 - .08 * var(--p, 0)));
       opacity: calc(1 - .6 * var(--p, 0));
@@ -237,7 +241,7 @@
     /* Profile card */
     .pc-card {
       grid-column: 1 / span 8; grid-row: 1 / span 2;
-      min-height: clamp(440px, 58vh, 720px);
+      min-height: clamp(440px, calc(58vh / var(--z, 1)), 720px);
       display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
     }
     .pc-card-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
@@ -309,7 +313,7 @@
     .pc-class {
       text-decoration: none; color: var(--ink);
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .55rem;
-      padding: 1rem .4rem; min-height: clamp(132px, 17vh, 220px); text-align: center;
+      padding: 1rem .4rem; min-height: clamp(132px, calc(17vh / var(--z, 1)), 220px); text-align: center;
       transition: transform .3s cubic-bezier(.34,1.56,.64,1), border-color .3s, background .4s;
     }
     .pc-class svg { width: 38px; height: 38px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; color: var(--accent); transition: transform .3s; }
@@ -1299,6 +1303,9 @@
     let stickAt = 0, ticking = false;
 
     function measure() {
+      // Scale the hero up on screens bigger than the 1440×900 it's designed at
+      const z = Math.min(Math.max(Math.min(window.innerWidth / 1440, window.innerHeight / 900), 1), 2.2);
+      grid.style.setProperty('--z', z.toFixed(3));
       // If the hero is taller than the screen, let the reader reach its bottom before it sticks
       const overflow = Math.max(0, hero.offsetHeight - window.innerHeight);
       hero.style.top = (-overflow) + 'px';
@@ -1342,7 +1349,8 @@
       if (!img.isConnected || !img.naturalWidth) return;
       const pr = port.getBoundingClientRect(), br = body.getBoundingClientRect();
       if (pr.left < br.right - 1) return;               // stacked layout (phone): nothing beside it
-      const room = pr.right - textRight() - 16;          // 16px breathing room after the text
+      const z = parseFloat(getComputedStyle(port).getPropertyValue('--z')) || 1;   // hero zoom (rects are zoomed, CSS px aren't)
+      const room = (pr.right - textRight()) / z - 16;    // 16px breathing room after the text
       port.style.setProperty('--art-h', Math.max(0, room * img.naturalHeight / img.naturalWidth) + 'px');
     }
     if (img.complete) fit(); else img.addEventListener('load', fit);
