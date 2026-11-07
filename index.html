@@ -248,12 +248,15 @@
     .pc-card-bg::before {
       content: ''; position: absolute; inset: 0;
       background: repeating-linear-gradient(135deg, transparent 0 40px, var(--hero-slash-line) 40px 41px);
+      /* parallax (back layer) — --mx/--my are -1…1, set by JS while the pointer is over the card */
+      background-position: calc(var(--mx, 0) * -4px) calc(var(--my, 0) * -4px);
     }
     .pc-card-bg::after {
       content: ''; position: absolute; right: 2%; top: 10%;
       width: 60%; aspect-ratio: 1; border-radius: 50%;
       background: radial-gradient(circle at 45% 45%, var(--card-glow), transparent 68%);
       filter: blur(30px); animation: blobDrift 8s ease-in-out infinite alternate;
+      translate: calc(var(--mx, 0) * -9px) calc(var(--my, 0) * -7px);   /* parallax (middle layer); composes with blobDrift's transform */
     }
     /* tape strips — keeps the handmade feel */
     .tape { position: absolute; width: 92px; height: 24px; background: var(--tape); z-index: 4; pointer-events: none; }
@@ -283,7 +286,12 @@
     .arr-u { display: none; }
 
     /* Portrait slot — art breaks out of the top of the card */
-    .pc-portrait { position: relative; z-index: 2; min-height: 300px; }
+    .pc-portrait {
+      position: relative; z-index: 2; min-height: 300px;
+      /* Hide the art's hidden bottom margin (see .pc-portrait-img) at the card's bottom edge;
+         the top and sides stay unclipped so the hair and hand can still break out */
+      clip-path: inset(-100vmax -100vmax 0 -100vmax);
+    }
     .pc-portrait-frame {
       position: absolute; inset: -2.2rem 1.6rem 1.6rem 0;
       border: 1px dashed var(--muted); background: var(--bg);
@@ -298,9 +306,13 @@
     .ph-note { position: relative; font-family: var(--hand); font-size: 1.2rem; color: var(--muted); text-align: center; max-width: 18ch; line-height: 1.15; transform: rotate(-2deg); }
     /* Sized by height so a wide drawing can spill left of its column; the top breaks out of the card */
     .pc-portrait-img {
-      position: absolute; bottom: 0; right: 0;
+      position: absolute; bottom: -12px; right: 0;   /* 12px tucked under the card edge so parallax never shows a gap */
       height: min(108%, var(--art-h, 108%)); width: auto; max-width: none;   /* --art-h set by JS so the hand clears the name */
       pointer-events: none; user-select: none;
+      /* parallax (front layer) — keep 12px in sync with PARALLAX_X in the portrait-fit script */
+      transform-origin: 50% 100%;
+      translate: calc(var(--mx, 0) * -12px) calc(var(--my, 0) * -8px);
+      rotate: calc(var(--mx, 0) * -.6deg);
       filter: drop-shadow(0 18px 28px rgba(0,0,0,.35));   /* lifts the colour piece off the card */
     }
     [data-theme="light"] .pc-portrait-img { filter: drop-shadow(0 16px 26px rgba(13,27,46,.14)); }
@@ -1350,12 +1362,39 @@
       const pr = port.getBoundingClientRect(), br = body.getBoundingClientRect();
       if (pr.left < br.right - 1) return;               // stacked layout (phone): nothing beside it
       const z = parseFloat(getComputedStyle(port).getPropertyValue('--z')) || 1;   // hero zoom (rects are zoomed, CSS px aren't)
-      const room = (pr.right - textRight()) / z - 16;    // 16px breathing room after the text
+      const PARALLAX_X = 16;                             // max leftward drift from the hover parallax (12px slide + ~4px tilt)
+      const room = (pr.right - textRight()) / z - 16 - PARALLAX_X;   // 16px breathing room after the text, even mid-parallax
       port.style.setProperty('--art-h', Math.max(0, room * img.naturalHeight / img.naturalWidth) + 'px');
     }
     if (img.complete) fit(); else img.addEventListener('load', fit);
     if (document.fonts) document.fonts.ready.then(fit);
     window.addEventListener('resize', fit);
+  })();
+
+  // ── Hero card: hover parallax (mouse/trackpad only, off for reduced motion) ──
+  (function () {
+    const card = document.querySelector('.pc-card');
+    if (!card) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+    function tick() {
+      // ease toward the pointer so the layers glide rather than snap
+      cx += (tx - cx) * 0.1; cy += (ty - cy) * 0.1;
+      const done = Math.abs(tx - cx) < 0.002 && Math.abs(ty - cy) < 0.002;
+      if (done) { cx = tx; cy = ty; }
+      card.style.setProperty('--mx', cx.toFixed(4));
+      card.style.setProperty('--my', cy.toFixed(4));
+      raf = done ? 0 : requestAnimationFrame(tick);
+    }
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      tx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width) * 2 - 1));
+      ty = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height) * 2 - 1));
+      kick();
+    });
+    card.addEventListener('pointerleave', () => { tx = 0; ty = 0; kick(); });
   })();
 
   // ── Hero stat count-up ─────────────────────────────────────────────────────
