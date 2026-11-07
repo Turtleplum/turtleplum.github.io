@@ -295,11 +295,13 @@
     /* Sized by height so a wide drawing can spill left of its column; the top breaks out of the card */
     .pc-portrait-img {
       position: absolute; bottom: 0; right: 0;
-      height: 108%; width: auto; max-width: none;
+      height: min(108%, var(--art-h, 108%)); width: auto; max-width: none;   /* --art-h set by JS so the hand clears the name */
       pointer-events: none; user-select: none;
-      filter: invert(93%) sepia(6%);              /* black line art → warm off-white on dark */
+      filter: drop-shadow(0 18px 28px rgba(0,0,0,.35));   /* lifts the colour piece off the card */
     }
-    [data-theme="light"] .pc-portrait-img { filter: none; opacity: .92; }
+    [data-theme="light"] .pc-portrait-img { filter: drop-shadow(0 16px 26px rgba(13,27,46,.14)); }
+    /* Line-art version (assets/hero/self-portrait.png) instead? swap the src and use:
+       dark: filter: invert(93%) sepia(6%);  light: filter: none; opacity: .92; */
     .pc-portrait.has-art .pc-portrait-frame { display: none; }
 
     /* Class tiles */
@@ -700,7 +702,7 @@
 
       <div class="pc-portrait" id="portrait">
         <!-- Drop a transparent PNG at this path; the head/shoulders will break out of the card top -->
-        <img class="pc-portrait-img" src="assets/hero/self-portrait.png"
+        <img class="pc-portrait-img" src="assets/hero/self-portrait-final.webp"
              alt="Illustrated self-portrait of Fariz"
              onload="this.parentNode.classList.add('has-art')" onerror="this.remove()"/>
         <div class="pc-portrait-frame" aria-hidden="true">
@@ -1315,6 +1317,37 @@
     window.addEventListener('resize', measure);
     if ('ResizeObserver' in window) new ResizeObserver(measure).observe(hero);
     measure();
+  })();
+
+  // ── Hero portrait: shrink the art just enough that it never runs into the name ──
+  (function () {
+    const img  = document.querySelector('.pc-portrait-img');
+    const body = document.querySelector('.pc-card-body');
+    if (!img || !body) return;
+    const port = img.parentNode;
+    function textRight() {
+      // Right edge of the actual glyphs (not the block boxes) in the name column
+      let right = 0;
+      const walk = document.createTreeWalker(body, NodeFilter.SHOW_TEXT);
+      const range = document.createRange();
+      while (walk.nextNode()) {
+        if (!walk.currentNode.nodeValue.trim()) continue;
+        range.selectNodeContents(walk.currentNode);
+        for (const r of range.getClientRects()) right = Math.max(right, r.right);
+      }
+      return right;
+    }
+    function fit() {
+      port.style.removeProperty('--art-h');
+      if (!img.isConnected || !img.naturalWidth) return;
+      const pr = port.getBoundingClientRect(), br = body.getBoundingClientRect();
+      if (pr.left < br.right - 1) return;               // stacked layout (phone): nothing beside it
+      const room = pr.right - textRight() - 16;          // 16px breathing room after the text
+      port.style.setProperty('--art-h', Math.max(0, room * img.naturalHeight / img.naturalWidth) + 'px');
+    }
+    if (img.complete) fit(); else img.addEventListener('load', fit);
+    if (document.fonts) document.fonts.ready.then(fit);
+    window.addEventListener('resize', fit);
   })();
 
   // ── Hero stat count-up ─────────────────────────────────────────────────────
